@@ -9,93 +9,93 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 195 100% 17%;
+    --foreground: 220 40% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 195 100% 17%;
+    --card-foreground: 220 40% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 195 100% 17%;
+    --popover-foreground: 220 40% 10%;
 
-    --primary: 195 100% 16%;
+    --primary: 220 70% 15%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 200 15% 92%;
-    --secondary-foreground: 195 100% 16%;
+    --secondary: 220 15% 92%;
+    --secondary-foreground: 220 70% 15%;
 
-    --muted: 200 15% 95%;
-    --muted-foreground: 195 50% 35%;
+    --muted: 220 15% 95%;
+    --muted-foreground: 220 20% 45%;
 
-    --accent: 43 62% 53%;
-    --accent-foreground: 195 100% 16%;
+    --accent: 45 95% 50%;
+    --accent-foreground: 220 70% 15%;
 
-    --danger: 23 100% 62%;
-    --danger-foreground: 0 0% 100%;
+    --danger: 0 85% 45%;
+    --danger-foreground: 0 0% 98%;
 
-    --destructive: 0 85% 50%;
+    --destructive: 0 85% 45%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 200 20% 88%;
-    --input: 200 20% 88%;
-    --ring: 195 100% 16%;
+    --border: 220 20% 88%;
+    --input: 220 20% 88%;
+    --ring: 220 70% 15%;
 
     --radius: 0.5rem;
 
-    --navy: 195 100% 16%;
-    --navy-light: 195 80% 25%;
-    --crimson: 0 85% 50%;
-    --crimson-dark: 0 75% 40%;
-    --gold: 43 62% 53%;
-    --gold-dark: 43 62% 43%;
+    --navy: 220 70% 15%;
+    --navy-light: 220 50% 25%;
+    --crimson: 0 85% 45%;
+    --crimson-dark: 0 75% 35%;
+    --gold: 45 95% 50%;
+    --gold-dark: 45 85% 40%;
 
-    --gradient-hero: linear-gradient(135deg, hsl(195 100% 16%), hsl(195 80% 25%));
-    --gradient-cta: linear-gradient(135deg, hsl(23 100% 62%), hsl(23 100% 52%));
-    --gradient-accent: linear-gradient(135deg, hsl(43 62% 53%), hsl(43 62% 43%));
+    --gradient-hero: linear-gradient(135deg, hsl(220 70% 15%), hsl(220 50% 25%));
+    --gradient-cta: linear-gradient(135deg, hsl(0 85% 45%), hsl(0 75% 35%));
+    --gradient-accent: linear-gradient(135deg, hsl(45 95% 50%), hsl(45 85% 40%));
 
-    --shadow-card: 0 4px 20px hsl(195 100% 16% / 0.12);
-    --shadow-hover: 0 8px 30px hsl(195 100% 16% / 0.18);
+    --shadow-card: 0 4px 20px hsl(220 70% 15% / 0.12);
+    --shadow-hover: 0 8px 30px hsl(220 70% 15% / 0.18);
 
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-    --background: 195 100% 8%;
+    --background: 220 70% 8%;
     --foreground: 0 0% 98%;
 
-    --card: 195 80% 12%;
+    --card: 220 60% 12%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 195 80% 12%;
+    --popover: 220 60% 12%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 195 80% 85%;
-    --primary-foreground: 195 100% 16%;
+    --primary: 220 70% 85%;
+    --primary-foreground: 220 70% 15%;
 
-    --secondary: 195 40% 20%;
+    --secondary: 220 40% 20%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 195 40% 18%;
-    --muted-foreground: 195 30% 65%;
+    --muted: 220 40% 18%;
+    --muted-foreground: 220 15% 65%;
 
-    --accent: 43 62% 60%;
-    --accent-foreground: 195 100% 16%;
+    --accent: 45 95% 55%;
+    --accent-foreground: 220 70% 15%;
 
-    --danger: 23 100% 65%;
-    --danger-foreground: 0 0% 100%;
+    --danger: 0 85% 50%;
+    --danger-foreground: 0 0% 98%;
 
-    --destructive: 0 85% 55%;
+    --destructive: 0 85% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 195 40% 22%;
-    --input: 195 40% 22%;
-    --ring: 195 80% 85%;
+    --border: 220 40% 22%;
+    --input: 220 40% 22%;
+    --ring: 220 70% 85%;
 
-    --navy: 195 80% 85%;
-    --navy-light: 195 60% 75%;
-    --crimson: 0 85% 55%;
-    --crimson-dark: 0 75% 45%;
-    --gold: 43 62% 60%;
-    --gold-dark: 43 62% 50%;
+    --navy: 220 70% 85%;
+    --navy-light: 220 50% 75%;
+    --crimson: 0 85% 50%;
+    --crimson-dark: 0 75% 40%;
+    --gold: 45 95% 55%;
+    --gold-dark: 45 85% 45%;
 
     --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.4);
     --shadow-hover: 0 8px 30px hsl(0 0% 0% / 0.5);
