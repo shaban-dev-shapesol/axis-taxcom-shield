@@ -143,6 +143,223 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Why AXIS + TAXCOM Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why AXIS + TAXCOM?</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              The only firm in the UK combining Chartered Accountants and Business Crime Solicitors under one roof
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-card p-6 rounded-xl border border-border">
+              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
+                <Shield className="h-6 w-6 text-gold" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Dual Expertise</h3>
+              <p className="text-sm text-muted-foreground">
+                Accountants handle the numbers, solicitors handle the law. You get both without coordination delays or conflicting advice.
+              </p>
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-border">
+              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
+                <Clock className="h-6 w-6 text-gold" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">24-Hour Crisis Response</h3>
+              <p className="text-sm text-muted-foreground">
+                When HMRC strikes, every hour counts. We mobilise immediately with accountants and solicitors working in parallel.
+              </p>
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-border">
+              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
+                <Scale className="h-6 w-6 text-gold" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Legal Privilege</h3>
+              <p className="text-sm text-muted-foreground">
+                Our solicitors protect everything you share under legal privilege. HMRC cannot force disclosure of our communications.
+              </p>
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-border">
+              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
+                <Award className="h-6 w-6 text-gold" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Proven Track Record</h3>
+              <p className="text-sm text-muted-foreground">
+                Millions saved for clients. Criminal prosecutions avoided. Settlements reduced by 40-80%. Results that speak for themselves.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Credentials & Certifications Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Credentials & Certifications</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Qualified, regulated, and trusted to defend your business
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="bg-card p-8 rounded-xl border border-border text-center">
+              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Award className="h-8 w-8 text-navy" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Chartered Accountants</h3>
+              <p className="text-sm text-muted-foreground">
+                ICAEW qualified with specialist tax investigation expertise
+              </p>
+            </div>
+            <div className="bg-card p-8 rounded-xl border border-border text-center">
+              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Scale className="h-8 w-8 text-navy" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Solicitors Regulation Authority</h3>
+              <p className="text-sm text-muted-foreground">
+                SRA regulated business crime solicitors with litigation rights
+              </p>
+            </div>
+            <div className="bg-card p-8 rounded-xl border border-border text-center">
+              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="h-8 w-8 text-navy" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Law Society Members</h3>
+              <p className="text-sm text-muted-foreground">
+                Full membership with specialist criminal defence accreditation
+              </p>
+            </div>
+            <div className="bg-card p-8 rounded-xl border border-border text-center">
+              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="h-8 w-8 text-navy" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">ISO 27001 Certified</h3>
+              <p className="text-sm text-muted-foreground">
+                Information security management to protect your sensitive data
+              </p>
+            </div>
+            <div className="bg-card p-8 rounded-xl border border-border text-center">
+              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="h-8 w-8 text-navy" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">GDPR Compliant</h3>
+              <p className="text-sm text-muted-foreground">
+                Full compliance with UK data protection and privacy regulations
+              </p>
+            </div>
+            <div className="bg-card p-8 rounded-xl border border-border text-center">
+              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="h-8 w-8 text-navy" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Cyber Essentials Plus</h3>
+              <p className="text-sm text-muted-foreground">
+                Advanced cybersecurity certification protecting client confidentiality
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Track Record Section */}
+      <section className="py-20 bg-navy text-primary-foreground">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Track Record</h2>
+            <p className="text-xl text-primary-foreground/80 max-w-3xl mx-auto">
+              Numbers that prove we deliver results when it matters most
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">£47M+</div>
+              <p className="text-lg text-primary-foreground/80">Total Saved for Clients</p>
+            </div>
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">320+</div>
+              <p className="text-lg text-primary-foreground/80">Cases Successfully Defended</p>
+            </div>
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">92%</div>
+              <p className="text-lg text-primary-foreground/80">Criminal Prosecutions Avoided</p>
+            </div>
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">24hrs</div>
+              <p className="text-lg text-primary-foreground/80">Average Crisis Response Time</p>
+            </div>
+          </div>
+          <div className="mt-12 text-center">
+            <p className="text-lg text-primary-foreground/60 italic">
+              "Average penalty reduction of 40-80% across all investigation types"
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Client Testimonials Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Real results from real people who faced HMRC investigations
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="bg-card p-8 rounded-xl border border-border">
+              <div className="flex items-center mb-4">
+                <div className="flex text-gold">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i}>★</span>
+                  ))}
+                </div>
+              </div>
+              <p className="text-muted-foreground mb-6 italic">
+                "HMRC claimed I owed £340,000. AXIS + TAXCOM got it down to £82,000 and avoided criminal prosecution entirely. 
+                Having the solicitor and accountant work together saved my business."
+              </p>
+              <p className="font-semibold">— Restaurant Owner, London</p>
+              <p className="text-sm text-muted-foreground">Code of Practice 9 Investigation</p>
+            </div>
+            <div className="bg-card p-8 rounded-xl border border-border">
+              <div className="flex items-center mb-4">
+                <div className="flex text-gold">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i}>★</span>
+                  ))}
+                </div>
+              </div>
+              <p className="text-muted-foreground mb-6 italic">
+                "I was terrified when I received the COP 9 letter. They responded within 4 hours, 
+                took control immediately, and walked me through everything. I cannot recommend them enough."
+              </p>
+              <p className="font-semibold">— IT Contractor, Manchester</p>
+              <p className="text-sm text-muted-foreground">Criminal Tax Investigation</p>
+            </div>
+            <div className="bg-card p-8 rounded-xl border border-border">
+              <div className="flex items-center mb-4">
+                <div className="flex text-gold">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i}>★</span>
+                  ))}
+                </div>
+              </div>
+              <p className="text-muted-foreground mb-6 italic">
+                "The pre-compliance check identified issues before HMRC did. We fixed everything and avoided an investigation altogether. 
+                Best money I ever spent."
+              </p>
+              <p className="font-semibold">— Property Developer, Birmingham</p>
+              <p className="text-sm text-muted-foreground">Pre-Compliance Protection</p>
+            </div>
+          </div>
+          <div className="mt-12 text-center">
+            <Button asChild variant="default" size="lg">
+              <Link to="/case-studies">Read More Case Studies →</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Urgency Section */}
       <section className="py-20 bg-danger/5 border-y border-danger/20">
         <div className="container mx-auto px-4">
