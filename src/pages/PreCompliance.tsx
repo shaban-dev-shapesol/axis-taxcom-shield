@@ -21,7 +21,7 @@ const PreCompliance = () => {
               Stop HMRC Investigations <span className="text-gold">Before They Start</span>
             </h1>
             <p className="text-xl text-primary-foreground/80 mb-8">
-              AI-powered compliance scanning detects red flags in your tax records before HMRC does. 
+              Advanced compliance scanning detects red flags in your tax records before HMRC does. 
               Fix problems proactively, not reactively.
             </p>
             <Button asChild variant="danger" size="lg">
@@ -157,7 +157,7 @@ const PreCompliance = () => {
             <div className="bg-card p-6 rounded-lg shadow-lg border border-border">
               <h3 className="text-xl font-bold mb-4 flex items-center">
                 <Scan className="h-6 w-6 text-gold mr-2" />
-                AI Anomaly Detection
+                Advanced Anomaly Detection
               </h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>• Bank statement pattern analysis</li>
@@ -165,7 +165,7 @@ const PreCompliance = () => {
                 <li>• Cash suppression indicators</li>
                 <li>• Round number flagging</li>
                 <li>• Transaction frequency analysis</li>
-                <li>• Risk scoring algorithm</li>
+                <li>• Comprehensive risk scoring</li>
               </ul>
             </div>
           </div>
@@ -196,9 +196,9 @@ const PreCompliance = () => {
                 2
               </div>
               <div>
-                <h3 className="text-xl font-bold mb-2">AI Scanning & Risk Scoring</h3>
+                <h3 className="text-xl font-bold mb-2">Automated Scanning & Risk Scoring</h3>
                 <p className="text-muted-foreground">
-                  Our AI analyses your records against HMRC risk indicators, industry benchmarks, and known investigation triggers. 
+                  Our systems analyse your records against HMRC risk indicators, industry benchmarks, and known investigation triggers. 
                   You receive a comprehensive risk score (low, medium, high, critical).
                 </p>
               </div>
@@ -211,7 +211,7 @@ const PreCompliance = () => {
               <div>
                 <h3 className="text-xl font-bold mb-2">Chartered Accountant Review</h3>
                 <p className="text-muted-foreground">
-                  Our chartered accountants review the AI findings and identify specific issues requiring correction. 
+                  Our chartered accountants review the automated findings and identify specific issues requiring correction. 
                   We provide detailed recommendations for each problem.
                 </p>
               </div>

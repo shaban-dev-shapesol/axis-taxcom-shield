@@ -18,11 +18,11 @@ const AIPipeline = () => {
         <div className="relative container mx-auto px-4 py-20">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              AI-Powered HMRC Letter Analysis <span className="text-gold">In Minutes</span>
+              Advanced HMRC Letter Analysis <span className="text-gold">In Minutes</span>
             </h1>
             <p className="text-xl text-primary-foreground/80 mb-8">
-              Upload your HMRC letter. Our AI extracts data, assesses risk, generates document lists, 
-              and creates defence scripts—all in real-time.
+              Upload your HMRC letter. Our systems extract data, assess risk, generate document lists, 
+              and create defence strategies—all in real-time.
             </p>
             <Button asChild variant="danger" size="lg">
               <Link to="/get-started">Upload Your Letter</Link>
@@ -34,7 +34,7 @@ const AIPipeline = () => {
       {/* How It Works */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">The OCR → AI Script Pipeline</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">The Document Processing Pipeline</h2>
           <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
             From HMRC letter to actionable defence strategy in under 5 minutes
           </p>
@@ -109,11 +109,11 @@ const AIPipeline = () => {
               </div>
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-3">
-                  <h3 className="text-2xl font-bold">Step 3: AI Risk Assessment</h3>
+                  <h3 className="text-2xl font-bold">Step 3: Automated Risk Assessment</h3>
                   <span className="bg-gold/10 text-gold px-3 py-1 rounded-full text-xs font-semibold">2 minutes</span>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  Our AI analyses the extracted data against a database of 10,000+ HMRC investigations. 
+                  Our systems analyse the extracted data against a database of historical HMRC investigations. 
                   It assigns a risk score and identifies key threats.
                 </p>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -152,7 +152,7 @@ const AIPipeline = () => {
                   <span className="bg-gold/10 text-gold px-3 py-1 rounded-full text-xs font-semibold">1 minute</span>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  Based on the investigation type and HMRC's requests, the AI generates a comprehensive list 
+                  Based on the investigation type and HMRC's requests, our systems generate a comprehensive list 
                   of documents you'll need to provide.
                 </p>
                 <div className="bg-card p-4 rounded-lg border border-border">
@@ -184,7 +184,7 @@ const AIPipeline = () => {
                   <span className="bg-gold/10 text-gold px-3 py-1 rounded-full text-xs font-semibold">30 seconds</span>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  The AI generates a detailed action plan and defence script for your accountant or solicitor. 
+                  Our systems generate a detailed action plan and defence script for your accountant or solicitor. 
                   This includes response templates, timelines, and strategy recommendations.
                 </p>
                 <div className="bg-card p-4 rounded-lg border border-border">
@@ -258,26 +258,26 @@ const AIPipeline = () => {
         </div>
       </section>
 
-      {/* Why AI + Human */}
+      {/* Why Technology + Human */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Why AI + Human Review?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Why Technology + Human Review?</h2>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <div className="bg-card p-6 rounded-lg border border-border">
-              <h3 className="text-xl font-bold mb-4">What AI Does Best</h3>
+              <h3 className="text-xl font-bold mb-4">What Technology Does Best</h3>
               <ul className="space-y-3 text-sm text-muted-foreground">
                 <li className="flex items-start">
                   <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Instant pattern recognition across 10,000+ cases</span>
+                  <span>Rapid pattern recognition across thousands of cases</span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Extract and categorise data in seconds</span>
+                  <span>Extract and categorise data efficiently</span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Risk scoring based on statistical models</span>
+                  <span>Risk assessment based on historical data</span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
@@ -311,7 +311,7 @@ const AIPipeline = () => {
 
           <div className="max-w-3xl mx-auto mt-8 p-6 bg-gold/10 rounded-lg border border-gold/30 text-center">
             <p className="font-semibold">
-              AI provides the speed and accuracy. Humans provide the judgement and expertise. 
+              Technology provides the speed and efficiency. Humans provide the judgement and expertise. 
               Together, they create the most powerful HMRC defence available.
             </p>
           </div>
@@ -325,7 +325,7 @@ const AIPipeline = () => {
             Get Your HMRC Letter Analysed Now
           </h2>
           <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-            Upload your letter and receive instant AI analysis, risk assessment, and defence strategy.
+            Upload your letter and receive instant analysis, risk assessment, and defence strategy.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild variant="danger" size="lg">

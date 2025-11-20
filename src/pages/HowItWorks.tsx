@@ -64,15 +64,15 @@ const HowItWorks = () => {
               </div>
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-3">
-                  <h3 className="text-2xl font-bold">2. AI Risk Analysis</h3>
+                  <h3 className="text-2xl font-bold">2. Document Analysis & Risk Assessment</h3>
                   <span className="bg-gold/10 text-gold px-3 py-1 rounded-full text-xs font-semibold">Within hours</span>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  Our AI system uses OCR to extract text from your documents and analyses them against 10,000+ 
-                  historical HMRC investigations. You receive an instant risk score.
+                  Our systems extract key information from your documents and analyse them against historical 
+                  HMRC investigation patterns. You receive a comprehensive risk assessment.
                 </p>
                 <div className="bg-card p-4 rounded-lg border border-border">
-                  <h4 className="font-semibold mb-2 text-sm">Risk Scoring Factors:</h4>
+                  <h4 className="font-semibold mb-2 text-sm">Risk Assessment Factors:</h4>
                   <ul className="space-y-2 text-sm text-muted-foreground">
                     <li className="flex items-start">
                       <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
@@ -247,30 +247,30 @@ const HowItWorks = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Why Human Review Still Matters</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Why Human Review Matters</h2>
             <p className="text-center text-muted-foreground mb-12">
-              AI provides speed and accuracy, but humans provide judgement and expertise
+              Technology provides speed and efficiency, but humans provide judgement and expertise
             </p>
 
             <div className="grid md:grid-cols-2 gap-8">
               <div className="bg-card p-6 rounded-lg border border-border">
-                <h3 className="text-xl font-bold mb-4">AI Strengths</h3>
+                <h3 className="text-xl font-bold mb-4">Technology Strengths</h3>
                 <ul className="space-y-3 text-sm text-muted-foreground">
                   <li className="flex items-start">
                     <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                    <span>Instant pattern recognition across thousands of cases</span>
+                    <span>Rapid pattern recognition across thousands of cases</span>
                   </li>
                   <li className="flex items-start">
                     <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                    <span>Extract and categorise data in seconds</span>
+                    <span>Extract and categorise data quickly</span>
                   </li>
                   <li className="flex items-start">
                     <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                    <span>Statistical risk scoring based on historical data</span>
+                    <span>Risk assessment based on historical data</span>
                   </li>
                   <li className="flex items-start">
                     <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                    <span>Generate comprehensive checklists and scripts</span>
+                    <span>Generate comprehensive checklists and frameworks</span>
                   </li>
                 </ul>
               </div>
@@ -308,7 +308,7 @@ const HowItWorks = () => {
             Ready to Start Your Defence?
           </h2>
           <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-            Get AI-powered analysis combined with expert human guidance
+            Get advanced analysis tools combined with expert human guidance
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild variant="danger" size="lg">

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { Shield, Scale, Brain, CheckCircle, Clock, Award } from "lucide-react";
+import { Shield, Scale, CheckCircle, Clock, Award, Brain } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
 
 const Index = () => {
@@ -26,7 +26,7 @@ const Index = () => {
               <span className="text-gold">Before They Destroy Your Business</span>
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/80 mb-8 max-w-2xl">
-              Chartered Accountants + Business Crime Solicitors + AI Analysis. 
+              Chartered Accountants + Business Crime Solicitors. 
               The most aggressive HMRC defence team in the UK.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -48,7 +48,7 @@ const Index = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <CheckCircle className="h-5 w-5 text-gold" />
-                <span className="text-sm">GDPR-Secure AI Tools</span>
+                <span className="text-sm">GDPR-Secure Systems</span>
               </div>
             </div>
           </div>
@@ -117,25 +117,25 @@ const Index = () => {
 
             <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 bg-gradient-to-r from-navy to-navy-light rounded-lg flex items-center justify-center mb-6">
-                <Brain className="h-6 w-6 text-primary-foreground" />
+                <Shield className="h-6 w-6 text-primary-foreground" />
               </div>
-              <h3 className="text-2xl font-bold mb-4">AI Investigation Tools</h3>
+              <h3 className="text-2xl font-bold mb-4">Technology & Systems</h3>
               <p className="text-muted-foreground mb-4">
-                Upload your HMRC letter, and our AI instantly analyses the risk level, generates document lists, 
-                and creates defence scripts. GDPR-secure and encrypted.
+                Advanced document processing and analysis tools to quickly assess your case, identify risks, 
+                and prepare defence strategies. GDPR-secure and encrypted.
               </p>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start">
                   <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>OCR document extraction</span>
+                  <span>Document extraction & analysis</span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Risk scoring algorithm</span>
+                  <span>Risk assessment tools</span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Bank statement anomaly detection</span>
+                  <span>Automated document processing</span>
                 </li>
               </ul>
             </div>
