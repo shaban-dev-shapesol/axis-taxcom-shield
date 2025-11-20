@@ -55,6 +55,96 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Urgency Section */}
+      <section className="py-20 bg-danger/5 border-y border-danger/20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Under HMRC Investigation Right Now?
+            </h2>
+            <p className="text-xl text-foreground/80 mb-8">
+              Every day you wait costs you money, reputation, and control. HMRC will not go easy on you. 
+              They are trained to maximise settlements and penalties. <strong>You need us immediately.</strong>
+            </p>
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-card p-6 rounded-lg border border-danger/20">
+                <h3 className="font-bold text-lg mb-3 text-danger">What Happens If You Do Nothing</h3>
+                <ul className="text-left space-y-2 text-sm text-muted-foreground">
+                  <li>• HMRC assumes guilt and maximises penalties</li>
+                  <li>• You may incriminate yourself unknowingly</li>
+                  <li>• Criminal prosecution becomes more likely</li>
+                  <li>• Your assets could be frozen</li>
+                  <li>• Your business reputation is destroyed</li>
+                </ul>
+              </div>
+              <div className="bg-card p-6 rounded-lg border border-gold/40">
+                <h3 className="font-bold text-lg mb-3 text-gold">What Happens When You Act Now</h3>
+                <ul className="text-left space-y-2 text-sm text-muted-foreground">
+                  <li>• Legal privilege protects your communications</li>
+                  <li>• We control the narrative from day one</li>
+                  <li>• Penalties reduced by 40-80% on average</li>
+                  <li>• Criminal risk eliminated in most cases</li>
+                  <li>• Your business and reputation protected</li>
+                </ul>
+              </div>
+            </div>
+            <Button asChild variant="danger" size="lg">
+              <Link to="/get-started">Start Your Defence Now</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Why AXIS + TAXCOM Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why AXIS + TAXCOM?</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              The only firm in the UK combining Chartered Accountants and Business Crime Solicitors under one roof
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-card p-6 rounded-xl border border-border">
+              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
+                <Shield className="h-6 w-6 text-gold" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Dual Expertise</h3>
+              <p className="text-sm text-muted-foreground">
+                Accountants handle the numbers, solicitors handle the law. You get both without coordination delays or conflicting advice.
+              </p>
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-border">
+              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
+                <Clock className="h-6 w-6 text-gold" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">24-Hour Crisis Response</h3>
+              <p className="text-sm text-muted-foreground">
+                When HMRC strikes, every hour counts. We mobilise immediately with accountants and solicitors working in parallel.
+              </p>
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-border">
+              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
+                <Scale className="h-6 w-6 text-gold" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Legal Privilege</h3>
+              <p className="text-sm text-muted-foreground">
+                Our solicitors protect everything you share under legal privilege. HMRC cannot force disclosure of our communications.
+              </p>
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-border">
+              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
+                <Award className="h-6 w-6 text-gold" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Proven Track Record</h3>
+              <p className="text-sm text-muted-foreground">
+                Millions saved for clients. Criminal prosecutions avoided. Settlements reduced by 40-80%. Results that speak for themselves.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Three Pillars */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
@@ -143,52 +233,37 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Why AXIS + TAXCOM Section */}
-      <section className="py-20 bg-background">
+      {/* Track Record Section */}
+      <section className="py-20 bg-navy text-primary-foreground">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why AXIS + TAXCOM?</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              The only firm in the UK combining Chartered Accountants and Business Crime Solicitors under one roof
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Track Record</h2>
+            <p className="text-xl text-primary-foreground/80 max-w-3xl mx-auto">
+              Numbers that prove we deliver results when it matters most
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-card p-6 rounded-xl border border-border">
-              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
-                <Shield className="h-6 w-6 text-gold" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Dual Expertise</h3>
-              <p className="text-sm text-muted-foreground">
-                Accountants handle the numbers, solicitors handle the law. You get both without coordination delays or conflicting advice.
-              </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">£47M+</div>
+              <p className="text-lg text-primary-foreground/80">Total Saved for Clients</p>
             </div>
-            <div className="bg-card p-6 rounded-xl border border-border">
-              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
-                <Clock className="h-6 w-6 text-gold" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">24-Hour Crisis Response</h3>
-              <p className="text-sm text-muted-foreground">
-                When HMRC strikes, every hour counts. We mobilise immediately with accountants and solicitors working in parallel.
-              </p>
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">320+</div>
+              <p className="text-lg text-primary-foreground/80">Cases Successfully Defended</p>
             </div>
-            <div className="bg-card p-6 rounded-xl border border-border">
-              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
-                <Scale className="h-6 w-6 text-gold" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Legal Privilege</h3>
-              <p className="text-sm text-muted-foreground">
-                Our solicitors protect everything you share under legal privilege. HMRC cannot force disclosure of our communications.
-              </p>
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">92%</div>
+              <p className="text-lg text-primary-foreground/80">Criminal Prosecutions Avoided</p>
             </div>
-            <div className="bg-card p-6 rounded-xl border border-border">
-              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
-                <Award className="h-6 w-6 text-gold" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Proven Track Record</h3>
-              <p className="text-sm text-muted-foreground">
-                Millions saved for clients. Criminal prosecutions avoided. Settlements reduced by 40-80%. Results that speak for themselves.
-              </p>
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">24hrs</div>
+              <p className="text-lg text-primary-foreground/80">Average Crisis Response Time</p>
             </div>
+          </div>
+          <div className="mt-12 text-center">
+            <p className="text-lg text-primary-foreground/60 italic">
+              "Average penalty reduction of 40-80% across all investigation types"
+            </p>
           </div>
         </div>
       </section>
@@ -261,41 +336,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Track Record Section */}
-      <section className="py-20 bg-navy text-primary-foreground">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Track Record</h2>
-            <p className="text-xl text-primary-foreground/80 max-w-3xl mx-auto">
-              Numbers that prove we deliver results when it matters most
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">£47M+</div>
-              <p className="text-lg text-primary-foreground/80">Total Saved for Clients</p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">320+</div>
-              <p className="text-lg text-primary-foreground/80">Cases Successfully Defended</p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">92%</div>
-              <p className="text-lg text-primary-foreground/80">Criminal Prosecutions Avoided</p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">24hrs</div>
-              <p className="text-lg text-primary-foreground/80">Average Crisis Response Time</p>
-            </div>
-          </div>
-          <div className="mt-12 text-center">
-            <p className="text-lg text-primary-foreground/60 italic">
-              "Average penalty reduction of 40-80% across all investigation types"
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Client Testimonials Section */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
@@ -355,46 +395,6 @@ const Index = () => {
           <div className="mt-12 text-center">
             <Button asChild variant="default" size="lg">
               <Link to="/case-studies">Read More Case Studies →</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Urgency Section */}
-      <section className="py-20 bg-danger/5 border-y border-danger/20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Under HMRC Investigation Right Now?
-            </h2>
-            <p className="text-xl text-foreground/80 mb-8">
-              Every day you wait costs you money, reputation, and control. HMRC will not go easy on you. 
-              They are trained to maximise settlements and penalties. <strong>You need us immediately.</strong>
-            </p>
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-card p-6 rounded-lg border border-danger/20">
-                <h3 className="font-bold text-lg mb-3 text-danger">What Happens If You Do Nothing</h3>
-                <ul className="text-left space-y-2 text-sm text-muted-foreground">
-                  <li>• HMRC assumes guilt and maximises penalties</li>
-                  <li>• You may incriminate yourself unknowingly</li>
-                  <li>• Criminal prosecution becomes more likely</li>
-                  <li>• Your assets could be frozen</li>
-                  <li>• Your business reputation is destroyed</li>
-                </ul>
-              </div>
-              <div className="bg-card p-6 rounded-lg border border-gold/40">
-                <h3 className="font-bold text-lg mb-3 text-gold">What Happens When You Act Now</h3>
-                <ul className="text-left space-y-2 text-sm text-muted-foreground">
-                  <li>• Legal privilege protects your communications</li>
-                  <li>• We control the narrative from day one</li>
-                  <li>• Penalties reduced by 40-80% on average</li>
-                  <li>• Criminal risk eliminated in most cases</li>
-                  <li>• Your business and reputation protected</li>
-                </ul>
-              </div>
-            </div>
-            <Button asChild variant="danger" size="lg">
-              <Link to="/get-started">Start Your Defence Now</Link>
             </Button>
           </div>
         </div>
