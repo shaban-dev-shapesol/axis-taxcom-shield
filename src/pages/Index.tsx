@@ -3,7 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Testimonials } from "@/components/Testimonials";
 import { Link } from "react-router-dom";
-import { Shield, Scale, CheckCircle, Clock, Award, Brain, FileCheck, Briefcase, BookOpen } from "lucide-react";
+import { Shield, Scale, CheckCircle, Clock, Award, Brain, FileCheck, Briefcase, BookOpen, ShieldCheck, Lock } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
@@ -318,7 +318,7 @@ const Index = () => {
             </div>
             <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="h-8 w-8 text-navy" />
+                <Shield className="h-8 w-8 text-navy" />
               </div>
               <h3 className="text-xl font-bold mb-2">ISO 27001 Certified</h3>
               <p className="text-sm text-muted-foreground">
@@ -327,7 +327,7 @@ const Index = () => {
             </div>
             <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="h-8 w-8 text-navy" />
+                <ShieldCheck className="h-8 w-8 text-navy" />
               </div>
               <h3 className="text-xl font-bold mb-2">GDPR Compliant</h3>
               <p className="text-sm text-muted-foreground">
@@ -336,7 +336,7 @@ const Index = () => {
             </div>
             <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="h-8 w-8 text-navy" />
+                <Lock className="h-8 w-8 text-navy" />
               </div>
               <h3 className="text-xl font-bold mb-2">Cyber Essentials Plus</h3>
               <p className="text-sm text-muted-foreground">
