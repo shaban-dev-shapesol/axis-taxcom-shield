@@ -4,14 +4,25 @@ import { Footer } from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { Shield, Scale, CheckCircle, Clock, Award, Brain } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const Index = () => {
+  const heroSection = useScrollAnimation();
+  const urgencySection = useScrollAnimation();
+  const whySection = useScrollAnimation();
+  const pillarsSection = useScrollAnimation();
+  const trackRecordSection = useScrollAnimation();
+  const credentialsSection = useScrollAnimation();
+  const testimonialsSection = useScrollAnimation();
+  const servicesSection = useScrollAnimation();
+  const ctaSection = useScrollAnimation();
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
       
       {/* Hero Section */}
-      <section className="relative bg-primary text-primary-foreground overflow-hidden">
+      <section ref={heroSection.ref} className={`relative bg-primary text-primary-foreground overflow-hidden ${heroSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="absolute inset-0 opacity-20">
           <img src={heroImage} alt="HMRC Investigation Defence" className="w-full h-full object-cover" />
         </div>
@@ -56,7 +67,7 @@ const Index = () => {
       </section>
 
       {/* Urgency Section */}
-      <section className="py-20 bg-danger/5 border-y border-danger/20">
+      <section ref={urgencySection.ref} className={`py-20 bg-danger/5 border-y border-danger/20 ${urgencySection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -67,7 +78,7 @@ const Index = () => {
               They are trained to maximise settlements and penalties. <strong>You need us immediately.</strong>
             </p>
             <div className="grid md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-card p-6 rounded-lg border border-danger/20">
+              <div className="bg-card p-6 rounded-lg border border-danger/20 transition-smooth hover:scale-105 hover:shadow-lg">
                 <h3 className="font-bold text-lg mb-3 text-danger">What Happens If You Do Nothing</h3>
                 <ul className="text-left space-y-2 text-sm text-muted-foreground">
                   <li>• HMRC assumes guilt and maximises penalties</li>
@@ -77,7 +88,7 @@ const Index = () => {
                   <li>• Your business reputation is destroyed</li>
                 </ul>
               </div>
-              <div className="bg-card p-6 rounded-lg border border-gold/40">
+              <div className="bg-card p-6 rounded-lg border border-gold/40 transition-smooth hover:scale-105 hover:shadow-lg">
                 <h3 className="font-bold text-lg mb-3 text-gold">What Happens When You Act Now</h3>
                 <ul className="text-left space-y-2 text-sm text-muted-foreground">
                   <li>• Legal privilege protects your communications</li>
@@ -96,7 +107,7 @@ const Index = () => {
       </section>
 
       {/* Why AXIS + TAXCOM Section */}
-      <section className="py-20 bg-background">
+      <section ref={whySection.ref} className={`py-20 bg-background ${whySection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Why AXIS + TAXCOM?</h2>
@@ -105,7 +116,7 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-card p-6 rounded-xl border border-border">
+            <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
                 <Shield className="h-6 w-6 text-gold" />
               </div>
@@ -114,7 +125,7 @@ const Index = () => {
                 Accountants handle the numbers, solicitors handle the law. You get both without coordination delays or conflicting advice.
               </p>
             </div>
-            <div className="bg-card p-6 rounded-xl border border-border">
+            <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
                 <Clock className="h-6 w-6 text-gold" />
               </div>
@@ -123,18 +134,16 @@ const Index = () => {
                 When HMRC strikes, every hour counts. We mobilise immediately with accountants and solicitors working in parallel.
               </p>
             </div>
-            <div className="bg-card p-6 rounded-xl border border-border">
+            <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
-                <Scale className="h-6 w-6 text-gold" />
               </div>
               <h3 className="text-lg font-bold mb-2">Legal Privilege</h3>
               <p className="text-sm text-muted-foreground">
                 Our solicitors protect everything you share under legal privilege. HMRC cannot force disclosure of our communications.
               </p>
             </div>
-            <div className="bg-card p-6 rounded-xl border border-border">
+            <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
-                <Award className="h-6 w-6 text-gold" />
               </div>
               <h3 className="text-lg font-bold mb-2">Proven Track Record</h3>
               <p className="text-sm text-muted-foreground">
@@ -146,7 +155,7 @@ const Index = () => {
       </section>
 
       {/* Three Pillars */}
-      <section className="py-20 bg-muted/30">
+      <section ref={pillarsSection.ref} className={`py-20 bg-muted/30 ${pillarsSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Why We Win Against HMRC</h2>
@@ -155,7 +164,7 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-shadow">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-smooth hover:scale-105">
               <div className="w-12 h-12 bg-gradient-to-r from-navy to-navy-light rounded-lg flex items-center justify-center mb-6">
                 <Scale className="h-6 w-6 text-primary-foreground" />
               </div>
@@ -180,7 +189,7 @@ const Index = () => {
               </ul>
             </div>
 
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-shadow">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-smooth hover:scale-105">
               <div className="w-12 h-12 bg-gradient-to-r from-navy to-navy-light rounded-lg flex items-center justify-center mb-6">
                 <Shield className="h-6 w-6 text-primary-foreground" />
               </div>
@@ -205,7 +214,7 @@ const Index = () => {
               </ul>
             </div>
 
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-shadow">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-smooth hover:scale-105">
               <div className="w-12 h-12 bg-gradient-to-r from-navy to-navy-light rounded-lg flex items-center justify-center mb-6">
                 <Shield className="h-6 w-6 text-primary-foreground" />
               </div>
@@ -234,7 +243,7 @@ const Index = () => {
       </section>
 
       {/* Track Record Section */}
-      <section className="py-20 bg-navy text-primary-foreground">
+      <section ref={trackRecordSection.ref} className={`py-20 bg-navy text-primary-foreground ${trackRecordSection.isVisible ? 'animate-scale-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Track Record</h2>
@@ -269,7 +278,7 @@ const Index = () => {
       </section>
 
       {/* Credentials & Certifications Section */}
-      <section className="py-20 bg-muted/30">
+      <section ref={credentialsSection.ref} className={`py-20 bg-muted/30 ${credentialsSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Credentials & Certifications</h2>
@@ -278,7 +287,7 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-card p-8 rounded-xl border border-border text-center">
+            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Award className="h-8 w-8 text-navy" />
               </div>
@@ -287,25 +296,23 @@ const Index = () => {
                 ICAEW qualified with specialist tax investigation expertise
               </p>
             </div>
-            <div className="bg-card p-8 rounded-xl border border-border text-center">
+            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Scale className="h-8 w-8 text-navy" />
               </div>
               <h3 className="text-xl font-bold mb-2">Solicitors Regulation Authority</h3>
               <p className="text-sm text-muted-foreground">
                 SRA regulated business crime solicitors with litigation rights
               </p>
             </div>
-            <div className="bg-card p-8 rounded-xl border border-border text-center">
+            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="h-8 w-8 text-navy" />
               </div>
               <h3 className="text-xl font-bold mb-2">Law Society Members</h3>
               <p className="text-sm text-muted-foreground">
                 Full membership with specialist criminal defence accreditation
               </p>
             </div>
-            <div className="bg-card p-8 rounded-xl border border-border text-center">
+            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="h-8 w-8 text-navy" />
               </div>
@@ -314,7 +321,7 @@ const Index = () => {
                 Information security management to protect your sensitive data
               </p>
             </div>
-            <div className="bg-card p-8 rounded-xl border border-border text-center">
+            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="h-8 w-8 text-navy" />
               </div>
@@ -323,7 +330,7 @@ const Index = () => {
                 Full compliance with UK data protection and privacy regulations
               </p>
             </div>
-            <div className="bg-card p-8 rounded-xl border border-border text-center">
+            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="h-8 w-8 text-navy" />
               </div>
@@ -337,7 +344,7 @@ const Index = () => {
       </section>
 
       {/* Client Testimonials Section */}
-      <section className="py-20 bg-background">
+      <section ref={testimonialsSection.ref} className={`py-20 bg-background ${testimonialsSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
@@ -346,7 +353,7 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-card p-8 rounded-xl border border-border">
+            <div className="bg-card p-8 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="flex items-center mb-4">
                 <div className="flex text-gold">
                   {[...Array(5)].map((_, i) => (
@@ -361,7 +368,7 @@ const Index = () => {
               <p className="font-semibold">— Restaurant Owner, London</p>
               <p className="text-sm text-muted-foreground">Code of Practice 9 Investigation</p>
             </div>
-            <div className="bg-card p-8 rounded-xl border border-border">
+            <div className="bg-card p-8 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="flex items-center mb-4">
                 <div className="flex text-gold">
                   {[...Array(5)].map((_, i) => (
@@ -376,7 +383,7 @@ const Index = () => {
               <p className="font-semibold">— IT Contractor, Manchester</p>
               <p className="text-sm text-muted-foreground">Criminal Tax Investigation</p>
             </div>
-            <div className="bg-card p-8 rounded-xl border border-border">
+            <div className="bg-card p-8 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="flex items-center mb-4">
                 <div className="flex text-gold">
                   {[...Array(5)].map((_, i) => (
@@ -401,7 +408,7 @@ const Index = () => {
       </section>
 
       {/* Services Overview */}
-      <section className="py-20">
+      <section ref={servicesSection.ref} className={`py-20 ${servicesSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
@@ -410,7 +417,7 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
               <Award className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">HMRC Investigation Defence</h3>
               <p className="text-muted-foreground mb-4">
@@ -422,7 +429,7 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
               <Shield className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">Pre-Compliance Protection</h3>
               <p className="text-muted-foreground mb-4">
@@ -434,7 +441,7 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
               <Brain className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">AI Document Analysis</h3>
               <p className="text-muted-foreground mb-4">
@@ -446,7 +453,7 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
               <Scale className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">Case Studies & Wins</h3>
               <p className="text-muted-foreground mb-4">
@@ -462,7 +469,7 @@ const Index = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section ref={ctaSection.ref} className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             Don't Face HMRC Alone
