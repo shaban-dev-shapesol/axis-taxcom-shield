@@ -4,14 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Scale, Shield, Award, Users } from "lucide-react";
 import teamImage from "@/assets/team-collaboration.jpg";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const Team = () => {
+  const heroSection = useScrollAnimation();
+  const whyHybridSection = useScrollAnimation();
+  const whenToInvolveSection = useScrollAnimation();
+  const credentialsSection = useScrollAnimation();
+  const ctaSection = useScrollAnimation();
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       {/* Hero */}
-      <section className="relative bg-primary text-primary-foreground">
+      <section ref={heroSection.ref as any} className={`relative bg-primary text-primary-foreground ${heroSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="absolute inset-0 opacity-20">
           <img src={teamImage} alt="Our Team" className="w-full h-full object-cover" />
         </div>
@@ -32,12 +39,12 @@ const Team = () => {
       </section>
 
       {/* Why Hybrid Team */}
-      <section className="py-20">
+      <section ref={whyHybridSection.ref as any} className={`py-20 ${whyHybridSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Why You Need Both Accountants AND Solicitors</h2>
 
           <div className="max-w-5xl mx-auto space-y-8">
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
               <div className="flex items-start space-x-6">
                 <div className="flex-shrink-0">
                   <Shield className="h-12 w-12 text-gold" />
@@ -58,7 +65,7 @@ const Team = () => {
               </div>
             </div>
 
-            <div className="bg-danger/5 p-8 rounded-xl shadow-lg border-2 border-danger/20">
+            <div className="bg-danger/5 p-8 rounded-xl shadow-lg border-2 border-danger/20 transition-smooth hover:scale-105 hover:shadow-xl">
               <div className="flex items-start space-x-6">
                 <div className="flex-shrink-0">
                   <Scale className="h-12 w-12 text-danger" />
@@ -80,7 +87,7 @@ const Team = () => {
               </div>
             </div>
 
-            <div className="bg-gold/5 p-8 rounded-xl shadow-lg border-2 border-gold/40">
+            <div className="bg-gold/5 p-8 rounded-xl shadow-lg border-2 border-gold/40 transition-smooth hover:scale-105 hover:shadow-xl">
               <div className="flex items-start space-x-6">
                 <div className="flex-shrink-0">
                   <Users className="h-12 w-12 text-gold" />
@@ -105,13 +112,13 @@ const Team = () => {
       </section>
 
       {/* When to Involve Solicitor */}
-      <section className="py-20 bg-muted/30">
+      <section ref={whenToInvolveSection.ref as any} className={`py-20 bg-muted/30 ${whenToInvolveSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">When to Involve a Business Crime Solicitor</h2>
 
           <div className="max-w-4xl mx-auto">
             <div className="space-y-4">
-              <div className="bg-card p-6 rounded-lg border border-danger/20">
+                <div className="bg-card p-6 rounded-lg border border-danger/20 transition-smooth hover:shadow-lg hover:scale-105">
                 <h3 className="font-bold text-lg mb-2">Code of Practice 9 (COP 9)</h3>
                 <p className="text-muted-foreground">
                   <strong>Immediate solicitor involvement required.</strong> This is a criminal investigation. 
@@ -119,7 +126,7 @@ const Team = () => {
                 </p>
               </div>
 
-              <div className="bg-card p-6 rounded-lg border border-danger/20">
+              <div className="bg-card p-6 rounded-lg border border-danger/20 transition-smooth hover:shadow-lg hover:scale-105">
                 <h3 className="font-bold text-lg mb-2">Code of Practice 8 (COP 8)</h3>
                 <p className="text-muted-foreground">
                   <strong>Solicitor recommended.</strong> While technically civil, COP 8 can escalate to COP 9. 
@@ -127,7 +134,7 @@ const Team = () => {
                 </p>
               </div>
 
-              <div className="bg-card p-6 rounded-lg border border-border">
+              <div className="bg-card p-6 rounded-lg border border-border transition-smooth hover:shadow-lg hover:scale-105">
                 <h3 className="font-bold text-lg mb-2">Serious Fraud Office (SFO) Involvement</h3>
                 <p className="text-muted-foreground">
                   <strong>Immediate solicitor involvement required.</strong> SFO cases are criminal prosecutions 
@@ -135,7 +142,7 @@ const Team = () => {
                 </p>
               </div>
 
-              <div className="bg-card p-6 rounded-lg border border-border">
+              <div className="bg-card p-6 rounded-lg border border-border transition-smooth hover:shadow-lg hover:scale-105">
                 <h3 className="font-bold text-lg mb-2">Asset Freezing or Restraint Orders</h3>
                 <p className="text-muted-foreground">
                   <strong>Immediate solicitor involvement required.</strong> HMRC is seeking to freeze your assets 
@@ -143,7 +150,7 @@ const Team = () => {
                 </p>
               </div>
 
-              <div className="bg-card p-6 rounded-lg border border-border">
+              <div className="bg-card p-6 rounded-lg border border-border transition-smooth hover:shadow-lg hover:scale-105">
                 <h3 className="font-bold text-lg mb-2">Interview Under Caution</h3>
                 <p className="text-muted-foreground">
                   <strong>Solicitor recommended.</strong> If HMRC requests an interview under caution, this indicates 
@@ -151,7 +158,7 @@ const Team = () => {
                 </p>
               </div>
 
-              <div className="bg-card p-6 rounded-lg border border-border">
+              <div className="bg-card p-6 rounded-lg border border-border transition-smooth hover:shadow-lg hover:scale-105">
                 <h3 className="font-bold text-lg mb-2">Multi-Million Pound Demands</h3>
                 <p className="text-muted-foreground">
                   <strong>Solicitor recommended.</strong> Large settlements often involve complex negotiations 
@@ -172,7 +179,7 @@ const Team = () => {
       </section>
 
       {/* Team Credentials */}
-      <section className="py-20">
+      <section ref={credentialsSection.ref as any} className={`py-20 ${credentialsSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Our Credentials</h2>
 
@@ -211,7 +218,7 @@ const Team = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section ref={ctaSection.ref as any} className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Get the Full Power of Our Hybrid Team

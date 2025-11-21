@@ -4,14 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { AlertTriangle, Shield, FileText, Scale, CheckCircle } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const Investigations = () => {
+  const heroSection = useScrollAnimation();
+  const typesSection = useScrollAnimation();
+  const whySection = useScrollAnimation();
+  const strategySection = useScrollAnimation();
+  const ctaSection = useScrollAnimation();
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       {/* Hero */}
-      <section className="relative bg-primary text-primary-foreground">
+      <section ref={heroSection.ref as any} className={`relative bg-primary text-primary-foreground ${heroSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="absolute inset-0 opacity-20">
           <img src={heroImage} alt="HMRC Investigations" className="w-full h-full object-cover" />
         </div>
@@ -36,7 +43,7 @@ const Investigations = () => {
       </section>
 
       {/* Types of Investigations */}
-      <section className="py-20">
+      <section ref={typesSection.ref as any} className={`py-20 ${typesSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Types of HMRC Investigations We Handle</h2>
           <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
@@ -44,7 +51,7 @@ const Investigations = () => {
           </p>
 
           <div className="space-y-6 max-w-5xl mx-auto">
-            <div className="bg-card p-6 rounded-lg border border-border shadow-sm">
+            <div className="bg-card p-6 rounded-lg border border-border shadow-sm transition-smooth hover:shadow-lg hover:scale-105">
               <h3 className="text-xl font-bold mb-2">Aspect Enquiries</h3>
               <p className="text-muted-foreground mb-3">
                 HMRC questions a specific aspect of your tax return. Lower risk but must be handled correctly 
@@ -56,7 +63,7 @@ const Investigations = () => {
               </div>
             </div>
 
-            <div className="bg-card p-6 rounded-lg border border-border shadow-sm">
+            <div className="bg-card p-6 rounded-lg border border-border shadow-sm transition-smooth hover:shadow-lg hover:scale-105">
               <h3 className="text-xl font-bold mb-2">Full Enquiries</h3>
               <p className="text-muted-foreground mb-3">
                 HMRC opens a comprehensive investigation into your entire tax affairs. High-risk situation 
@@ -68,7 +75,7 @@ const Investigations = () => {
               </div>
             </div>
 
-            <div className="bg-card p-6 rounded-lg border border-border shadow-sm">
+            <div className="bg-card p-6 rounded-lg border border-border shadow-sm transition-smooth hover:shadow-lg hover:scale-105">
               <h3 className="text-xl font-bold mb-2">Code of Practice 8 (COP 8)</h3>
               <p className="text-muted-foreground mb-3">
                 HMRC suspects serious tax fraud but offers a civil settlement route. This is your last chance 
@@ -80,7 +87,7 @@ const Investigations = () => {
               </div>
             </div>
 
-            <div className="bg-card p-6 rounded-lg border border-danger/20 shadow-sm border-2">
+            <div className="bg-card p-6 rounded-lg border border-danger/20 shadow-sm border-2 transition-smooth hover:shadow-lg hover:scale-105">
               <h3 className="text-xl font-bold mb-2 text-danger">Code of Practice 9 (COP 9) – Criminal Investigation</h3>
               <p className="text-muted-foreground mb-3">
                 HMRC is pursuing criminal prosecution. You are now under criminal investigation. 
@@ -98,7 +105,7 @@ const Investigations = () => {
               </div>
             </div>
 
-            <div className="bg-card p-6 rounded-lg border border-border shadow-sm">
+            <div className="bg-card p-6 rounded-lg border border-border shadow-sm transition-smooth hover:shadow-lg hover:scale-105">
               <h3 className="text-xl font-bold mb-2">VAT, PAYE & CIS Checks</h3>
               <p className="text-muted-foreground mb-3">
                 Targeted checks on specific tax areas. Common in food industry, construction, and professional services. 
@@ -114,7 +121,7 @@ const Investigations = () => {
       </section>
 
       {/* Why Investigation Happens */}
-      <section className="py-20 bg-muted/30">
+      <section ref={whySection.ref as any} className={`py-20 bg-muted/30 ${whySection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Why HMRC Opens Investigations</h2>
           
@@ -195,7 +202,7 @@ const Investigations = () => {
       </section>
 
       {/* Our Defence Strategy */}
-      <section className="py-20">
+      <section ref={strategySection.ref as any} className={`py-20 ${strategySection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Our Aggressive Defence Strategy</h2>
 
@@ -269,7 +276,7 @@ const Investigations = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section ref={ctaSection.ref as any} className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Under Investigation? Get Expert Defence Now
