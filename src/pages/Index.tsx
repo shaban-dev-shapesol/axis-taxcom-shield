@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { Shield, Scale, CheckCircle, Clock, Award, Brain } from "lucide-react";
+import { Shield, Scale, CheckCircle, Clock, Award, Brain, FileCheck, Briefcase, BookOpen } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
@@ -136,6 +136,7 @@ const Index = () => {
             </div>
             <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
+                <Scale className="h-6 w-6 text-gold" />
               </div>
               <h3 className="text-lg font-bold mb-2">Legal Privilege</h3>
               <p className="text-sm text-muted-foreground">
@@ -144,6 +145,7 @@ const Index = () => {
             </div>
             <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
+                <Award className="h-6 w-6 text-gold" />
               </div>
               <h3 className="text-lg font-bold mb-2">Proven Track Record</h3>
               <p className="text-sm text-muted-foreground">
@@ -191,7 +193,7 @@ const Index = () => {
 
             <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-smooth hover:scale-105">
               <div className="w-12 h-12 bg-gradient-to-r from-navy to-navy-light rounded-lg flex items-center justify-center mb-6">
-                <Shield className="h-6 w-6 text-primary-foreground" />
+                <FileCheck className="h-6 w-6 text-primary-foreground" />
               </div>
               <h3 className="text-2xl font-bold mb-4">Chartered Accountants</h3>
               <p className="text-muted-foreground mb-4">
@@ -216,7 +218,7 @@ const Index = () => {
 
             <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-smooth hover:scale-105">
               <div className="w-12 h-12 bg-gradient-to-r from-navy to-navy-light rounded-lg flex items-center justify-center mb-6">
-                <Shield className="h-6 w-6 text-primary-foreground" />
+                <Brain className="h-6 w-6 text-primary-foreground" />
               </div>
               <h3 className="text-2xl font-bold mb-4">Technology & Systems</h3>
               <p className="text-muted-foreground mb-4">
@@ -298,6 +300,7 @@ const Index = () => {
             </div>
             <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Briefcase className="h-8 w-8 text-navy" />
               </div>
               <h3 className="text-xl font-bold mb-2">Solicitors Regulation Authority</h3>
               <p className="text-sm text-muted-foreground">
@@ -306,6 +309,7 @@ const Index = () => {
             </div>
             <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
               <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <BookOpen className="h-8 w-8 text-navy" />
               </div>
               <h3 className="text-xl font-bold mb-2">Law Society Members</h3>
               <p className="text-sm text-muted-foreground">
@@ -408,59 +412,47 @@ const Index = () => {
       </section>
 
       {/* Services Overview */}
-      <section ref={servicesSection.ref} className={`py-20 ${servicesSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+      <section ref={servicesSection.ref} className={`py-20 bg-navy text-primary-foreground ${servicesSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl text-primary-foreground/80 max-w-3xl mx-auto">
               From prevention to full criminal defence
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
               <Award className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">HMRC Investigation Defence</h3>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-primary-foreground/80 mb-4">
                 Full-spectrum defence for all HMRC investigation types: Aspect Enquiries, Full Enquiries, 
                 Code of Practice 8 & 9, VAT/PAYE/CIS checks, and criminal prosecutions.
               </p>
-              <Button asChild variant="outline">
+              <Button asChild variant="accent">
                 <Link to="/investigations">Learn More →</Link>
               </Button>
             </div>
 
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
+            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
               <Shield className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">Pre-Compliance Protection</h3>
-              <p className="text-muted-foreground mb-4">
-                Avoid investigation entirely. AI-powered risk scanning of your VAT, PAYE, CIS, and bookkeeping 
+              <p className="text-primary-foreground/80 mb-4">
+                Avoid investigation entirely. Risk scanning of your VAT, PAYE, CIS, and bookkeeping 
                 to detect red flags before HMRC does.
               </p>
-              <Button asChild variant="outline">
+              <Button asChild variant="accent">
                 <Link to="/pre-compliance">Learn More →</Link>
               </Button>
             </div>
 
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
-              <Brain className="h-10 w-10 text-gold mb-4" />
-              <h3 className="text-2xl font-bold mb-4">AI Document Analysis</h3>
-              <p className="text-muted-foreground mb-4">
-                Upload your HMRC letter or notice. Our AI uses OCR to extract key data, assess risk, 
-                and generate an immediate action plan with required documents.
-              </p>
-              <Button asChild variant="outline">
-                <Link to="/ai-pipeline">Learn More →</Link>
-              </Button>
-            </div>
-
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
+            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
               <Scale className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">Case Studies & Wins</h3>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-primary-foreground/80 mb-4">
                 Real results from real clients: restaurants, consultants, landlords, and contractors. 
                 See how we saved businesses from HMRC penalties and criminal prosecution.
               </p>
-              <Button asChild variant="outline">
+              <Button asChild variant="accent">
                 <Link to="/case-studies">View Cases →</Link>
               </Button>
             </div>
