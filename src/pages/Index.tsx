@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Testimonials } from "@/components/Testimonials";
 import { Link } from "react-router-dom";
 import { Shield, Scale, CheckCircle, Clock, Award, Brain, FileCheck, Briefcase, BookOpen } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
@@ -13,7 +14,6 @@ const Index = () => {
   const pillarsSection = useScrollAnimation();
   const trackRecordSection = useScrollAnimation();
   const credentialsSection = useScrollAnimation();
-  const testimonialsSection = useScrollAnimation();
   const servicesSection = useScrollAnimation();
   const ctaSection = useScrollAnimation();
 
@@ -348,68 +348,7 @@ const Index = () => {
       </section>
 
       {/* Client Testimonials Section */}
-      <section ref={testimonialsSection.ref} className={`py-20 bg-background ${testimonialsSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Real results from real people who faced HMRC investigations
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-card p-8 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="flex items-center mb-4">
-                <div className="flex text-gold">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i}>★</span>
-                  ))}
-                </div>
-              </div>
-              <p className="text-muted-foreground mb-6 italic">
-                "HMRC claimed I owed £340,000. AXIS + TAXCOM got it down to £82,000 and avoided criminal prosecution entirely. 
-                Having the solicitor and accountant work together saved my business."
-              </p>
-              <p className="font-semibold">— Restaurant Owner, London</p>
-              <p className="text-sm text-muted-foreground">Code of Practice 9 Investigation</p>
-            </div>
-            <div className="bg-card p-8 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="flex items-center mb-4">
-                <div className="flex text-gold">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i}>★</span>
-                  ))}
-                </div>
-              </div>
-              <p className="text-muted-foreground mb-6 italic">
-                "I was terrified when I received the COP 9 letter. They responded within 4 hours, 
-                took control immediately, and walked me through everything. I cannot recommend them enough."
-              </p>
-              <p className="font-semibold">— IT Contractor, Manchester</p>
-              <p className="text-sm text-muted-foreground">Criminal Tax Investigation</p>
-            </div>
-            <div className="bg-card p-8 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="flex items-center mb-4">
-                <div className="flex text-gold">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i}>★</span>
-                  ))}
-                </div>
-              </div>
-              <p className="text-muted-foreground mb-6 italic">
-                "The pre-compliance check identified issues before HMRC did. We fixed everything and avoided an investigation altogether. 
-                Best money I ever spent."
-              </p>
-              <p className="font-semibold">— Property Developer, Birmingham</p>
-              <p className="text-sm text-muted-foreground">Pre-Compliance Protection</p>
-            </div>
-          </div>
-          <div className="mt-12 text-center">
-            <Button asChild variant="default" size="lg">
-              <Link to="/case-studies">Read More Case Studies →</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <Testimonials />
 
       {/* Services Overview */}
       <section ref={servicesSection.ref} className={`py-20 bg-navy text-primary-foreground ${servicesSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
