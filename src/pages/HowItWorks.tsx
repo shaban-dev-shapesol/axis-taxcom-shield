@@ -3,14 +3,20 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Upload, Scan, Shield, Scale, FileSearch, CheckCircle } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const HowItWorks = () => {
+  const heroSection = useScrollAnimation();
+  const processSection = useScrollAnimation();
+  const humanReviewSection = useScrollAnimation();
+  const ctaSection = useScrollAnimation();
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       {/* Hero */}
-      <section className="bg-primary text-primary-foreground py-20">
+      <section ref={heroSection.ref} className={`bg-primary text-primary-foreground py-20 transition-smooth ${heroSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -24,7 +30,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Process Overview */}
-      <section className="py-20">
+      <section ref={processSection.ref} className={`py-20 transition-smooth ${processSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto space-y-16">
             {/* Step 1 */}
@@ -244,7 +250,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Why Human Review Matters */}
-      <section className="py-20 bg-muted/30">
+      <section ref={humanReviewSection.ref} className={`py-20 bg-muted/30 transition-smooth ${humanReviewSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Why Human Review Matters</h2>
@@ -253,7 +259,7 @@ const HowItWorks = () => {
             </p>
 
             <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-card p-6 rounded-lg border border-border">
+              <div className="bg-card p-6 rounded-lg border border-border transition-smooth hover:shadow-lg hover:scale-105">
                 <h3 className="text-xl font-bold mb-4">Technology Strengths</h3>
                 <ul className="space-y-3 text-sm text-muted-foreground">
                   <li className="flex items-start">
@@ -275,7 +281,7 @@ const HowItWorks = () => {
                 </ul>
               </div>
 
-              <div className="bg-card p-6 rounded-lg border border-border">
+              <div className="bg-card p-6 rounded-lg border border-border transition-smooth hover:shadow-lg hover:scale-105">
                 <h3 className="text-xl font-bold mb-4">Human Expertise</h3>
                 <ul className="space-y-3 text-sm text-muted-foreground">
                   <li className="flex items-start">
@@ -302,7 +308,7 @@ const HowItWorks = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section ref={ctaSection.ref} className={`py-20 bg-primary text-primary-foreground transition-smooth ${ctaSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Start Your Defence?
