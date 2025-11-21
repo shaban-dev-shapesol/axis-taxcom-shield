@@ -13,6 +13,9 @@ import AIPipeline from "./pages/AIPipeline";
 import GetStarted from "./pages/GetStarted";
 import Book from "./pages/Book";
 import HowItWorks from "./pages/HowItWorks";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import DataSecurity from "./pages/DataSecurity";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +37,9 @@ const App = () => (
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/book" element={<Book />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/data-security" element={<DataSecurity />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
