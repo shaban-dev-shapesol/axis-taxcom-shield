@@ -401,16 +401,16 @@ const Index = () => {
       </section>
 
       {/* Services Overview */}
-      <section className="py-20 bg-navy text-primary-foreground">
+      <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
-            <p className="text-xl text-primary-foreground/70 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               From prevention to full criminal defence
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-background text-foreground p-8 rounded-xl shadow-lg border border-navy-light">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border">
               <Award className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">HMRC Investigation Defence</h3>
               <p className="text-muted-foreground mb-4">
@@ -422,7 +422,7 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="bg-background text-foreground p-8 rounded-xl shadow-lg border border-navy-light">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border">
               <Shield className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">Pre-Compliance Protection</h3>
               <p className="text-muted-foreground mb-4">
@@ -434,7 +434,7 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="bg-background text-foreground p-8 rounded-xl shadow-lg border border-navy-light">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border">
               <Brain className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">AI Document Analysis</h3>
               <p className="text-muted-foreground mb-4">
@@ -446,7 +446,7 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="bg-background text-foreground p-8 rounded-xl shadow-lg border border-navy-light">
+            <div className="bg-card p-8 rounded-xl shadow-lg border border-border">
               <Scale className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">Case Studies & Wins</h3>
               <p className="text-muted-foreground mb-4">
@@ -462,7 +462,7 @@ const Index = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 bg-crimson text-primary-foreground">
+      <section className="py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             Don't Face HMRC Alone
