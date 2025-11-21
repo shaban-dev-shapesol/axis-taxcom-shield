@@ -2,14 +2,20 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Clock, Phone } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const Book = () => {
+  const heroSection = useScrollAnimation();
+  const optionsSection = useScrollAnimation();
+  const processSection = useScrollAnimation();
+  const contactSection = useScrollAnimation();
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       {/* Hero */}
-      <section className="bg-primary text-primary-foreground py-20">
+      <section ref={heroSection.ref} className={`bg-primary text-primary-foreground py-20 transition-smooth ${heroSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -23,11 +29,11 @@ const Book = () => {
       </section>
 
       {/* Assessment Options */}
-      <section className="py-20">
+      <section ref={optionsSection.ref} className={`py-20 transition-smooth ${optionsSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Free Assessment */}
-            <div className="bg-card rounded-xl shadow-lg border border-border p-8">
+            <div className="bg-card rounded-xl shadow-lg border border-border p-8 transition-smooth hover:shadow-xl hover:scale-105">
               <div className="text-center mb-6">
                 <div className="inline-block bg-gold/10 px-4 py-2 rounded-full mb-4">
                   <span className="text-gold font-bold text-sm">FREE</span>
@@ -78,7 +84,7 @@ const Book = () => {
             </div>
 
             {/* Paid Consultation */}
-            <div className="bg-gradient-to-br from-danger/5 to-danger/10 rounded-xl shadow-lg border-2 border-danger/30 p-8">
+            <div className="bg-gradient-to-br from-danger/5 to-danger/10 rounded-xl shadow-lg border-2 border-danger/30 p-8 transition-smooth hover:shadow-xl hover:scale-105">
               <div className="text-center mb-6">
                 <div className="inline-block bg-danger/10 px-4 py-2 rounded-full mb-4">
                   <span className="text-danger font-bold text-sm">URGENT</span>
@@ -155,7 +161,7 @@ const Book = () => {
       </section>
 
       {/* What Happens Next */}
-      <section className="py-20 bg-muted/30">
+      <section ref={processSection.ref} className={`py-20 bg-muted/30 transition-smooth ${processSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">What Happens After Booking?</h2>
@@ -231,7 +237,7 @@ const Book = () => {
       </section>
 
       {/* Contact Alternative */}
-      <section className="py-20">
+      <section ref={contactSection.ref} className={`py-20 transition-smooth ${contactSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto bg-card rounded-xl shadow-lg border border-border p-8">
             <div className="text-center mb-8">

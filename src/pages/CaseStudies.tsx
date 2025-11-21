@@ -3,8 +3,14 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { TrendingDown, CheckCircle, AlertTriangle } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const CaseStudies = () => {
+  const heroSection = useScrollAnimation();
+  const statsSection = useScrollAnimation();
+  const casesSection = useScrollAnimation();
+  const ctaSection = useScrollAnimation();
+
   const cases = [
     {
       industry: "Restaurant Chain",
@@ -85,7 +91,7 @@ const CaseStudies = () => {
       <Header />
 
       {/* Hero */}
-      <section className="bg-primary text-primary-foreground py-20">
+      <section ref={heroSection.ref} className={`bg-primary text-primary-foreground py-20 transition-smooth ${heroSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -102,7 +108,7 @@ const CaseStudies = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-12 bg-muted/30">
+      <section ref={statsSection.ref} className={`py-12 bg-muted/30 transition-smooth ${statsSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
@@ -122,11 +128,11 @@ const CaseStudies = () => {
       </section>
 
       {/* Case Studies */}
-      <section className="py-20">
+      <section ref={casesSection.ref} className={`py-20 transition-smooth ${casesSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="space-y-12 max-w-5xl mx-auto">
             {cases.map((caseStudy, index) => (
-              <div key={index} className="bg-card rounded-xl shadow-lg border border-border overflow-hidden">
+              <div key={index} className="bg-card rounded-xl shadow-lg border border-border overflow-hidden transition-smooth hover:shadow-xl hover:scale-[1.02]">
                 <div className="bg-gradient-to-r from-navy to-navy-light text-primary-foreground p-6">
                   <div className="flex items-start justify-between">
                     <div>
@@ -184,7 +190,7 @@ const CaseStudies = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section ref={ctaSection.ref} className={`py-20 bg-primary text-primary-foreground transition-smooth ${ctaSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready for Similar Results?

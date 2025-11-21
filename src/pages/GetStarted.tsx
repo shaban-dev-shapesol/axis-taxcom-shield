@@ -7,8 +7,12 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { Upload, AlertTriangle, Lock } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const GetStarted = () => {
+  const heroSection = useScrollAnimation();
+  const formSection = useScrollAnimation();
+  
   const [urgency, setUrgency] = useState(5);
 
   return (
@@ -16,7 +20,7 @@ const GetStarted = () => {
       <Header />
 
       {/* Hero */}
-      <section className="bg-primary text-primary-foreground py-12">
+      <section ref={heroSection.ref} className={`bg-primary text-primary-foreground py-12 transition-smooth ${heroSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -30,7 +34,7 @@ const GetStarted = () => {
       </section>
 
       {/* Form Section */}
-      <section className="py-20">
+      <section ref={formSection.ref} className={`py-20 transition-smooth ${formSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             {/* Security Notice */}
@@ -45,7 +49,7 @@ const GetStarted = () => {
               </div>
             </div>
 
-            <div className="bg-card rounded-xl shadow-lg border border-border p-8">
+            <div className="bg-card rounded-xl shadow-lg border border-border p-8 transition-smooth hover:shadow-xl">
               <form className="space-y-6">
                 {/* Personal Information */}
                 <div>
