@@ -19,14 +19,16 @@ const About = () => {
         <section
           ref={hero.ref as React.RefObject<HTMLElement>}
           className={`py-20 px-4 transition-all duration-1000 ${
-            hero.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            hero.isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-95"
           }`}
         >
           <div className="container mx-auto max-w-4xl text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-accent to-accent/70 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-accent to-accent/70 bg-clip-text text-transparent animate-fade-in">
               About AXIS + TAXCOM
             </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <p className={`text-xl text-muted-foreground leading-relaxed transition-all duration-1000 delay-200 ${
+              hero.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+            }`}>
               The UK's premier alliance of Chartered Accountants and Business Crime Solicitors,
               delivering unmatched expertise in HMRC investigations and tax compliance.
             </p>
@@ -59,29 +61,37 @@ const About = () => {
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-6">
-                <div className="bg-card p-6 rounded-lg border border-border">
-                  <Target className="w-12 h-12 text-accent mb-4" />
+                <div className={`bg-card p-6 rounded-lg border border-border transition-all duration-700 hover:scale-105 hover:shadow-lg ${
+                  mission.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                }`} style={{ transitionDelay: '200ms' }}>
+                  <Target className="w-12 h-12 text-accent mb-4 transition-transform duration-300 hover:rotate-12" />
                   <h3 className="font-bold mb-2 text-foreground">Crisis Management</h3>
                   <p className="text-sm text-muted-foreground">
                     Immediate response to HMRC challenges
                   </p>
                 </div>
-                <div className="bg-card p-6 rounded-lg border border-border">
-                  <Shield className="w-12 h-12 text-accent mb-4" />
+                <div className={`bg-card p-6 rounded-lg border border-border transition-all duration-700 hover:scale-105 hover:shadow-lg ${
+                  mission.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                }`} style={{ transitionDelay: '400ms' }}>
+                  <Shield className="w-12 h-12 text-accent mb-4 transition-transform duration-300 hover:rotate-12" />
                   <h3 className="font-bold mb-2 text-foreground">Legal Protection</h3>
                   <p className="text-sm text-muted-foreground">
                     Full legal privilege on all communications
                   </p>
                 </div>
-                <div className="bg-card p-6 rounded-lg border border-border">
-                  <CheckCircle2 className="w-12 h-12 text-accent mb-4" />
+                <div className={`bg-card p-6 rounded-lg border border-border transition-all duration-700 hover:scale-105 hover:shadow-lg ${
+                  mission.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                }`} style={{ transitionDelay: '600ms' }}>
+                  <CheckCircle2 className="w-12 h-12 text-accent mb-4 transition-transform duration-300 hover:rotate-12" />
                   <h3 className="font-bold mb-2 text-foreground">Results Driven</h3>
                   <p className="text-sm text-muted-foreground">
                     Track record of significant client wins
                   </p>
                 </div>
-                <div className="bg-card p-6 rounded-lg border border-border">
-                  <Users className="w-12 h-12 text-accent mb-4" />
+                <div className={`bg-card p-6 rounded-lg border border-border transition-all duration-700 hover:scale-105 hover:shadow-lg ${
+                  mission.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                }`} style={{ transitionDelay: '800ms' }}>
+                  <Users className="w-12 h-12 text-accent mb-4 transition-transform duration-300 hover:rotate-12" />
                   <h3 className="font-bold mb-2 text-foreground">Expert Team</h3>
                   <p className="text-sm text-muted-foreground">
                     Accountants + Solicitors working as one
@@ -104,9 +114,11 @@ const About = () => {
               The AXIS + TAXCOM Partnership
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-card border border-border rounded-lg p-8">
+              <div className={`bg-card border border-border rounded-lg p-8 transition-all duration-700 hover:scale-105 hover:shadow-xl ${
+                partnership.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+              }`}>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="bg-accent/10 p-3 rounded-lg">
+                  <div className="bg-accent/10 p-3 rounded-lg transition-transform duration-300 hover:rotate-6">
                     <Scale className="w-8 h-8 text-accent" />
                   </div>
                   <h3 className="text-2xl font-bold text-foreground">AXIS</h3>
@@ -132,9 +144,11 @@ const About = () => {
                 </ul>
               </div>
 
-              <div className="bg-card border border-border rounded-lg p-8">
+              <div className={`bg-card border border-border rounded-lg p-8 transition-all duration-700 hover:scale-105 hover:shadow-xl ${
+                partnership.isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+              }`} style={{ transitionDelay: '300ms' }}>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="bg-accent/10 p-3 rounded-lg">
+                  <div className="bg-accent/10 p-3 rounded-lg transition-transform duration-300 hover:rotate-6">
                     <Shield className="w-8 h-8 text-accent" />
                   </div>
                   <h3 className="text-2xl font-bold text-foreground">TAXCOM</h3>
@@ -160,7 +174,9 @@ const About = () => {
                 </ul>
               </div>
             </div>
-            <div className="mt-8 bg-accent/5 border border-accent/20 rounded-lg p-6 text-center">
+            <div className={`mt-8 bg-accent/5 border border-accent/20 rounded-lg p-6 text-center transition-all duration-700 ${
+              partnership.isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            }`} style={{ transitionDelay: '600ms' }}>
               <p className="text-lg text-foreground">
                 <span className="font-bold">Together,</span> we provide a seamless service model that adapts to case complexity—
                 accountant-led for technical matters, solicitor-led for high-risk legal defence.
@@ -179,9 +195,11 @@ const About = () => {
           <div className="container mx-auto max-w-6xl">
             <h2 className="text-3xl font-bold mb-12 text-center text-foreground">Our Core Values</h2>
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield className="w-8 h-8 text-accent" />
+              <div className={`text-center transition-all duration-700 ${
+                values.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              }`} style={{ transitionDelay: '100ms' }}>
+                <div className="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 transition-all duration-300 hover:scale-110 hover:bg-accent/20">
+                  <Shield className="w-8 h-8 text-accent transition-transform duration-300 hover:rotate-12" />
                 </div>
                 <h3 className="text-xl font-bold mb-3 text-foreground">Aggressive Defence</h3>
                 <p className="text-muted-foreground">
@@ -189,9 +207,11 @@ const About = () => {
                   and fight for every pound of tax relief our clients deserve.
                 </p>
               </div>
-              <div className="text-center">
-                <div className="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Target className="w-8 h-8 text-accent" />
+              <div className={`text-center transition-all duration-700 ${
+                values.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              }`} style={{ transitionDelay: '300ms' }}>
+                <div className="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 transition-all duration-300 hover:scale-110 hover:bg-accent/20">
+                  <Target className="w-8 h-8 text-accent transition-transform duration-300 hover:rotate-12" />
                 </div>
                 <h3 className="text-xl font-bold mb-3 text-foreground">Technical Precision</h3>
                 <p className="text-muted-foreground">
@@ -199,9 +219,11 @@ const About = () => {
                   in reconstructions, calculations, and compliance submissions.
                 </p>
               </div>
-              <div className="text-center">
-                <div className="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-accent" />
+              <div className={`text-center transition-all duration-700 ${
+                values.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              }`} style={{ transitionDelay: '500ms' }}>
+                <div className="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 transition-all duration-300 hover:scale-110 hover:bg-accent/20">
+                  <Users className="w-8 h-8 text-accent transition-transform duration-300 hover:rotate-12" />
                 </div>
                 <h3 className="text-xl font-bold mb-3 text-foreground">Client First</h3>
                 <p className="text-muted-foreground">
@@ -225,29 +247,37 @@ const About = () => {
               Professional Accreditations
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="flex items-center gap-4 bg-card border border-border rounded-lg p-6">
-                <Award className="w-10 h-10 text-accent flex-shrink-0" />
+              <div className={`flex items-center gap-4 bg-card border border-border rounded-lg p-6 transition-all duration-700 hover:scale-105 hover:shadow-lg ${
+                credentials.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+              }`} style={{ transitionDelay: '100ms' }}>
+                <Award className="w-10 h-10 text-accent flex-shrink-0 transition-transform duration-300 hover:rotate-12" />
                 <div>
                   <h3 className="font-bold text-foreground">Institute of Chartered Accountants</h3>
                   <p className="text-sm text-muted-foreground">ICAEW Members</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4 bg-card border border-border rounded-lg p-6">
-                <Award className="w-10 h-10 text-accent flex-shrink-0" />
+              <div className={`flex items-center gap-4 bg-card border border-border rounded-lg p-6 transition-all duration-700 hover:scale-105 hover:shadow-lg ${
+                credentials.isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+              }`} style={{ transitionDelay: '200ms' }}>
+                <Award className="w-10 h-10 text-accent flex-shrink-0 transition-transform duration-300 hover:rotate-12" />
                 <div>
                   <h3 className="font-bold text-foreground">Solicitors Regulation Authority</h3>
                   <p className="text-sm text-muted-foreground">SRA Regulated</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4 bg-card border border-border rounded-lg p-6">
-                <Award className="w-10 h-10 text-accent flex-shrink-0" />
+              <div className={`flex items-center gap-4 bg-card border border-border rounded-lg p-6 transition-all duration-700 hover:scale-105 hover:shadow-lg ${
+                credentials.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+              }`} style={{ transitionDelay: '300ms' }}>
+                <Award className="w-10 h-10 text-accent flex-shrink-0 transition-transform duration-300 hover:rotate-12" />
                 <div>
                   <h3 className="font-bold text-foreground">Law Society Members</h3>
                   <p className="text-sm text-muted-foreground">Accredited Solicitors</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4 bg-card border border-border rounded-lg p-6">
-                <Award className="w-10 h-10 text-accent flex-shrink-0" />
+              <div className={`flex items-center gap-4 bg-card border border-border rounded-lg p-6 transition-all duration-700 hover:scale-105 hover:shadow-lg ${
+                credentials.isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+              }`} style={{ transitionDelay: '400ms' }}>
+                <Award className="w-10 h-10 text-accent flex-shrink-0 transition-transform duration-300 hover:rotate-12" />
                 <div>
                   <h3 className="font-bold text-foreground">Professional Indemnity Insurance</h3>
                   <p className="text-sm text-muted-foreground">£10M Coverage</p>
