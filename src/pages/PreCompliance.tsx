@@ -294,7 +294,7 @@ const PreCompliance = () => {
       </section>
 
       {/* CTA */}
-      <section ref={ctaSection.ref as any} className={`py-20 bg-gradient-to-br from-navy via-navy-light to-primary text-primary-foreground border-t border-gold/20 ${ctaSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
+      <section ref={ctaSection.ref as any} className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Avoid Investigation Before It Starts
