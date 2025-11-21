@@ -18,6 +18,8 @@ import TermsOfService from "./pages/TermsOfService";
 import DataSecurity from "./pages/DataSecurity";
 import About from "./pages/About";
 import Thanks from "./pages/Thanks";
+import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +46,8 @@ const App = () => (
           <Route path="/data-security" element={<DataSecurity />} />
           <Route path="/about" element={<About />} />
           <Route path="/thanks" element={<Thanks />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
