@@ -4,14 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Shield, CheckCircle, AlertTriangle, Scan } from "lucide-react";
 import preComplianceImage from "@/assets/pre-compliance.jpg";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const PreCompliance = () => {
+  const heroSection = useScrollAnimation();
+  const problemSection = useScrollAnimation();
+  const checkSection = useScrollAnimation();
+  const howItWorksSection = useScrollAnimation();
+  const benefitsSection = useScrollAnimation();
+  const ctaSection = useScrollAnimation();
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       {/* Hero */}
-      <section className="relative bg-primary text-primary-foreground">
+      <section ref={heroSection.ref as any} className={`relative bg-primary text-primary-foreground ${heroSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="absolute inset-0 opacity-20">
           <img src={preComplianceImage} alt="Pre-Compliance Protection" className="w-full h-full object-cover" />
         </div>
@@ -32,7 +40,7 @@ const PreCompliance = () => {
       </section>
 
       {/* The Problem */}
-      <section className="py-20 bg-muted/30">
+      <section ref={problemSection.ref as any} className={`py-20 bg-muted/30 ${problemSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">The Problem: Most Investigations Are Avoidable</h2>
@@ -43,7 +51,7 @@ const PreCompliance = () => {
             </p>
 
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-card p-6 rounded-lg border border-danger/20">
+              <div className="bg-card p-6 rounded-lg border border-danger/20 transition-smooth hover:shadow-lg">
                 <AlertTriangle className="h-8 w-8 text-danger mb-4" />
                 <h3 className="font-bold text-lg mb-2">Reactive Approach (Expensive)</h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
@@ -56,7 +64,7 @@ const PreCompliance = () => {
                 </ul>
               </div>
 
-              <div className="bg-card p-6 rounded-lg border border-gold/40">
+              <div className="bg-card p-6 rounded-lg border border-gold/40 transition-smooth hover:shadow-lg">
                 <CheckCircle className="h-8 w-8 text-gold mb-4" />
                 <h3 className="font-bold text-lg mb-2">Proactive Approach (Smart)</h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
@@ -74,12 +82,12 @@ const PreCompliance = () => {
       </section>
 
       {/* What We Check */}
-      <section className="py-20">
+      <section ref={checkSection.ref as any} className={`py-20 ${checkSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">What Our Pre-Compliance Check Covers</h2>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div className="bg-card p-6 rounded-lg shadow-lg border border-border">
+            <div className="bg-card p-6 rounded-lg shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
               <h3 className="text-xl font-bold mb-4 flex items-center">
                 <Scan className="h-6 w-6 text-gold mr-2" />
                 VAT Compliance Audit
@@ -94,7 +102,7 @@ const PreCompliance = () => {
               </ul>
             </div>
 
-            <div className="bg-card p-6 rounded-lg shadow-lg border border-border">
+            <div className="bg-card p-6 rounded-lg shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
               <h3 className="text-xl font-bold mb-4 flex items-center">
                 <Scan className="h-6 w-6 text-gold mr-2" />
                 PAYE & Employment Status
@@ -109,7 +117,7 @@ const PreCompliance = () => {
               </ul>
             </div>
 
-            <div className="bg-card p-6 rounded-lg shadow-lg border border-border">
+            <div className="bg-card p-6 rounded-lg shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
               <h3 className="text-xl font-bold mb-4 flex items-center">
                 <Scan className="h-6 w-6 text-gold mr-2" />
                 CIS Compliance (Construction)
@@ -124,7 +132,7 @@ const PreCompliance = () => {
               </ul>
             </div>
 
-            <div className="bg-card p-6 rounded-lg shadow-lg border border-border">
+            <div className="bg-card p-6 rounded-lg shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
               <h3 className="text-xl font-bold mb-4 flex items-center">
                 <Scan className="h-6 w-6 text-gold mr-2" />
                 Bookkeeping Integrity
@@ -139,7 +147,7 @@ const PreCompliance = () => {
               </ul>
             </div>
 
-            <div className="bg-card p-6 rounded-lg shadow-lg border border-border">
+            <div className="bg-card p-6 rounded-lg shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
               <h3 className="text-xl font-bold mb-4 flex items-center">
                 <Scan className="h-6 w-6 text-gold mr-2" />
                 Property Tax Review
@@ -154,7 +162,7 @@ const PreCompliance = () => {
               </ul>
             </div>
 
-            <div className="bg-card p-6 rounded-lg shadow-lg border border-border">
+            <div className="bg-card p-6 rounded-lg shadow-lg border border-border transition-smooth hover:scale-105 hover:shadow-xl">
               <h3 className="text-xl font-bold mb-4 flex items-center">
                 <Scan className="h-6 w-6 text-gold mr-2" />
                 Advanced Anomaly Detection
@@ -173,7 +181,7 @@ const PreCompliance = () => {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-muted/30">
+      <section ref={howItWorksSection.ref as any} className={`py-20 bg-muted/30 ${howItWorksSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">How Pre-Compliance Checking Works</h2>
 
@@ -247,7 +255,7 @@ const PreCompliance = () => {
       </section>
 
       {/* Benefits */}
-      <section className="py-20">
+      <section ref={benefitsSection.ref as any} className={`py-20 ${benefitsSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Benefits of Pre-Compliance</h2>
 
@@ -286,7 +294,7 @@ const PreCompliance = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section ref={ctaSection.ref as any} className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Avoid Investigation Before It Starts
