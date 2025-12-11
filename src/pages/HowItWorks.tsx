@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
+import { CTASection } from "@/components/CTASection";
 import { Link } from "react-router-dom";
 import { Upload, Scan, Shield, Scale, FileSearch, CheckCircle } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
@@ -10,7 +11,6 @@ const HowItWorks = () => {
   const heroSection = useScrollAnimation();
   const processSection = useScrollAnimation();
   const humanReviewSection = useScrollAnimation();
-  const ctaSection = useScrollAnimation();
 
   return (
     <div className="min-h-screen bg-background">
@@ -312,25 +312,12 @@ const HowItWorks = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section ref={ctaSection.ref} className={`py-20 bg-primary text-primary-foreground transition-smooth ${ctaSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Start Your Defence?
-          </h2>
-          <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-            Get advanced analysis tools combined with expert human guidance
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="danger" size="lg">
-              <Link to="/get-started">Get Started Now</Link>
-            </Button>
-            <Button asChild variant="accent" size="lg">
-              <Link to="/book">Book Free Assessment</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <CTASection
+        title="Ready to Start Your Defence?"
+        description="Get expert guidance from our hybrid team of accountants and solicitors."
+        primaryButtonText="Get Started Now"
+        primaryButtonLink="/get-started"
+      />
 
       <Footer />
     </div>
