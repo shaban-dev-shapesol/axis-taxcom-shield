@@ -6,15 +6,115 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { SEO } from "@/components/SEO";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useState } from "react";
-import { Upload, AlertTriangle, Lock } from "lucide-react";
+import { useState, useRef } from "react";
+import { Upload, AlertTriangle, Lock, FileText, Loader2, CheckCircle, X } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import { useToast } from "@/hooks/use-toast";
 
 const GetStarted = () => {
   const heroSection = useScrollAnimation();
   const formSection = useScrollAnimation();
+  const { toast } = useToast();
   
   const [urgency, setUrgency] = useState(5);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [documentSummary, setDocumentSummary] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    const allowedExtensions = ['.pdf', '.jpg', '.jpeg', '.png', '.docx'];
+    const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+    
+    if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(fileExtension)) {
+      toast({
+        title: "Invalid file type",
+        description: "Please upload a PDF, JPG, PNG, or DOCX file.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Please upload a file smaller than 10MB.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setUploadedFile(file);
+    setDocumentSummary(null);
+    
+    // Automatically analyze the document
+    await analyzeDocument(file);
+  };
+
+  const analyzeDocument = async (file: File) => {
+    setIsAnalyzing(true);
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-document`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to analyze document');
+      }
+
+      const data = await response.json();
+      setDocumentSummary(data.summary);
+      
+      toast({
+        title: "Document analysed",
+        description: "We've generated a summary of your HMRC letter.",
+      });
+    } catch (error) {
+      console.error('Error analyzing document:', error);
+      toast({
+        title: "Analysis failed",
+        description: error instanceof Error ? error.message : "Failed to analyze document. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const removeFile = () => {
+    setUploadedFile(null);
+    setDocumentSummary(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const file = event.dataTransfer.files?.[0];
+    if (file && fileInputRef.current) {
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      fileInputRef.current.files = dataTransfer.files;
+      await handleFileUpload({ target: { files: dataTransfer.files } } as React.ChangeEvent<HTMLInputElement>);
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -195,15 +295,106 @@ const GetStarted = () => {
                   <h2 className="text-2xl font-bold mb-4">Upload HMRC Letter or Documents</h2>
                   <p className="text-sm text-muted-foreground mb-6">
                     If you have received a letter, notice, or email from HMRC, please upload it here. 
-                    Our AI will analyse it immediately.
+                    Our AI will analyse it immediately and provide a summary.
                   </p>
 
-                  <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-gold/50 transition-colors cursor-pointer">
-                    <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="font-medium mb-2">Click to upload or drag and drop</p>
-                    <p className="text-sm text-muted-foreground">PDF, JPG, PNG, DOCX (Max 10MB)</p>
-                    <input type="file" className="hidden" accept=".pdf,.jpg,.jpeg,.png,.docx" multiple />
-                  </div>
+                  {!uploadedFile ? (
+                    <div 
+                      className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-gold/50 transition-colors cursor-pointer"
+                      onClick={() => fileInputRef.current?.click()}
+                      onDrop={handleDrop}
+                      onDragOver={handleDragOver}
+                    >
+                      <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                      <p className="font-medium mb-2">Click to upload or drag and drop</p>
+                      <p className="text-sm text-muted-foreground">PDF, JPG, PNG, DOCX (Max 10MB)</p>
+                      <input 
+                        ref={fileInputRef}
+                        type="file" 
+                        className="hidden" 
+                        accept=".pdf,.jpg,.jpeg,.png,.docx"
+                        onChange={handleFileUpload}
+                      />
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {/* Uploaded File Card */}
+                      <div className="bg-muted/50 rounded-lg p-4 flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <FileText className="h-8 w-8 text-gold" />
+                          <div>
+                            <p className="font-medium">{uploadedFile.name}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          {isAnalyzing ? (
+                            <div className="flex items-center text-gold">
+                              <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                              <span className="text-sm">Analysing...</span>
+                            </div>
+                          ) : documentSummary ? (
+                            <CheckCircle className="h-5 w-5 text-green-500" />
+                          ) : null}
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={removeFile}
+                            className="text-muted-foreground hover:text-foreground"
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Document Summary */}
+                      {isAnalyzing && (
+                        <div className="bg-gold/5 border border-gold/20 rounded-lg p-6">
+                          <div className="flex items-center justify-center space-x-3">
+                            <Loader2 className="h-6 w-6 animate-spin text-gold" />
+                            <p className="text-sm font-medium">Analysing your HMRC document...</p>
+                          </div>
+                          <p className="text-xs text-muted-foreground text-center mt-2">
+                            This usually takes 10-20 seconds
+                          </p>
+                        </div>
+                      )}
+
+                      {documentSummary && !isAnalyzing && (
+                        <div className="bg-gold/5 border border-gold/20 rounded-lg p-6">
+                          <h3 className="font-bold text-lg mb-4 flex items-center">
+                            <FileText className="h-5 w-5 mr-2 text-gold" />
+                            Document Analysis
+                          </h3>
+                          <div className="prose prose-sm max-w-none text-foreground">
+                            <div 
+                              className="whitespace-pre-wrap text-sm leading-relaxed"
+                              dangerouslySetInnerHTML={{ 
+                                __html: documentSummary
+                                  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                  .replace(/\n/g, '<br />')
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Upload another file */}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-full"
+                      >
+                        <Upload className="h-4 w-4 mr-2" />
+                        Upload a different document
+                      </Button>
+                    </div>
+                  )}
                 </div>
 
                 {/* Urgency Warning */}
