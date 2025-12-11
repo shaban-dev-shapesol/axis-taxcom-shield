@@ -117,16 +117,16 @@ const CaseStudies = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-gold mb-2">£1.6M+</div>
+              <div className="text-4xl md:text-5xl font-bold text-gold mb-2">£950M+</div>
               <div className="text-muted-foreground">Total Savings for Clients</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-gold mb-2">73%</div>
-              <div className="text-muted-foreground">Average Penalty Reduction</div>
+              <div className="text-4xl md:text-5xl font-bold text-gold mb-2">400+</div>
+              <div className="text-muted-foreground">Cases Successfully Defended</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-gold mb-2">100%</div>
-              <div className="text-muted-foreground">Criminal Charges Avoided</div>
+              <div className="text-4xl md:text-5xl font-bold text-gold mb-2">95%</div>
+              <div className="text-muted-foreground">Criminal Prosecutions Avoided</div>
             </div>
           </div>
         </div>
