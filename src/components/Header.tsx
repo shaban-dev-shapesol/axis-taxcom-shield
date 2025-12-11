@@ -10,12 +10,12 @@ export const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const navLinks = [
-    { path: "/", label: "Home" },
     { path: "/investigations", label: "HMRC Investigations" },
     { path: "/case-studies", label: "Case Studies" },
     { path: "/team", label: "Our Team" },
     { path: "/pre-compliance", label: "Pre-Compliance" },
     { path: "/how-it-works", label: "How It Works" },
+    { path: "/blog", label: "Blog" },
   ];
 
   return (
