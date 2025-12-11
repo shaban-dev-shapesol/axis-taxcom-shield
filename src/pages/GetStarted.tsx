@@ -77,19 +77,9 @@ const GetStarted = () => {
       const data = await response.json();
       setDocumentSummary(data.summary);
       
-      // Get email from form and send summary
-      const emailInput = document.getElementById('email') as HTMLInputElement;
-      const firstNameInput = document.getElementById('firstName') as HTMLInputElement;
-      const email = emailInput?.value;
-      const name = firstNameInput?.value;
-      
-      if (email && data.summary) {
-        await sendSummaryEmail(email, name, data.summary, file.name);
-      }
-      
       toast({
         title: "Document analysed",
-        description: email ? "We've generated a summary and sent it to your email." : "We've generated a summary of your HMRC letter.",
+        description: "We've generated a summary of your HMRC letter.",
       });
     } catch (error) {
       console.error('Error analyzing document:', error);
@@ -100,22 +90,6 @@ const GetStarted = () => {
       });
     } finally {
       setIsAnalyzing(false);
-    }
-  };
-
-  const sendSummaryEmail = async (email: string, name: string, summary: string, fileName: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-summary-email`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, summary, fileName }),
-      });
-
-      if (!response.ok) {
-        console.error('Failed to send email notification');
-      }
-    } catch (error) {
-      console.error('Error sending email:', error);
     }
   };
 
