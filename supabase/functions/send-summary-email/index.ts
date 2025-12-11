@@ -34,7 +34,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const emailResponse = await resend.emails.send({
-      from: "Investigation.tax <onboarding@resend.dev>",
+      from: "Investigation.tax <noreply@investigationtax.shapesol.io>",
       to: [email],
       subject: "Your HMRC Document Analysis - Investigation.tax",
       html: `
