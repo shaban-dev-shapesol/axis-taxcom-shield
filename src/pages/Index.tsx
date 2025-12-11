@@ -305,15 +305,15 @@ const Index = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">£47M+</div>
+              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">£950M+</div>
               <p className="text-lg text-primary-foreground/80">Total Saved for Clients</p>
             </div>
             <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">320+</div>
+              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">400+</div>
               <p className="text-lg text-primary-foreground/80">Cases Successfully Defended</p>
             </div>
             <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">92%</div>
+              <div className="text-5xl md:text-6xl font-bold text-gold mb-2">95%</div>
               <p className="text-lg text-primary-foreground/80">Criminal Prosecutions Avoided</p>
             </div>
             <div className="text-center">
