@@ -4,22 +4,9 @@ import { Footer } from "@/components/Footer";
 import { Testimonials } from "@/components/Testimonials";
 import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
-import {
-  Shield,
-  Scale,
-  CheckCircle,
-  Clock,
-  Award,
-  Brain,
-  FileCheck,
-  Briefcase,
-  BookOpen,
-  ShieldCheck,
-  Lock,
-} from "lucide-react";
+import { Shield, Scale, CheckCircle, Clock, Award, Brain, FileCheck, Briefcase, BookOpen, ShieldCheck, Lock } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-
 const Index = () => {
   const heroSection = useScrollAnimation();
   const urgencySection = useScrollAnimation();
@@ -29,20 +16,12 @@ const Index = () => {
   const credentialsSection = useScrollAnimation();
   const servicesSection = useScrollAnimation();
   const ctaSection = useScrollAnimation();
-
-  return (
-    <div className="min-h-screen bg-background">
-      <SEO
-        title="Home"
-        description="Investigation.tax - The UK's leading HMRC investigation defence team. Chartered Accountants and Business Crime Solicitors working together to protect your business from HMRC."
-      />
+  return <div className="min-h-screen bg-background">
+      <SEO title="Home" description="Investigation.tax - The UK's leading HMRC investigation defence team. Chartered Accountants and Business Crime Solicitors working together to protect your business from HMRC." />
       <Header />
 
       {/* Hero Section */}
-      <section
-        ref={heroSection.ref}
-        className={`relative bg-primary text-primary-foreground overflow-hidden ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
-      >
+      <section ref={heroSection.ref} className={`relative bg-primary text-primary-foreground overflow-hidden ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}>
         <div className="absolute inset-0 opacity-20">
           <img src={heroImage} alt="HMRC Investigation Defence" className="w-full h-full object-cover" />
         </div>
@@ -87,10 +66,7 @@ const Index = () => {
       </section>
 
       {/* Urgency Section */}
-      <section
-        ref={urgencySection.ref}
-        className={`py-20 bg-danger/5 border-y border-danger/20 ${urgencySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
-      >
+      <section ref={urgencySection.ref} className={`py-20 bg-danger/5 border-y border-danger/20 ${urgencySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Under HMRC Investigation Right Now?</h2>
@@ -128,10 +104,7 @@ const Index = () => {
       </section>
 
       {/* Services Overview */}
-      <section
-        ref={servicesSection.ref}
-        className={`py-20 bg-navy text-primary-foreground ${servicesSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
-      >
+      <section ref={servicesSection.ref} className={`py-20 bg-navy text-primary-foreground ${servicesSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
@@ -180,10 +153,7 @@ const Index = () => {
       </section>
 
       {/* Why Investigation.tax Section */}
-      <section
-        ref={whySection.ref}
-        className={`py-20 bg-background ${whySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
-      >
+      <section ref={whySection.ref} className={`py-20 bg-background ${whySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Investigation.tax?</h2>
@@ -237,10 +207,7 @@ const Index = () => {
       </section>
 
       {/* Three Pillars */}
-      <section
-        ref={pillarsSection.ref}
-        className={`py-20 bg-muted/30 ${pillarsSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
-      >
+      <section ref={pillarsSection.ref} className={`py-20 bg-muted/30 ${pillarsSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Why We Win Against HMRC</h2>
@@ -328,10 +295,7 @@ const Index = () => {
       </section>
 
       {/* Track Record Section */}
-      <section
-        ref={trackRecordSection.ref}
-        className={`py-20 bg-navy text-primary-foreground ${trackRecordSection.isVisible ? "animate-scale-in" : "opacity-0"}`}
-      >
+      <section ref={trackRecordSection.ref} className={`py-20 bg-navy text-primary-foreground ${trackRecordSection.isVisible ? "animate-scale-in" : "opacity-0"}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Track Record</h2>
@@ -358,18 +322,13 @@ const Index = () => {
             </div>
           </div>
           <div className="mt-12 text-center">
-            <p className="text-lg text-primary-foreground/60 italic">
-              "Average penalty reduction of 40-80% across all investigation types"
-            </p>
+            <p className="text-lg text-primary-foreground/60 italic">"Average penalty reduction of 70-80% across all investigation types"</p>
           </div>
         </div>
       </section>
 
       {/* Credentials & Certifications Section */}
-      <section
-        ref={credentialsSection.ref}
-        className={`py-20 bg-muted/30 ${credentialsSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
-      >
+      <section ref={credentialsSection.ref} className={`py-20 bg-muted/30 ${credentialsSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Credentials & Certifications</h2>
@@ -437,10 +396,7 @@ const Index = () => {
       </section>
 
       {/* Final CTA */}
-      <section
-        ref={ctaSection.ref}
-        className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
-      >
+      <section ref={ctaSection.ref} className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">Don't Face HMRC Alone</h2>
           <p className="text-xl md:text-2xl text-primary-foreground/80 mb-8 max-w-3xl mx-auto">
@@ -461,8 +417,6 @@ const Index = () => {
       <Testimonials />
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
