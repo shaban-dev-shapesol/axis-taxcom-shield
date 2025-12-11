@@ -42,7 +42,7 @@ const Index = () => {
               <span className="text-gold">Before They Destroy Your Business</span>
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/80 mb-8 max-w-2xl">
-              Chartered Accountants + Business Crime Solicitors. 
+              Chartered Accountants & Business Crime Solicitors. 
               The most aggressive HMRC defence team in the UK.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">

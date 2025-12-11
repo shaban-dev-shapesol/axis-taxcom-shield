@@ -30,7 +30,7 @@ const Team = () => {
         <div className="relative container mx-auto px-4 py-20">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Accountants <span className="text-gold">+</span> Solicitors <span className="text-gold">= Unstoppable</span>
+              Accountants <span className="text-gold">&</span> Solicitors: <span className="text-gold">Unstoppable</span>
             </h1>
             <p className="text-xl text-primary-foreground/80 mb-8">
               The only UK firm combining chartered accountants and business crime solicitors 
@@ -229,7 +229,7 @@ const Team = () => {
             Get the Full Power of Our Hybrid Team
           </h2>
           <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-            Accountants + Solicitors + AI working together for your defence.
+            Accountants & Solicitors working together for your defence.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild variant="danger" size="lg">
