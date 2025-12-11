@@ -5,6 +5,12 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { Calendar, Clock, ArrowRight, Tag } from "lucide-react";
+import blogHmrcImage from "@/assets/blog-hmrc-investigation.jpg";
+import blogPreComplianceImage from "@/assets/blog-pre-compliance.jpg";
+import blogLegalPrivilegeImage from "@/assets/blog-legal-privilege.jpg";
+import blogVatFraudImage from "@/assets/blog-vat-fraud.jpg";
+import blogCashComplianceImage from "@/assets/blog-cash-compliance.jpg";
+import blogCriminalProsecutionImage from "@/assets/blog-criminal-prosecution.jpg";
 
 const blogPosts = [
   {
@@ -14,7 +20,7 @@ const blogPosts = [
     category: "HMRC Investigations",
     date: "March 15, 2024",
     readTime: "8 min read",
-    image: "/placeholder.svg",
+    image: blogHmrcImage,
   },
   {
     id: "pre-compliance-benefits",
@@ -23,7 +29,7 @@ const blogPosts = [
     category: "Pre-Compliance",
     date: "March 10, 2024",
     readTime: "6 min read",
-    image: "/placeholder.svg",
+    image: blogPreComplianceImage,
   },
   {
     id: "legal-privilege-tax-cases",
@@ -32,7 +38,7 @@ const blogPosts = [
     category: "Legal Defence",
     date: "March 5, 2024",
     readTime: "10 min read",
-    image: "/placeholder.svg",
+    image: blogLegalPrivilegeImage,
   },
   {
     id: "vat-fraud-penalties",
@@ -41,7 +47,7 @@ const blogPosts = [
     category: "Tax Fraud",
     date: "February 28, 2024",
     readTime: "7 min read",
-    image: "/placeholder.svg",
+    image: blogVatFraudImage,
   },
   {
     id: "cash-business-compliance",
@@ -50,7 +56,7 @@ const blogPosts = [
     category: "Compliance",
     date: "February 20, 2024",
     readTime: "5 min read",
-    image: "/placeholder.svg",
+    image: blogCashComplianceImage,
   },
   {
     id: "criminal-tax-prosecution",
@@ -59,7 +65,7 @@ const blogPosts = [
     category: "Criminal Defence",
     date: "February 15, 2024",
     readTime: "9 min read",
-    image: "/placeholder.svg",
+    image: blogCriminalProsecutionImage,
   },
 ];
 
