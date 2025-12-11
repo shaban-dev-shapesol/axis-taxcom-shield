@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
+import { CTASection } from "@/components/CTASection";
 import { Link } from "react-router-dom";
 import { AlertTriangle, Shield, FileText, Scale, CheckCircle } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
@@ -12,7 +13,6 @@ const Investigations = () => {
   const typesSection = useScrollAnimation();
   const whySection = useScrollAnimation();
   const strategySection = useScrollAnimation();
-  const ctaSection = useScrollAnimation();
 
   return (
     <div className="min-h-screen bg-background">
@@ -280,25 +280,12 @@ const Investigations = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section ref={ctaSection.ref as any} className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Under Investigation? Get Expert Defence Now
-          </h2>
-          <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-            Don't let HMRC control the narrative. Start your defence today.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="danger" size="lg">
-              <Link to="/get-started">Start Your Defence</Link>
-            </Button>
-            <Button asChild variant="accent" size="lg">
-              <Link to="/book">Book Free Assessment</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <CTASection
+        title="Under Investigation? Get Expert Defence Now"
+        description="Don't let HMRC control the narrative. Start your defence today."
+        primaryButtonText="Start Your Defence"
+        primaryButtonLink="/get-started"
+      />
 
       <Footer />
     </div>

@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
+import { CTASection } from "@/components/CTASection";
 import { Link } from "react-router-dom";
 import { Shield, CheckCircle, AlertTriangle, Scan } from "lucide-react";
 import preComplianceImage from "@/assets/pre-compliance.jpg";
@@ -13,7 +14,6 @@ const PreCompliance = () => {
   const checkSection = useScrollAnimation();
   const howItWorksSection = useScrollAnimation();
   const benefitsSection = useScrollAnimation();
-  const ctaSection = useScrollAnimation();
 
   return (
     <div className="min-h-screen bg-background">
@@ -298,25 +298,12 @@ const PreCompliance = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section ref={ctaSection.ref as any} className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Avoid Investigation Before It Starts
-          </h2>
-          <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-            Get your pre-compliance check today and fix problems before HMRC finds them.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="danger" size="lg">
-              <Link to="/get-started">Get Pre-Compliance Check</Link>
-            </Button>
-            <Button asChild variant="accent" size="lg">
-              <Link to="/book">Book Free Assessment</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <CTASection
+        title="Avoid Investigation Before It Starts"
+        description="Get your pre-compliance check today and fix problems before HMRC finds them."
+        primaryButtonText="Get Pre-Compliance Check"
+        primaryButtonLink="/get-started"
+      />
 
       <Footer />
     </div>
