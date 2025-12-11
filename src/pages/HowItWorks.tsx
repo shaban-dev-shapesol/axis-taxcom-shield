@@ -20,7 +20,7 @@ const HowItWorks = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              How <span className="text-gold">AXIS + TAXCOM</span> Works
+              How <span className="text-gold">Investigation.tax</span> Works
             </h1>
             <p className="text-xl text-primary-foreground/80">
               From HMRC letter to complete resolution: our end-to-end process explained

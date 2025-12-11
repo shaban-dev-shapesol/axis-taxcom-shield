@@ -24,7 +24,7 @@ const GetStarted = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Get Started With <span className="text-gold">AXIS + TAXCOM</span>
+              Get Started With <span className="text-gold">Investigation.tax</span>
             </h1>
             <p className="text-xl text-primary-foreground/80">
               Complete this form to begin your HMRC defence or pre-compliance check

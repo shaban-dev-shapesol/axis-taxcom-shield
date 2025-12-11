@@ -32,7 +32,7 @@ const TermsOfService = () => {
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">1. Agreement to Terms</h2>
             <p className="text-muted-foreground">
-              By engaging AXIS + TAXCOM's services or using our website, you agree to be bound by these 
+              By engaging Investigation.tax's services or using our website, you agree to be bound by these 
               Terms of Service. If you do not agree to these terms, please do not use our services or website.
             </p>
           </div>
@@ -40,11 +40,11 @@ const TermsOfService = () => {
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">2. Services Provided</h2>
             <p className="text-muted-foreground">
-              AXIS + TAXCOM provides professional services including:
+              Investigation.tax provides professional services including:
             </p>
             <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-              <li>Chartered Accountancy services through AXIS</li>
-              <li>Business Crime Solicitor services through TAXCOM</li>
+              <li>Chartered Accountancy services</li>
+              <li>Business Crime Solicitor services</li>
               <li>HMRC investigation defence and representation</li>
               <li>Pre-compliance advisory and tax optimization</li>
               <li>Combined hybrid team services for complex cases</li>
@@ -170,7 +170,7 @@ const TermsOfService = () => {
               For questions about these Terms of Service or to discuss an engagement:
             </p>
             <ul className="list-none space-y-2 text-muted-foreground ml-4">
-              <li>Email: info@axistaxcom.co.uk</li>
+              <li>Email: info@investigation.tax</li>
               <li>Phone: 0800 772 0000</li>
               <li>Address: London, United Kingdom</li>
             </ul>

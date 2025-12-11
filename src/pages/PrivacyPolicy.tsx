@@ -32,7 +32,7 @@ const PrivacyPolicy = () => {
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">1. Introduction</h2>
             <p className="text-muted-foreground">
-              AXIS + TAXCOM is committed to protecting your personal data and respecting your privacy. 
+              Investigation.tax is committed to protecting your personal data and respecting your privacy. 
               This Privacy Policy explains how we collect, use, store, and protect your information when 
               you use our services or interact with our website.
             </p>
@@ -134,7 +134,7 @@ const PrivacyPolicy = () => {
               please contact us:
             </p>
             <ul className="list-none space-y-2 text-muted-foreground ml-4">
-              <li>Email: privacy@axistaxcom.co.uk</li>
+              <li>Email: privacy@investigation.tax</li>
               <li>Phone: 0800 772 0000</li>
               <li>Address: London, United Kingdom</li>
             </ul>

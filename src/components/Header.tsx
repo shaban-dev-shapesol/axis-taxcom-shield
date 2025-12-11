@@ -24,7 +24,7 @@ export const Header = () => {
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center space-x-3">
             <div className="text-2xl font-bold text-primary-foreground">
-              AXIS <span className="text-gold">+ TAXCOM</span>
+              Investigation<span className="text-gold">.tax</span>
             </div>
           </Link>
 
