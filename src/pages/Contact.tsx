@@ -10,6 +10,7 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Phone, Mail, MapPin, Clock, Send, Shield } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import OfficeMap from "@/components/OfficeMap";
 
 const Contact = () => {
   const heroSection = useScrollAnimation();
@@ -37,18 +38,18 @@ const Contact = () => {
 
   const offices = [
     {
+      city: "Manchester (Head Office)",
+      address: "109 Cheetham Hill Rd, Cheetham Hill, Manchester M8 8PY",
+      phone: "0161 234 5678",
+      email: "manchester@investigation.tax",
+      hours: "Mon-Fri: 9am - 6pm",
+    },
+    {
       city: "London",
       address: "125 Old Broad Street, London EC2N 1AR",
       phone: "020 7123 4567",
       email: "london@investigation.tax",
       hours: "Mon-Fri: 8am - 8pm",
-    },
-    {
-      city: "Manchester",
-      address: "Peter House, Oxford Street, Manchester M1 5AN",
-      phone: "0161 234 5678",
-      email: "manchester@investigation.tax",
-      hours: "Mon-Fri: 9am - 6pm",
     },
     {
       city: "Birmingham",
@@ -223,17 +224,10 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Map Placeholder */}
-              <div className="bg-muted/50 rounded-xl border border-border overflow-hidden">
-                <div className="aspect-video bg-gradient-to-br from-navy/10 to-navy/5 flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <MapPin className="h-12 w-12 text-gold mx-auto mb-4" />
-                    <h3 className="font-semibold text-lg mb-2">UK-Wide Coverage</h3>
-                    <p className="text-sm text-muted-foreground">
-                      With offices in London, Manchester and Birmingham, we serve clients across the United Kingdom
-                    </p>
-                  </div>
-                </div>
+              {/* Office Map */}
+              <div>
+                <h3 className="font-semibold text-lg mb-3">Our Location</h3>
+                <OfficeMap />
               </div>
             </div>
           </div>
