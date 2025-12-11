@@ -3,6 +3,7 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { CheckCircle, Home, Calendar, Phone } from "lucide-react";
 
 const Thanks = () => {
@@ -11,6 +12,10 @@ const Thanks = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO 
+        title="Thank You" 
+        description="Thank you for contacting Investigation.tax. Our team will review your submission and contact you shortly." 
+      />
       <Header />
       
       <main className="flex-1">

@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Shield, Scale, Users, Award, Target, CheckCircle2 } from "lucide-react";
 
@@ -12,6 +13,10 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="About Us" 
+        description="About Investigation.tax - The UK's premier alliance of Chartered Accountants and Business Crime Solicitors delivering unmatched expertise in HMRC investigations." 
+      />
       <Header />
       
       <main className="pt-20">

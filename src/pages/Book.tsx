@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/SEO";
 import { CheckCircle, Clock, Phone } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
@@ -12,6 +13,10 @@ const Book = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Book Assessment" 
+        description="Book your expert HMRC assessment with Investigation.tax. Choose from a free 15-minute call or an urgent paid consultation with our specialists." 
+      />
       <Header />
 
       {/* Hero */}

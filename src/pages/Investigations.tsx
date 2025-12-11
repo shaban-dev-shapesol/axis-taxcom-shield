@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { AlertTriangle, Shield, FileText, Scale, CheckCircle } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
@@ -15,6 +16,10 @@ const Investigations = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="HMRC Investigations" 
+        description="Expert HMRC investigation defence services. We handle Aspect Enquiries, Full Enquiries, COP 8 and COP 9 criminal investigations with our hybrid team of accountants and solicitors." 
+      />
       <Header />
 
       {/* Hero */}

@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const TermsOfService = () => {
@@ -8,6 +9,10 @@ const TermsOfService = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Terms of Service" 
+        description="Investigation.tax Terms of Service. Professional standards and service conditions for our HMRC investigation defence and tax compliance services." 
+      />
       <Header />
       
       <main className="container mx-auto px-4 py-16">

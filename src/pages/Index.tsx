@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Testimonials } from "@/components/Testimonials";
+import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { Shield, Scale, CheckCircle, Clock, Award, Brain, FileCheck, Briefcase, BookOpen, ShieldCheck, Lock } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
@@ -19,6 +20,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Home" 
+        description="Investigation.tax - The UK's leading HMRC investigation defence team. Chartered Accountants and Business Crime Solicitors working together to protect your business from HMRC." 
+      />
       <Header />
       
       {/* Hero Section */}

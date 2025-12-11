@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { TrendingDown, CheckCircle, AlertTriangle } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
@@ -88,6 +89,10 @@ const CaseStudies = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Case Studies" 
+        description="Real HMRC investigation results. See how Investigation.tax has saved clients millions in penalties and protected businesses from HMRC investigations." 
+      />
       <Header />
 
       {/* Hero */}
