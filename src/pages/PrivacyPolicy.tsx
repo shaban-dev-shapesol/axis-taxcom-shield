@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const PrivacyPolicy = () => {
@@ -8,6 +9,10 @@ const PrivacyPolicy = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Privacy Policy" 
+        description="Investigation.tax Privacy Policy. Learn how we collect, use, store, and protect your personal data in compliance with GDPR." 
+      />
       <Header />
       
       <main className="container mx-auto px-4 py-16">

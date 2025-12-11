@@ -3,6 +3,7 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Calendar, Clock, ArrowRight, Tag } from "lucide-react";
 
 const blogPosts = [
@@ -68,6 +69,10 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO 
+        title="Blog" 
+        description="Expert insights and updates on HMRC investigations, tax compliance, and business crime defence from the Investigation.tax team." 
+      />
       <Header />
       
       <main className="flex-1">

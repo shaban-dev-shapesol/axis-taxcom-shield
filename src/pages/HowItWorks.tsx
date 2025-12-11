@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { Upload, Scan, Shield, Scale, FileSearch, CheckCircle } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
@@ -13,6 +14,10 @@ const HowItWorks = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="How It Works" 
+        description="Our HMRC defence process explained. From initial contact to complete resolution - learn how Investigation.tax handles your case from start to finish." 
+      />
       <Header />
 
       {/* Hero */}

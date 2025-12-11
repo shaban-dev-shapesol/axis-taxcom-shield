@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { Scale, Shield, Award, Users } from "lucide-react";
 import teamImage from "@/assets/team-collaboration.jpg";
@@ -15,6 +16,10 @@ const Team = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Our Team" 
+        description="Meet the Investigation.tax hybrid team. Chartered Accountants and Business Crime Solicitors working together under one roof for complete HMRC defence." 
+      />
       <Header />
 
       {/* Hero */}

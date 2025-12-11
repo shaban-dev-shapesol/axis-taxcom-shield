@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { SEO } from "@/components/SEO";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { Upload, AlertTriangle, Lock } from "lucide-react";
@@ -17,6 +18,10 @@ const GetStarted = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Get Started" 
+        description="Begin your HMRC defence or pre-compliance check with Investigation.tax. Complete our secure form to get expert guidance from our team of accountants and solicitors." 
+      />
       <Header />
 
       {/* Hero */}

@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { Shield, CheckCircle, AlertTriangle, Scan } from "lucide-react";
 import preComplianceImage from "@/assets/pre-compliance.jpg";
@@ -16,6 +17,10 @@ const PreCompliance = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Pre-Compliance Checks" 
+        description="Stop HMRC investigations before they start. Our pre-compliance scanning detects red flags in your tax records before HMRC does. Fix problems proactively." 
+      />
       <Header />
 
       {/* Hero */}

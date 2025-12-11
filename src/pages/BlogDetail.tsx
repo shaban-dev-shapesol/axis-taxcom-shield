@@ -3,6 +3,7 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Calendar, Clock, ArrowLeft, Share2, BookOpen, AlertCircle } from "lucide-react";
 
 // Sample blog data (in a real app, this would come from a CMS or API)
@@ -12,7 +13,7 @@ const blogData: Record<string, any> = {
     category: "HMRC Investigations",
     date: "March 15, 2024",
     readTime: "8 min read",
-    author: "AXIS + TAXCOM Team",
+    author: "Investigation.tax Team",
     image: "/placeholder.svg",
     content: [
       {
@@ -129,7 +130,7 @@ const blogData: Record<string, any> = {
       },
       {
         type: "paragraph",
-        text: "Don't face HMRC alone. Contact AXIS + TAXCOM today for a confidential assessment of your situation."
+        text: "Don't face HMRC alone. Contact Investigation.tax today for a confidential assessment of your situation."
       }
     ]
   },
@@ -138,7 +139,7 @@ const blogData: Record<string, any> = {
     category: "Pre-Compliance",
     date: "March 10, 2024",
     readTime: "6 min read",
-    author: "AXIS + TAXCOM Team",
+    author: "Investigation.tax Team",
     image: "/placeholder.svg",
     content: [
       {
@@ -209,6 +210,11 @@ const BlogDetail = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO 
+        title={post.title} 
+        description={`Read about ${post.title} - Expert insights from Investigation.tax on HMRC investigations and tax compliance.`}
+        type="article"
+      />
       <Header />
       
       <main className="flex-1">

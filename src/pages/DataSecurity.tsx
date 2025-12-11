@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Shield, Lock, Server, Key, Eye, FileCheck, AlertTriangle, CheckCircle } from "lucide-react";
 
@@ -43,6 +44,10 @@ const DataSecurity = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Data Security" 
+        description="Investigation.tax data security and encryption practices. Military-grade security protecting your sensitive financial and legal information." 
+      />
       <Header />
       
       <main className="container mx-auto px-4 py-16">
