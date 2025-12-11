@@ -22,7 +22,11 @@ import {
   Tag,
 } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
+import blogHmrcImage from "@/assets/blog-hmrc-investigation.jpg";
+import blogPreComplianceImage from "@/assets/blog-pre-compliance.jpg";
+import blogLegalPrivilegeImage from "@/assets/blog-legal-privilege.jpg";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+
 const blogPosts = [
   {
     id: "understanding-hmrc-investigations",
@@ -31,6 +35,7 @@ const blogPosts = [
     category: "HMRC Investigations",
     date: "March 15, 2024",
     readTime: "8 min read",
+    image: blogHmrcImage,
   },
   {
     id: "pre-compliance-benefits",
@@ -39,6 +44,7 @@ const blogPosts = [
     category: "Pre-Compliance",
     date: "March 10, 2024",
     readTime: "6 min read",
+    image: blogPreComplianceImage,
   },
   {
     id: "legal-privilege-tax-cases",
@@ -47,6 +53,7 @@ const blogPosts = [
     category: "Legal Defence",
     date: "March 5, 2024",
     readTime: "10 min read",
+    image: blogLegalPrivilegeImage,
   },
 ];
 
@@ -486,13 +493,20 @@ const Index = () => {
                 key={post.id}
                 className="bg-card border border-border/50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
               >
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
+                <div className="relative h-40 overflow-hidden">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary/90 text-primary-foreground text-xs font-semibold rounded-full">
                       <Tag className="h-3 w-3" />
                       {post.category}
                     </span>
                   </div>
+                </div>
+                <div className="p-6">
                   <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
                     {post.title}
                   </h3>
