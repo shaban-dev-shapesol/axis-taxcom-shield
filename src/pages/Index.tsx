@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Testimonials } from "@/components/Testimonials";
 import { SEO } from "@/components/SEO";
+import { CTASection } from "@/components/CTASection";
 import { Link } from "react-router-dom";
 import { Shield, Scale, CheckCircle, Clock, Award, Brain, FileCheck, Briefcase, BookOpen, ShieldCheck, Lock } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
@@ -15,7 +16,6 @@ const Index = () => {
   const trackRecordSection = useScrollAnimation();
   const credentialsSection = useScrollAnimation();
   const servicesSection = useScrollAnimation();
-  const ctaSection = useScrollAnimation();
   return <div className="min-h-screen bg-background">
       <SEO title="Home" description="Investigation.tax - The UK's leading HMRC investigation defence team. Chartered Accountants and Business Crime Solicitors working together to protect your business from HMRC." />
       <Header />
@@ -395,23 +395,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section ref={ctaSection.ref} className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">Don't Face HMRC Alone</h2>
-          <p className="text-xl md:text-2xl text-primary-foreground/80 mb-8 max-w-3xl mx-auto">
-            Get the combined power of chartered accountants, business crime solicitors, and AI technology on your side.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="danger" size="lg">
-              <Link to="/get-started">Get Started Now</Link>
-            </Button>
-            <Button asChild variant="accent" size="lg">
-              <Link to="/book">Book Free Assessment</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <CTASection
+        title="Don't Face HMRC Alone"
+        description="Get the combined power of chartered accountants and business crime solicitors on your side."
+        primaryButtonText="Get Started Now"
+        primaryButtonLink="/get-started"
+      />
 
       {/* Client Testimonials Section */}
       <Testimonials />
