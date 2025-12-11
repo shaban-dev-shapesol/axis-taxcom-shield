@@ -89,7 +89,7 @@ const DataSecurity = () => {
             <h2 className="text-2xl font-bold">Our Security Commitment</h2>
             <p className="text-muted-foreground">
               When you're facing HMRC investigations or handling sensitive tax matters, data security 
-              isn't optional—it's essential. AXIS + TAXCOM implements enterprise-grade security measures 
+              isn't optional—it's essential. Investigation.tax implements enterprise-grade security measures 
               that exceed industry standards to protect your confidential information.
             </p>
           </div>
@@ -159,7 +159,7 @@ const DataSecurity = () => {
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">Legal Professional Privilege</h2>
             <p className="text-muted-foreground">
-              Communications with our TAXCOM solicitors are protected by legal professional privilege, 
+              Communications with our solicitors are protected by legal professional privilege, 
               providing an additional layer of confidentiality beyond technical security measures. This 
               means such communications cannot be disclosed to third parties (including HMRC) without your 
               explicit consent, except in very limited circumstances prescribed by law.
@@ -184,7 +184,7 @@ const DataSecurity = () => {
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">Staff Training & Vetting</h2>
             <p className="text-muted-foreground">
-              All AXIS + TAXCOM team members undergo:
+              All Investigation.tax team members undergo:
             </p>
             <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
               <li>Comprehensive background checks before employment</li>
@@ -250,7 +250,7 @@ const DataSecurity = () => {
               or requirements, please contact our security team:
             </p>
             <ul className="list-none space-y-2 text-muted-foreground ml-4">
-              <li>Email: security@axistaxcom.co.uk</li>
+              <li>Email: security@investigation.tax</li>
               <li>Phone: 0800 772 0000</li>
             </ul>
           </div>

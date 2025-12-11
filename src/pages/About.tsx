@@ -22,7 +22,7 @@ const About = () => {
         >
           <div className="container mx-auto max-w-4xl text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-accent to-accent/70 bg-clip-text text-transparent">
-              About AXIS + TAXCOM
+              About Investigation.tax
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
               The UK's premier alliance of Chartered Accountants and Business Crime Solicitors,
@@ -95,7 +95,7 @@ const About = () => {
         >
           <div className="container mx-auto max-w-6xl">
             <h2 className="text-3xl font-bold mb-12 text-center text-foreground">
-              The AXIS + TAXCOM Partnership
+              The Investigation.tax Partnership
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
               <div className="bg-card border border-border rounded-lg p-8 transition-smooth hover:scale-105 hover:shadow-lg">

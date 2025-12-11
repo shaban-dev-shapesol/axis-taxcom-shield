@@ -9,7 +9,7 @@ export const Footer = () => {
           {/* Brand */}
           <div className="space-y-4">
             <div className="text-2xl font-bold">
-              AXIS <span className="text-gold">+ TAXCOM</span>
+              Investigation<span className="text-gold">.tax</span>
             </div>
             <p className="text-sm text-primary-foreground/70">
               Chartered Accountants, Tax Specialists & Business Crime Solicitors
@@ -89,10 +89,10 @@ export const Footer = () => {
                 </a>
               </li>
               <li className="flex items-start space-x-2">
-                <Mail className="h-4 w-4 mt-0.5 flex-shrink-0 text-gold" />
-                <a href="mailto:urgent@axistaxcom.co.uk" className="text-primary-foreground/70 hover:text-gold transition-colors">
-                  urgent@axistaxcom.co.uk
-                </a>
+              <Mail className="h-4 w-4 mt-0.5 flex-shrink-0 text-gold" />
+              <a href="mailto:urgent@investigation.tax" className="text-primary-foreground/70 hover:text-gold transition-colors">
+                urgent@investigation.tax
+              </a>
               </li>
               <li className="flex items-start space-x-2">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-gold" />
@@ -106,7 +106,7 @@ export const Footer = () => {
 
         <div className="border-t border-primary/20 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-sm text-primary-foreground/70">
-            © {new Date().getFullYear()} AXIS + TAXCOM. All rights reserved.
+            © {new Date().getFullYear()} Investigation.tax. All rights reserved.
           </div>
           <div className="flex space-x-6 text-sm">
             <Link to="/privacy-policy" className="text-primary-foreground/70 hover:text-gold transition-colors">

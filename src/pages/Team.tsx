@@ -93,7 +93,7 @@ const Team = () => {
                   <Users className="h-12 w-12 text-gold" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-4">The AXIS + TAXCOM Advantage</h3>
+                  <h3 className="text-2xl font-bold mb-4">The Investigation.tax Advantage</h3>
                   <p className="text-muted-foreground mb-4">
                     We provide both services under one roof. This means seamless coordination, unified strategy, 
                     and no gaps in your defence. Our accountants and solicitors work together from day one.
@@ -168,9 +168,9 @@ const Team = () => {
             </div>
 
             <div className="mt-8 p-6 bg-gold/10 rounded-lg border border-gold/30">
-              <h3 className="font-bold text-lg mb-2">AXIS + TAXCOM Rule</h3>
+              <h3 className="font-bold text-lg mb-2">Investigation.tax Rule</h3>
               <p className="text-muted-foreground">
-                <strong>If your case has escalated beyond a standard Full Enquiry, your starting point MUST be TAXCOM (our solicitor arm).</strong> 
+                <strong>If your case has escalated beyond a standard Full Enquiry, your starting point MUST be our solicitor arm.</strong> 
                 We assess the criminal risk and involve accountants as needed. Do not start with accountants alone if criminal risk exists.
               </p>
             </div>
