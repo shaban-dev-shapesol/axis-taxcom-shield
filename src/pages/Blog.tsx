@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
+import { CTASection } from "@/components/CTASection";
 import { Calendar, Clock, ArrowRight, Tag } from "lucide-react";
 import blogHmrcImage from "@/assets/blog-hmrc-investigation.jpg";
 import blogPreComplianceImage from "@/assets/blog-pre-compliance.jpg";
@@ -168,23 +169,14 @@ const Blog = () => {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 px-4 bg-gradient-to-br from-primary/5 to-accent/5">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-4">Need Expert Guidance?</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Don't wait until it's too late. Get professional advice from our team of Chartered Accountants and Business Crime Solicitors.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg">
-                <Link to="/get-started">Get Started</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link to="/book">Book Assessment</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
+        <CTASection
+          title="Need Expert Guidance?"
+          description="Don't wait until it's too late. Get professional advice from our team of Chartered Accountants and Business Crime Solicitors."
+          primaryButtonText="Get Started"
+          primaryButtonLink="/get-started"
+          secondaryButtonText="Book Assessment"
+          secondaryButtonLink="/book"
+        />
       </main>
 
       <Footer />

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
+import { CTASection } from "@/components/CTASection";
 import { Calendar, Clock, ArrowLeft, Share2, BookOpen, AlertCircle } from "lucide-react";
 
 // Sample blog data (in a real app, this would come from a CMS or API)
@@ -338,23 +339,14 @@ const BlogDetail = () => {
           </article>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 px-4 bg-gradient-to-br from-primary/5 to-accent/5">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-4">Need Expert Advice?</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Our team of Chartered Accountants and Business Crime Solicitors is ready to help with your tax compliance and defence needs.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg">
-                <Link to="/get-started">Get Started</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link to="/book">Book Assessment</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
+        <CTASection
+          title="Need Expert Advice?"
+          description="Our team of Chartered Accountants and Business Crime Solicitors is ready to help with your tax compliance and defence needs."
+          primaryButtonText="Get Started"
+          primaryButtonLink="/get-started"
+          secondaryButtonText="Book Assessment"
+          secondaryButtonLink="/book"
+        />
       </main>
 
       <Footer />
