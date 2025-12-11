@@ -17,9 +17,39 @@ import {
   BookOpen,
   ShieldCheck,
   Lock,
+  Calendar,
+  ArrowRight,
+  Tag,
 } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+const blogPosts = [
+  {
+    id: "understanding-hmrc-investigations",
+    title: "Understanding HMRC Investigations: What You Need to Know",
+    excerpt: "A comprehensive guide to HMRC investigation triggers, processes, and how to protect yourself from the outset.",
+    category: "HMRC Investigations",
+    date: "March 15, 2024",
+    readTime: "8 min read",
+  },
+  {
+    id: "pre-compliance-benefits",
+    title: "The Benefits of Pre-Compliance Reviews for Your Business",
+    excerpt: "Discover how proactive compliance checks can save you thousands and prevent HMRC investigations before they start.",
+    category: "Pre-Compliance",
+    date: "March 10, 2024",
+    readTime: "6 min read",
+  },
+  {
+    id: "legal-privilege-tax-cases",
+    title: "Legal Privilege in Tax Cases: Why It Matters",
+    excerpt: "Understanding the critical role of legal professional privilege when facing HMRC scrutiny and criminal investigations.",
+    category: "Legal Defence",
+    date: "March 5, 2024",
+    readTime: "10 min read",
+  },
+];
+
 const Index = () => {
   const heroSection = useScrollAnimation();
   const urgencySection = useScrollAnimation();
@@ -28,6 +58,7 @@ const Index = () => {
   const trackRecordSection = useScrollAnimation();
   const credentialsSection = useScrollAnimation();
   const servicesSection = useScrollAnimation();
+  const blogSection = useScrollAnimation();
   return (
     <div className="min-h-screen bg-background">
       <SEO
@@ -436,6 +467,69 @@ const Index = () => {
 
       {/* Client Testimonials Section */}
       <Testimonials />
+
+      {/* Blog Section */}
+      <section
+        ref={blogSection.ref}
+        className={`py-20 bg-muted/30 ${blogSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+      >
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Latest Insights</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Expert advice on HMRC investigations, tax compliance, and business crime defence
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {blogPosts.map((post) => (
+              <article
+                key={post.id}
+                className="bg-card border border-border/50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
+              >
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
+                      <Tag className="h-3 w-3" />
+                      {post.category}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                    {post.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                    {post.excerpt}
+                  </p>
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
+                    <span className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {post.date}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {post.readTime}
+                    </span>
+                  </div>
+                  <Link to={`/blog/${post.id}`}>
+                    <Button variant="outline" size="sm" className="w-full group/btn">
+                      Read More
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Button asChild variant="default" size="lg">
+              <Link to="/blog">
+                View All Articles
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       <CTASection
         title="Don't Face HMRC Alone"
         description="Get the combined power of chartered accountants and business crime solicitors on your side."
