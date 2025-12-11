@@ -436,9 +436,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Client Testimonials Section */}
-      <Testimonials />
-
       {/* Final CTA */}
       <section
         ref={ctaSection.ref}
@@ -459,6 +456,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Client Testimonials Section */}
+      <Testimonials />
 
       <Footer />
     </div>
