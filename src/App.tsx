@@ -10,7 +10,6 @@ import Investigations from "./pages/Investigations";
 import CaseStudies from "./pages/CaseStudies";
 import Team from "./pages/Team";
 import PreCompliance from "./pages/PreCompliance";
-import AIPipeline from "./pages/AIPipeline";
 import GetStarted from "./pages/GetStarted";
 import Book from "./pages/Book";
 import HowItWorks from "./pages/HowItWorks";
@@ -40,7 +39,6 @@ const App = () => (
           <Route path="/case-studies" element={<CaseStudies />} />
           <Route path="/team" element={<Team />} />
           <Route path="/pre-compliance" element={<PreCompliance />} />
-          <Route path="/document-processing" element={<AIPipeline />} />
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/book" element={<Book />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
