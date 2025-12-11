@@ -4,7 +4,19 @@ import { Footer } from "@/components/Footer";
 import { Testimonials } from "@/components/Testimonials";
 import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
-import { Shield, Scale, CheckCircle, Clock, Award, Brain, FileCheck, Briefcase, BookOpen, ShieldCheck, Lock } from "lucide-react";
+import {
+  Shield,
+  Scale,
+  CheckCircle,
+  Clock,
+  Award,
+  Brain,
+  FileCheck,
+  Briefcase,
+  BookOpen,
+  ShieldCheck,
+  Lock,
+} from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
@@ -20,14 +32,17 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO 
-        title="Home" 
-        description="Investigation.tax - The UK's leading HMRC investigation defence team. Chartered Accountants and Business Crime Solicitors working together to protect your business from HMRC." 
+      <SEO
+        title="Home"
+        description="Investigation.tax - The UK's leading HMRC investigation defence team. Chartered Accountants and Business Crime Solicitors working together to protect your business from HMRC."
       />
       <Header />
-      
+
       {/* Hero Section */}
-      <section ref={heroSection.ref} className={`relative bg-primary text-primary-foreground overflow-hidden ${heroSection.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
+      <section
+        ref={heroSection.ref}
+        className={`relative bg-primary text-primary-foreground overflow-hidden ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
+      >
         <div className="absolute inset-0 opacity-20">
           <img src={heroImage} alt="HMRC Investigation Defence" className="w-full h-full object-cover" />
         </div>
@@ -38,12 +53,12 @@ const Index = () => {
               <span className="text-sm font-semibold">24-Hour HMRC Crisis Response Available</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-              Stop HMRC Investigations<br />
+              Stop HMRC Investigations
+              <br />
               <span className="text-gold">Before They Destroy Your Business</span>
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/80 mb-8 max-w-2xl">
-              Chartered Accountants & Business Crime Solicitors. 
-              The most aggressive HMRC defence team in the UK.
+              Chartered Accountants & Business Crime Solicitors. The most aggressive HMRC defence team in the UK.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild variant="danger" size="lg">
@@ -72,15 +87,16 @@ const Index = () => {
       </section>
 
       {/* Urgency Section */}
-      <section ref={urgencySection.ref} className={`py-20 bg-danger/5 border-y border-danger/20 ${urgencySection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+      <section
+        ref={urgencySection.ref}
+        className={`py-20 bg-danger/5 border-y border-danger/20 ${urgencySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+      >
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Under HMRC Investigation Right Now?
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Under HMRC Investigation Right Now?</h2>
             <p className="text-xl text-foreground/80 mb-8">
-              Every day you wait costs you money, reputation, and control. HMRC will not go easy on you. 
-              They are trained to maximise settlements and penalties. <strong>You need us immediately.</strong>
+              Every day you wait costs you money, reputation, and control. HMRC will not go easy on you. They are
+              trained to maximise settlements and penalties. <strong>You need us immediately.</strong>
             </p>
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div className="bg-card p-6 rounded-lg border border-danger/20 transition-smooth hover:scale-105 hover:shadow-lg">
@@ -111,8 +127,63 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Services Overview */}
+      <section
+        ref={servicesSection.ref}
+        className={`py-20 bg-navy text-primary-foreground ${servicesSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+      >
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
+            <p className="text-xl text-primary-foreground/80 max-w-3xl mx-auto">
+              From prevention to full criminal defence
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
+              <Award className="h-10 w-10 text-gold mb-4" />
+              <h3 className="text-2xl font-bold mb-4">HMRC Investigation Defence</h3>
+              <p className="text-primary-foreground/80 mb-4">
+                Full-spectrum defence for all HMRC investigation types: Aspect Enquiries, Full Enquiries, Code of
+                Practice 8 & 9, VAT/PAYE/CIS checks, and criminal prosecutions.
+              </p>
+              <Button asChild variant="accent">
+                <Link to="/investigations">Learn More →</Link>
+              </Button>
+            </div>
+
+            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
+              <Shield className="h-10 w-10 text-gold mb-4" />
+              <h3 className="text-2xl font-bold mb-4">Pre-Compliance Protection</h3>
+              <p className="text-primary-foreground/80 mb-4">
+                Avoid investigation entirely. Risk scanning of your VAT, PAYE, CIS, and bookkeeping to detect red flags
+                before HMRC does.
+              </p>
+              <Button asChild variant="accent">
+                <Link to="/pre-compliance">Learn More →</Link>
+              </Button>
+            </div>
+
+            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
+              <Scale className="h-10 w-10 text-gold mb-4" />
+              <h3 className="text-2xl font-bold mb-4">Case Studies & Wins</h3>
+              <p className="text-primary-foreground/80 mb-4">
+                Real results from real clients: restaurants, consultants, landlords, and contractors. See how we saved
+                businesses from HMRC penalties and criminal prosecution.
+              </p>
+              <Button asChild variant="accent">
+                <Link to="/case-studies">View Cases →</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Why Investigation.tax Section */}
-      <section ref={whySection.ref} className={`py-20 bg-background ${whySection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+      <section
+        ref={whySection.ref}
+        className={`py-20 bg-background ${whySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Investigation.tax?</h2>
@@ -127,7 +198,8 @@ const Index = () => {
               </div>
               <h3 className="text-lg font-bold mb-2">Dual Expertise</h3>
               <p className="text-sm text-muted-foreground">
-                Accountants handle the numbers, solicitors handle the law. You get both without coordination delays or conflicting advice.
+                Accountants handle the numbers, solicitors handle the law. You get both without coordination delays or
+                conflicting advice.
               </p>
             </div>
             <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
@@ -136,7 +208,8 @@ const Index = () => {
               </div>
               <h3 className="text-lg font-bold mb-2">24-Hour Crisis Response</h3>
               <p className="text-sm text-muted-foreground">
-                When HMRC strikes, every hour counts. We mobilise immediately with accountants and solicitors working in parallel.
+                When HMRC strikes, every hour counts. We mobilise immediately with accountants and solicitors working in
+                parallel.
               </p>
             </div>
             <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
@@ -145,7 +218,8 @@ const Index = () => {
               </div>
               <h3 className="text-lg font-bold mb-2">Legal Privilege</h3>
               <p className="text-sm text-muted-foreground">
-                Our solicitors protect everything you share under legal privilege. HMRC cannot force disclosure of our communications.
+                Our solicitors protect everything you share under legal privilege. HMRC cannot force disclosure of our
+                communications.
               </p>
             </div>
             <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
@@ -154,7 +228,8 @@ const Index = () => {
               </div>
               <h3 className="text-lg font-bold mb-2">Proven Track Record</h3>
               <p className="text-sm text-muted-foreground">
-                Millions saved for clients. Criminal prosecutions avoided. Settlements reduced by 40-80%. Results that speak for themselves.
+                Millions saved for clients. Criminal prosecutions avoided. Settlements reduced by 40-80%. Results that
+                speak for themselves.
               </p>
             </div>
           </div>
@@ -162,7 +237,10 @@ const Index = () => {
       </section>
 
       {/* Three Pillars */}
-      <section ref={pillarsSection.ref} className={`py-20 bg-muted/30 ${pillarsSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+      <section
+        ref={pillarsSection.ref}
+        className={`py-20 bg-muted/30 ${pillarsSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Why We Win Against HMRC</h2>
@@ -177,7 +255,7 @@ const Index = () => {
               </div>
               <h3 className="text-2xl font-bold mb-4">Business Crime Solicitors</h3>
               <p className="text-muted-foreground mb-4">
-                When HMRC escalates to criminal investigation (Code of Practice 9), accountants alone cannot defend you. 
+                When HMRC escalates to criminal investigation (Code of Practice 9), accountants alone cannot defend you.
                 Our solicitors provide legal privilege and courtroom-ready defence.
               </p>
               <ul className="space-y-2 text-sm">
@@ -202,8 +280,8 @@ const Index = () => {
               </div>
               <h3 className="text-2xl font-bold mb-4">Chartered Accountants</h3>
               <p className="text-muted-foreground mb-4">
-                Expert forensic analysis of your books, VAT, PAYE, and CIS records. We speak HMRC's language 
-                and know exactly what they're looking for.
+                Expert forensic analysis of your books, VAT, PAYE, and CIS records. We speak HMRC's language and know
+                exactly what they're looking for.
               </p>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start">
@@ -227,8 +305,8 @@ const Index = () => {
               </div>
               <h3 className="text-2xl font-bold mb-4">Technology & Systems</h3>
               <p className="text-muted-foreground mb-4">
-                Advanced document processing and analysis tools to quickly assess your case, identify risks, 
-                and prepare defence strategies. GDPR-secure and encrypted.
+                Advanced document processing and analysis tools to quickly assess your case, identify risks, and prepare
+                defence strategies. GDPR-secure and encrypted.
               </p>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start">
@@ -250,7 +328,10 @@ const Index = () => {
       </section>
 
       {/* Track Record Section */}
-      <section ref={trackRecordSection.ref} className={`py-20 bg-navy text-primary-foreground ${trackRecordSection.isVisible ? 'animate-scale-in' : 'opacity-0'}`}>
+      <section
+        ref={trackRecordSection.ref}
+        className={`py-20 bg-navy text-primary-foreground ${trackRecordSection.isVisible ? "animate-scale-in" : "opacity-0"}`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Track Record</h2>
@@ -285,7 +366,10 @@ const Index = () => {
       </section>
 
       {/* Credentials & Certifications Section */}
-      <section ref={credentialsSection.ref} className={`py-20 bg-muted/30 ${credentialsSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+      <section
+        ref={credentialsSection.ref}
+        className={`py-20 bg-muted/30 ${credentialsSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Credentials & Certifications</h2>
@@ -355,64 +439,15 @@ const Index = () => {
       {/* Client Testimonials Section */}
       <Testimonials />
 
-      {/* Services Overview */}
-      <section ref={servicesSection.ref} className={`py-20 bg-navy text-primary-foreground ${servicesSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
-            <p className="text-xl text-primary-foreground/80 max-w-3xl mx-auto">
-              From prevention to full criminal defence
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
-              <Award className="h-10 w-10 text-gold mb-4" />
-              <h3 className="text-2xl font-bold mb-4">HMRC Investigation Defence</h3>
-              <p className="text-primary-foreground/80 mb-4">
-                Full-spectrum defence for all HMRC investigation types: Aspect Enquiries, Full Enquiries, 
-                Code of Practice 8 & 9, VAT/PAYE/CIS checks, and criminal prosecutions.
-              </p>
-              <Button asChild variant="accent">
-                <Link to="/investigations">Learn More →</Link>
-              </Button>
-            </div>
-
-            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
-              <Shield className="h-10 w-10 text-gold mb-4" />
-              <h3 className="text-2xl font-bold mb-4">Pre-Compliance Protection</h3>
-              <p className="text-primary-foreground/80 mb-4">
-                Avoid investigation entirely. Risk scanning of your VAT, PAYE, CIS, and bookkeeping 
-                to detect red flags before HMRC does.
-              </p>
-              <Button asChild variant="accent">
-                <Link to="/pre-compliance">Learn More →</Link>
-              </Button>
-            </div>
-
-            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
-              <Scale className="h-10 w-10 text-gold mb-4" />
-              <h3 className="text-2xl font-bold mb-4">Case Studies & Wins</h3>
-              <p className="text-primary-foreground/80 mb-4">
-                Real results from real clients: restaurants, consultants, landlords, and contractors. 
-                See how we saved businesses from HMRC penalties and criminal prosecution.
-              </p>
-              <Button asChild variant="accent">
-                <Link to="/case-studies">View Cases →</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Final CTA */}
-      <section ref={ctaSection.ref} className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+      <section
+        ref={ctaSection.ref}
+        className={`py-20 bg-primary text-primary-foreground ${ctaSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+      >
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Don't Face HMRC Alone
-          </h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">Don't Face HMRC Alone</h2>
           <p className="text-xl md:text-2xl text-primary-foreground/80 mb-8 max-w-3xl mx-auto">
-            Get the combined power of chartered accountants, business crime solicitors, 
-            and AI technology on your side.
+            Get the combined power of chartered accountants, business crime solicitors, and AI technology on your side.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild variant="danger" size="lg">
