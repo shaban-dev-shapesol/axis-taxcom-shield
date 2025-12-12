@@ -283,14 +283,26 @@ const GetStarted = () => {
                   </div>
                   <div>
                     <Label htmlFor="phone">Phone Number *</Label>
-                    <Input 
-                      id="phone" 
-                      type="tel" 
-                      required 
-                      placeholder="07700 900000" 
-                      value={formData.phone}
-                      onChange={(e) => handleInputChange('phone', e.target.value)}
-                    />
+                    <div className="flex">
+                      <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-muted text-muted-foreground text-sm">
+                        +44
+                      </span>
+                      <Input 
+                        id="phone" 
+                        type="tel" 
+                        required 
+                        placeholder="7700 900000" 
+                        className="rounded-l-none"
+                        value={formData.phone}
+                        onChange={(e) => {
+                          // Only allow numbers and spaces
+                          const value = e.target.value.replace(/[^\d\s]/g, '');
+                          handleInputChange('phone', value);
+                        }}
+                        maxLength={15}
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">Enter number without country code</p>
                   </div>
                 </div>
 
