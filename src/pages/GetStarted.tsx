@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { SEO } from "@/components/SEO";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState, useRef } from "react";
-import { Upload, AlertTriangle, Lock, FileText, Loader2, CheckCircle, X } from "lucide-react";
+import { Upload, AlertTriangle, Lock, FileText, Loader2, CheckCircle, X, Check, AlertCircle } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { useToast } from "@/hooks/use-toast";
 
@@ -310,22 +310,45 @@ const GetStarted = () => {
                       <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-muted text-muted-foreground text-sm">
                         +44
                       </span>
-                      <Input 
-                        id="phone" 
-                        type="tel" 
-                        required 
-                        placeholder="7700 900000" 
-                        className="rounded-l-none"
-                        value={formData.phone}
-                        onChange={(e) => {
-                          // Only allow numbers and spaces
-                          const value = e.target.value.replace(/[^\d\s]/g, '');
-                          handleInputChange('phone', value);
-                        }}
-                        maxLength={15}
-                      />
+                      <div className="relative flex-1">
+                        <Input 
+                          id="phone" 
+                          type="tel" 
+                          required 
+                          placeholder="7700 900000" 
+                          className={`rounded-l-none pr-10 ${
+                            formData.phone.length > 0 
+                              ? validateUKPhone(formData.phone) 
+                                ? 'border-green-500 focus-visible:ring-green-500' 
+                                : 'border-destructive focus-visible:ring-destructive'
+                              : ''
+                          }`}
+                          value={formData.phone}
+                          onChange={(e) => {
+                            // Only allow numbers and spaces
+                            const value = e.target.value.replace(/[^\d\s]/g, '');
+                            handleInputChange('phone', value);
+                          }}
+                          maxLength={15}
+                        />
+                        {formData.phone.length > 0 && (
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2">
+                            {validateUKPhone(formData.phone) ? (
+                              <Check className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <AlertCircle className="h-4 w-4 text-destructive" />
+                            )}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Enter number without country code</p>
+                    {formData.phone.length > 0 && !validateUKPhone(formData.phone) ? (
+                      <p className="text-xs text-destructive mt-1">
+                        Mobile: 10 digits starting with 7 | Landline: 10-11 digits starting with 1 or 2
+                      </p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground mt-1">Enter number without country code</p>
+                    )}
                   </div>
                 </div>
 
