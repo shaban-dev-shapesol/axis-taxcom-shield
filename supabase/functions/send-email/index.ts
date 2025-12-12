@@ -128,7 +128,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: {
-          email: "hello@demomailtrap.com",
+          email: "hello@demomailtrap.co",
           name: "Investigation.tax"
         },
         to: [
@@ -219,7 +219,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: {
-          email: "hello@demomailtrap.com",
+          email: "hello@demomailtrap.co",
           name: "Investigation.tax"
         },
         to: [
