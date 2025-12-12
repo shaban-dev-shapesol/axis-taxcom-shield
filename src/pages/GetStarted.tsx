@@ -134,6 +134,19 @@ const GetStarted = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  // Validate UK phone number format
+  const validateUKPhone = (phone: string): boolean => {
+    // Remove all spaces
+    const cleanPhone = phone.replace(/\s/g, '');
+    
+    // UK phone numbers (without country code) should be 10-11 digits
+    // Mobile: starts with 7 (10 digits total, e.g., 7700900000)
+    // Landline: starts with 1 or 2 (10-11 digits total)
+    const ukPhoneRegex = /^(7\d{9}|[12]\d{9,10})$/;
+    
+    return ukPhoneRegex.test(cleanPhone);
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     
@@ -142,6 +155,16 @@ const GetStarted = () => {
       toast({
         title: "Missing required fields",
         description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate UK phone number
+    if (!validateUKPhone(formData.phone)) {
+      toast({
+        title: "Invalid phone number",
+        description: "Please enter a valid UK phone number. Mobile numbers start with 7 (10 digits), landlines start with 1 or 2 (10-11 digits).",
         variant: "destructive",
       });
       return;
