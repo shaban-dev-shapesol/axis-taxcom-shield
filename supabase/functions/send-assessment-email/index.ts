@@ -22,6 +22,13 @@ interface AssessmentEmailRequest {
   documentSummary?: string;
 }
 
+// Convert markdown bold syntax to HTML
+const formatMarkdownToHtml = (text: string): string => {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br />');
+};
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -104,7 +111,7 @@ const handler = async (req: Request): Promise<Response> => {
           ${documentSummary ? `
           <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 25px;">AI Document Analysis</h2>
           <div style="background-color: #fef7ed; border: 1px solid #f57e20; padding: 15px; border-radius: 8px;">
-            <p style="color: #555; margin: 0; white-space: pre-wrap;">${documentSummary}</p>
+            <p style="color: #555; margin: 0;">${formatMarkdownToHtml(documentSummary)}</p>
           </div>
           ` : ''}
 
@@ -154,7 +161,7 @@ const handler = async (req: Request): Promise<Response> => {
           ${documentSummary ? `
           <h3 style="color: #333; margin-top: 25px;">Document Analysis Summary</h3>
           <div style="background-color: #fef7ed; border: 1px solid #f57e20; padding: 15px; border-radius: 8px;">
-            <p style="color: #555; margin: 0; white-space: pre-wrap; font-size: 14px;">${documentSummary}</p>
+            <p style="color: #555; margin: 0; font-size: 14px;">${formatMarkdownToHtml(documentSummary)}</p>
           </div>
           ` : ''}
 
