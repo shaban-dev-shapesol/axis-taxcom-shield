@@ -469,7 +469,7 @@ const GetStarted = () => {
                         </div>
                       </div>
 
-                      {/* Document Summary */}
+                      {/* Analysis Status */}
                       {isAnalyzing && (
                         <div className="bg-gold/5 border border-gold/20 rounded-lg p-6">
                           <div className="flex items-center justify-center space-x-3">
@@ -483,21 +483,9 @@ const GetStarted = () => {
                       )}
 
                       {documentSummary && !isAnalyzing && (
-                        <div className="bg-gold/5 border border-gold/20 rounded-lg p-6">
-                          <h3 className="font-bold text-lg mb-4 flex items-center">
-                            <FileText className="h-5 w-5 mr-2 text-gold" />
-                            Document Analysis
-                          </h3>
-                          <div className="prose prose-sm max-w-none text-foreground">
-                            <div 
-                              className="whitespace-pre-wrap text-sm leading-relaxed"
-                              dangerouslySetInnerHTML={{ 
-                                __html: documentSummary
-                                  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                  .replace(/\n/g, '<br />')
-                              }}
-                            />
-                          </div>
+                        <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 flex items-center space-x-3">
+                          <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
+                          <p className="text-sm font-medium">Document analysed successfully. The analysis will be included in your submission.</p>
                         </div>
                       )}
 
