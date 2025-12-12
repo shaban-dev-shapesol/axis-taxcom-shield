@@ -20,6 +20,7 @@ const GetStarted = () => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [documentSummary, setDocumentSummary] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +117,82 @@ const GetStarted = () => {
     event.preventDefault();
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(event.currentTarget);
+    
+    const firstName = formData.get('firstName') as string;
+    const lastName = formData.get('lastName') as string;
+    const email = formData.get('email') as string;
+    const phone = formData.get('phone') as string;
+    const businessName = formData.get('businessName') as string;
+    const industry = formData.get('industry') as string;
+    const annualIncome = formData.get('annualIncome') as string;
+    const situation = formData.get('situation') as string;
+    const description = formData.get('description') as string;
+
+    // Validate required fields
+    if (!firstName || !lastName || !email || !phone || !industry || !situation || !description) {
+      toast({
+        title: "Missing required fields",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          phone,
+          businessName: businessName || undefined,
+          industry,
+          annualIncome: annualIncome || undefined,
+          situation,
+          description,
+          urgency,
+          documentSummary: documentSummary || undefined,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to submit form');
+      }
+
+      toast({
+        title: "Request submitted successfully",
+        description: "We'll contact you within 4 business hours.",
+      });
+
+      // Reset form
+      (event.target as HTMLFormElement).reset();
+      setUrgency(5);
+      setUploadedFile(null);
+      setDocumentSummary(null);
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Submission failed",
+        description: error instanceof Error ? error.message : "Failed to submit form. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <SEO 
@@ -155,18 +232,18 @@ const GetStarted = () => {
             </div>
 
             <div className="bg-card rounded-xl shadow-lg border border-border p-8 transition-smooth hover:shadow-xl">
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Personal Information */}
                 <div>
                   <h2 className="text-2xl font-bold mb-6">Personal Information</h2>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <Label htmlFor="firstName">First Name *</Label>
-                      <Input id="firstName" required placeholder="John" />
+                      <Input id="firstName" name="firstName" required placeholder="John" />
                     </div>
                     <div>
                       <Label htmlFor="lastName">Last Name *</Label>
-                      <Input id="lastName" required placeholder="Smith" />
+                      <Input id="lastName" name="lastName" required placeholder="Smith" />
                     </div>
                   </div>
                 </div>
@@ -174,11 +251,11 @@ const GetStarted = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="email">Email Address *</Label>
-                    <Input id="email" type="email" required placeholder="john@example.com" />
+                    <Input id="email" name="email" type="email" required placeholder="john@example.com" />
                   </div>
                   <div>
                     <Label htmlFor="phone">Phone Number *</Label>
-                    <Input id="phone" type="tel" required placeholder="07700 900000" />
+                    <Input id="phone" name="phone" type="tel" required placeholder="07700 900000" />
                   </div>
                 </div>
 
@@ -189,12 +266,12 @@ const GetStarted = () => {
                   <div className="space-y-6">
                     <div>
                       <Label htmlFor="businessName">Business Name (if applicable)</Label>
-                      <Input id="businessName" placeholder="ABC Trading Ltd" />
+                      <Input id="businessName" name="businessName" placeholder="ABC Trading Ltd" />
                     </div>
 
                     <div>
                       <Label htmlFor="industry">Industry / Business Type *</Label>
-                      <Select required>
+                      <Select name="industry" required>
                         <SelectTrigger>
                           <SelectValue placeholder="Select your industry" />
                         </SelectTrigger>
@@ -214,7 +291,7 @@ const GetStarted = () => {
 
                     <div>
                       <Label htmlFor="annualIncome">Approximate Annual Income / Turnover</Label>
-                      <Select>
+                      <Select name="annualIncome">
                         <SelectTrigger>
                           <SelectValue placeholder="Select income bracket" />
                         </SelectTrigger>
@@ -238,7 +315,7 @@ const GetStarted = () => {
                   <div className="space-y-6">
                     <div>
                       <Label htmlFor="situation">What best describes your situation? *</Label>
-                      <Select required>
+                      <Select name="situation" required>
                         <SelectTrigger>
                           <SelectValue placeholder="Select situation" />
                         </SelectTrigger>
@@ -257,7 +334,8 @@ const GetStarted = () => {
                     <div>
                       <Label htmlFor="description">Brief Description of Your Situation *</Label>
                       <Textarea 
-                        id="description" 
+                        id="description"
+                        name="description"
                         required 
                         rows={6}
                         placeholder="Please describe your situation in detail. Include:
@@ -413,8 +491,15 @@ const GetStarted = () => {
 
                 {/* Submit */}
                 <div className="pt-6">
-                  <Button type="submit" variant="danger" size="lg" className="w-full">
-                    Submit Assessment Request
+                  <Button type="submit" variant="danger" size="lg" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                        Submitting...
+                      </>
+                    ) : (
+                      'Submit Assessment Request'
+                    )}
                   </Button>
                   <p className="text-xs text-center text-muted-foreground mt-4">
                     By submitting this form, you agree to our Privacy Policy and Terms of Service. 
