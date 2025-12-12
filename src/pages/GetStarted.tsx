@@ -20,7 +20,21 @@ const GetStarted = () => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [documentSummary, setDocumentSummary] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Form state
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    businessName: '',
+    industry: '',
+    annualIncome: '',
+    situation: '',
+    description: '',
+  });
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -116,6 +130,78 @@ const GetStarted = () => {
     event.preventDefault();
   };
 
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    
+    // Validate required fields
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.industry || !formData.situation || !formData.description) {
+      toast({
+        title: "Missing required fields",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-assessment-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          urgency,
+          documentSummary,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to submit form');
+      }
+
+      toast({
+        title: "Request submitted successfully",
+        description: "We've sent you a confirmation email. Our team will contact you within 4 business hours.",
+      });
+
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        businessName: '',
+        industry: '',
+        annualIncome: '',
+        situation: '',
+        description: '',
+      });
+      setUrgency(5);
+      setUploadedFile(null);
+      setDocumentSummary(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Submission failed",
+        description: error instanceof Error ? error.message : "Failed to submit form. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <SEO 
@@ -155,18 +241,30 @@ const GetStarted = () => {
             </div>
 
             <div className="bg-card rounded-xl shadow-lg border border-border p-8 transition-smooth hover:shadow-xl">
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Personal Information */}
                 <div>
                   <h2 className="text-2xl font-bold mb-6">Personal Information</h2>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <Label htmlFor="firstName">First Name *</Label>
-                      <Input id="firstName" required placeholder="John" />
+                      <Input 
+                        id="firstName" 
+                        required 
+                        placeholder="John" 
+                        value={formData.firstName}
+                        onChange={(e) => handleInputChange('firstName', e.target.value)}
+                      />
                     </div>
                     <div>
                       <Label htmlFor="lastName">Last Name *</Label>
-                      <Input id="lastName" required placeholder="Smith" />
+                      <Input 
+                        id="lastName" 
+                        required 
+                        placeholder="Smith" 
+                        value={formData.lastName}
+                        onChange={(e) => handleInputChange('lastName', e.target.value)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -174,11 +272,25 @@ const GetStarted = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="email">Email Address *</Label>
-                    <Input id="email" type="email" required placeholder="john@example.com" />
+                    <Input 
+                      id="email" 
+                      type="email" 
+                      required 
+                      placeholder="john@example.com" 
+                      value={formData.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                    />
                   </div>
                   <div>
                     <Label htmlFor="phone">Phone Number *</Label>
-                    <Input id="phone" type="tel" required placeholder="07700 900000" />
+                    <Input 
+                      id="phone" 
+                      type="tel" 
+                      required 
+                      placeholder="07700 900000" 
+                      value={formData.phone}
+                      onChange={(e) => handleInputChange('phone', e.target.value)}
+                    />
                   </div>
                 </div>
 
@@ -189,12 +301,17 @@ const GetStarted = () => {
                   <div className="space-y-6">
                     <div>
                       <Label htmlFor="businessName">Business Name (if applicable)</Label>
-                      <Input id="businessName" placeholder="ABC Trading Ltd" />
+                      <Input 
+                        id="businessName" 
+                        placeholder="ABC Trading Ltd" 
+                        value={formData.businessName}
+                        onChange={(e) => handleInputChange('businessName', e.target.value)}
+                      />
                     </div>
 
                     <div>
                       <Label htmlFor="industry">Industry / Business Type *</Label>
-                      <Select required>
+                      <Select value={formData.industry} onValueChange={(value) => handleInputChange('industry', value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select your industry" />
                         </SelectTrigger>
@@ -214,7 +331,7 @@ const GetStarted = () => {
 
                     <div>
                       <Label htmlFor="annualIncome">Approximate Annual Income / Turnover</Label>
-                      <Select>
+                      <Select value={formData.annualIncome} onValueChange={(value) => handleInputChange('annualIncome', value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select income bracket" />
                         </SelectTrigger>
@@ -238,7 +355,7 @@ const GetStarted = () => {
                   <div className="space-y-6">
                     <div>
                       <Label htmlFor="situation">What best describes your situation? *</Label>
-                      <Select required>
+                      <Select value={formData.situation} onValueChange={(value) => handleInputChange('situation', value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select situation" />
                         </SelectTrigger>
@@ -266,6 +383,8 @@ const GetStarted = () => {
 - What they are claiming or investigating
 - Any amounts mentioned
 - Any deadlines you're facing"
+                        value={formData.description}
+                        onChange={(e) => handleInputChange('description', e.target.value)}
                       />
                     </div>
 
@@ -413,8 +532,15 @@ const GetStarted = () => {
 
                 {/* Submit */}
                 <div className="pt-6">
-                  <Button type="submit" variant="danger" size="lg" className="w-full">
-                    Submit Assessment Request
+                  <Button type="submit" variant="danger" size="lg" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                        Submitting...
+                      </>
+                    ) : (
+                      'Submit Assessment Request'
+                    )}
                   </Button>
                   <p className="text-xs text-center text-muted-foreground mt-4">
                     By submitting this form, you agree to our Privacy Policy and Terms of Service. 
