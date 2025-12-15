@@ -475,6 +475,15 @@ const GetStarted = () => {
                     Our AI will analyse it immediately and provide a summary.
                   </p>
 
+                  {/* Hidden file input - always in DOM */}
+                  <input 
+                    ref={fileInputRef}
+                    type="file" 
+                    className="hidden" 
+                    accept=".pdf,.jpg,.jpeg,.png,.docx"
+                    onChange={handleFileUpload}
+                  />
+
                   {!uploadedFile ? (
                     <div 
                       className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-gold/50 transition-colors cursor-pointer"
@@ -485,13 +494,6 @@ const GetStarted = () => {
                       <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                       <p className="font-medium mb-2">Click to upload or drag and drop</p>
                       <p className="text-sm text-muted-foreground">PDF, JPG, PNG, DOCX (Max 10MB)</p>
-                      <input 
-                        ref={fileInputRef}
-                        type="file" 
-                        className="hidden" 
-                        accept=".pdf,.jpg,.jpeg,.png,.docx"
-                        onChange={handleFileUpload}
-                      />
                     </div>
                   ) : (
                     <div className="space-y-4">
