@@ -7,9 +7,41 @@ import { Label } from "@/components/ui/label";
 import { SEO } from "@/components/SEO";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import { Phone, Mail, MapPin, Clock, Send, Shield } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Send, Shield, Check, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+// UK phone validation regex
+const validateUKPhone = (phone: string): boolean => {
+  if (!phone || phone.trim() === '') return true; // Phone is optional
+  
+  // Remove all spaces and the +44 prefix if present
+  let cleanPhone = phone.replace(/\s/g, '');
+  if (cleanPhone.startsWith('+44')) {
+    cleanPhone = cleanPhone.substring(3);
+  } else if (cleanPhone.startsWith('0')) {
+    cleanPhone = cleanPhone.substring(1);
+  }
+  
+  // UK mobile numbers start with 7 and have 10 digits total (after removing leading 0)
+  const mobileRegex = /^7\d{9}$/;
+  // UK landline numbers start with 1 or 2 and have 10-11 digits total (after removing leading 0)
+  const landlineRegex = /^[12]\d{9,10}$/;
+  
+  return mobileRegex.test(cleanPhone) || landlineRegex.test(cleanPhone);
+};
+
+const contactSchema = z.object({
+  firstName: z.string().trim().min(1, "First name is required").max(50, "First name must be less than 50 characters"),
+  lastName: z.string().trim().min(1, "Last name is required").max(50, "Last name must be less than 50 characters"),
+  email: z.string().trim().email("Please enter a valid email address").max(255, "Email must be less than 255 characters"),
+  phone: z.string().optional(),
+  enquiryType: z.string().min(1, "Please select an enquiry type"),
+  message: z.string().trim().min(10, "Message must be at least 10 characters").max(2000, "Message must be less than 2000 characters"),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
 
 const Contact = () => {
   const heroSection = useScrollAnimation();
@@ -18,9 +50,65 @@ const Contact = () => {
   const { toast } = useToast();
   
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState<ContactFormData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    enquiryType: '',
+    message: '',
+  });
+  const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
+  const [phoneValid, setPhoneValid] = useState<boolean | null>(null);
+
+  const handleInputChange = (field: keyof ContactFormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: undefined }));
+    }
+    
+    // Real-time phone validation
+    if (field === 'phone') {
+      if (value.trim() === '') {
+        setPhoneValid(null);
+      } else {
+        setPhoneValid(validateUKPhone(value));
+      }
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Validate form data
+    const result = contactSchema.safeParse(formData);
+    
+    if (!result.success) {
+      const fieldErrors: Partial<Record<keyof ContactFormData, string>> = {};
+      result.error.errors.forEach(err => {
+        const field = err.path[0] as keyof ContactFormData;
+        fieldErrors[field] = err.message;
+      });
+      setErrors(fieldErrors);
+      toast({
+        title: "Validation Error",
+        description: "Please check the form and correct any errors.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Validate phone if provided
+    if (formData.phone && !validateUKPhone(formData.phone)) {
+      toast({
+        title: "Invalid Phone Number",
+        description: "Please enter a valid UK phone number.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     
     // Simulate form submission
@@ -32,7 +120,16 @@ const Contact = () => {
     });
     
     setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      enquiryType: '',
+      message: '',
+    });
+    setErrors({});
+    setPhoneValid(null);
   };
 
   const offices = [
@@ -119,29 +216,81 @@ const Contact = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="firstName">First Name *</Label>
-                    <Input id="firstName" required placeholder="John" />
+                    <Input 
+                      id="firstName" 
+                      value={formData.firstName}
+                      onChange={(e) => handleInputChange('firstName', e.target.value)}
+                      placeholder="John"
+                      className={errors.firstName ? 'border-destructive' : ''}
+                    />
+                    {errors.firstName && (
+                      <p className="text-sm text-destructive mt-1">{errors.firstName}</p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="lastName">Last Name *</Label>
-                    <Input id="lastName" required placeholder="Smith" />
+                    <Input 
+                      id="lastName" 
+                      value={formData.lastName}
+                      onChange={(e) => handleInputChange('lastName', e.target.value)}
+                      placeholder="Smith"
+                      className={errors.lastName ? 'border-destructive' : ''}
+                    />
+                    {errors.lastName && (
+                      <p className="text-sm text-destructive mt-1">{errors.lastName}</p>
+                    )}
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="email">Email *</Label>
-                    <Input id="email" type="email" required placeholder="john@example.com" />
+                    <Input 
+                      id="email" 
+                      type="email" 
+                      value={formData.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      placeholder="john@example.com"
+                      className={errors.email ? 'border-destructive' : ''}
+                    />
+                    {errors.email && (
+                      <p className="text-sm text-destructive mt-1">{errors.email}</p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" type="tel" placeholder="07700 900000" />
+                    <div className="relative">
+                      <Input 
+                        id="phone" 
+                        type="tel" 
+                        value={formData.phone}
+                        onChange={(e) => handleInputChange('phone', e.target.value)}
+                        placeholder="07700 900000"
+                        className={`pr-10 ${phoneValid === false ? 'border-destructive' : ''}`}
+                      />
+                      {phoneValid !== null && (
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          {phoneValid ? (
+                            <Check className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <AlertCircle className="h-4 w-4 text-destructive" />
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    {phoneValid === false && (
+                      <p className="text-sm text-destructive mt-1">Please enter a valid UK phone number</p>
+                    )}
                   </div>
                 </div>
 
                 <div>
                   <Label htmlFor="enquiryType">Type of Enquiry *</Label>
-                  <Select required>
-                    <SelectTrigger>
+                  <Select 
+                    value={formData.enquiryType}
+                    onValueChange={(value) => handleInputChange('enquiryType', value)}
+                  >
+                    <SelectTrigger className={errors.enquiryType ? 'border-destructive' : ''}>
                       <SelectValue placeholder="Select enquiry type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -153,16 +302,24 @@ const Contact = () => {
                       <SelectItem value="media">Media / Press</SelectItem>
                     </SelectContent>
                   </Select>
+                  {errors.enquiryType && (
+                    <p className="text-sm text-destructive mt-1">{errors.enquiryType}</p>
+                  )}
                 </div>
 
                 <div>
                   <Label htmlFor="message">Your Message *</Label>
                   <Textarea 
                     id="message" 
-                    required 
+                    value={formData.message}
+                    onChange={(e) => handleInputChange('message', e.target.value)}
                     rows={5}
                     placeholder="Please describe how we can help you..."
+                    className={errors.message ? 'border-destructive' : ''}
                   />
+                  {errors.message && (
+                    <p className="text-sm text-destructive mt-1">{errors.message}</p>
+                  )}
                 </div>
 
                 <Button type="submit" variant="danger" size="lg" className="w-full" disabled={isSubmitting}>
