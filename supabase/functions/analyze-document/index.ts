@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { encode } from "https://deno.land/std@0.168.0/encoding/base64.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -32,7 +33,7 @@ serve(async (req) => {
     if (fileType === 'application/pdf' || fileName.endsWith('.pdf')) {
       // For PDFs, we'll send the base64 to the AI model for vision-based extraction
       const arrayBuffer = await file.arrayBuffer();
-      const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+      const base64 = encode(arrayBuffer);
       
       // Use AI vision to extract text from PDF
       const extractionResponse = await extractTextWithVision(base64, 'application/pdf');
@@ -41,7 +42,7 @@ serve(async (req) => {
     } else if (fileType.startsWith('image/') || fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.png')) {
       // For images, use AI vision directly
       const arrayBuffer = await file.arrayBuffer();
-      const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+      const base64 = encode(arrayBuffer);
       
       const extractionResponse = await extractTextWithVision(base64, fileType);
       extractedText = extractionResponse;
@@ -49,7 +50,7 @@ serve(async (req) => {
     } else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || fileName.endsWith('.docx')) {
       // For DOCX, extract text manually (basic extraction)
       const arrayBuffer = await file.arrayBuffer();
-      const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+      const base64 = encode(arrayBuffer);
       
       // Use AI to process the document
       const extractionResponse = await extractTextWithVision(base64, fileType);
