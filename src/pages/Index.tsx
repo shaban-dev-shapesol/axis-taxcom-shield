@@ -176,38 +176,38 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
+            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl flex flex-col h-full">
               <Award className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">HMRC Investigation Defence</h3>
-              <p className="text-primary-foreground/80 mb-4">
+              <p className="text-primary-foreground/80 mb-4 flex-grow">
                 Full-spectrum defence for all HMRC investigation types: Aspect Enquiries, Full Enquiries, Code of
                 Practice 8 & 9, VAT/PAYE/CIS checks, and criminal prosecutions.
               </p>
-              <Button asChild variant="accent">
+              <Button asChild variant="accent" className="mt-auto">
                 <Link to="/investigations">Learn More →</Link>
               </Button>
             </div>
 
-            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
+            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl flex flex-col h-full">
               <Shield className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">Pre-Compliance Protection</h3>
-              <p className="text-primary-foreground/80 mb-4">
+              <p className="text-primary-foreground/80 mb-4 flex-grow">
                 Avoid investigation entirely. Risk scanning of your VAT, PAYE, CIS, and bookkeeping to detect red flags
                 before HMRC does.
               </p>
-              <Button asChild variant="accent">
+              <Button asChild variant="accent" className="mt-auto">
                 <Link to="/pre-compliance">Learn More →</Link>
               </Button>
             </div>
 
-            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl">
+            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl flex flex-col h-full">
               <Scale className="h-10 w-10 text-gold mb-4" />
               <h3 className="text-2xl font-bold mb-4">Case Studies & Wins</h3>
-              <p className="text-primary-foreground/80 mb-4">
+              <p className="text-primary-foreground/80 mb-4 flex-grow">
                 Real results from real clients: restaurants, consultants, landlords, and contractors. See how we saved
                 businesses from HMRC penalties and criminal prosecution.
               </p>
-              <Button asChild variant="accent">
+              <Button asChild variant="accent" className="mt-auto">
                 <Link to="/case-studies">View Cases →</Link>
               </Button>
             </div>
