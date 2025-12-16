@@ -471,8 +471,7 @@ const GetStarted = () => {
                 <div className="pt-6 border-t border-border">
                   <h2 className="text-2xl font-bold mb-4">Upload HMRC Letter or Documents</h2>
                   <p className="text-sm text-muted-foreground mb-6">
-                    If you have received a letter, notice, or email from HMRC, please upload it here. 
-                    Our AI will analyse it immediately and provide a summary.
+                   If you’ve received a letter, notice, or email from HMRC, please upload it here so we can review it right away.
                   </p>
 
                   {/* Hidden file input - always in DOM */}

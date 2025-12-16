@@ -245,8 +245,7 @@ const Investigations = () => {
               <div>
                 <h3 className="text-xl font-bold mb-2">AI-Powered Risk Assessment</h3>
                 <p className="text-muted-foreground">
-                  We use AI to analyse your HMRC letter, assess the investigation risk level, and identify the exact documents 
-                  and information HMRC is likely to request.
+                Our system analyses your HMRC letter, gauges the investigation risk, and pinpoints the documents and details HMRC will probably request.
                 </p>
               </div>
             </div>

@@ -113,7 +113,7 @@ const Book = () => {
                   </li>
                   <li className="flex items-start">
                     <CheckCircle className="h-5 w-5 text-danger flex-shrink-0 mt-0.5 mr-3" />
-                    <span className="text-sm text-muted-foreground">AI analysis of HMRC letter (if available)</span>
+                    <span className="text-sm text-muted-foreground">Review of your HMRC letter (if available)</span>
                   </li>
                   <li className="flex items-start">
                     <CheckCircle className="h-5 w-5 text-danger flex-shrink-0 mt-0.5 mr-3" />

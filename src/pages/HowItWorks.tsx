@@ -115,8 +115,7 @@ const HowItWorks = () => {
                   <span className="bg-gold/10 text-gold px-3 py-1 rounded-full text-xs font-semibold">Day 1-2</span>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  A chartered accountant (and solicitor if high-risk) reviews the AI findings and conducts 
-                  a deep-dive consultation with you. You'll understand exactly what you're facing.
+                  A chartered accountant — and a solicitor for high-risk cases — reviews the findings and carries out a detailed consultation with you. You’ll get a clear picture of your situation.
                 </p>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="bg-card p-4 rounded-lg border border-border">

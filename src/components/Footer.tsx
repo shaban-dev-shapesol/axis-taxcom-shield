@@ -39,11 +39,6 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/ai-pipeline" className="text-primary-foreground/70 hover:text-gold transition-colors">
-                  AI Document Analysis
-                </Link>
-              </li>
-              <li>
                 <Link to="/team" className="text-primary-foreground/70 hover:text-gold transition-colors">
                   Legal Defence Team
                 </Link>
@@ -112,7 +107,7 @@ export const Footer = () => {
             <Link to="/privacy-policy" className="text-primary-foreground/70 hover:text-gold transition-colors">
               Privacy Policy
             </Link>
-            <Link to="/terms" className="text-primary-foreground/70 hover:text-gold transition-colors">
+            <Link to="/terms-of-service" className="text-primary-foreground/70 hover:text-gold transition-colors">
               Terms of Service
             </Link>
             <Link to="/data-security" className="text-primary-foreground/70 hover:text-gold transition-colors">
