@@ -38,7 +38,7 @@ const Book = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Free Assessment */}
-            <div className="bg-card rounded-xl shadow-lg border border-border p-8 transition-smooth hover:shadow-xl hover:scale-105">
+            <div className="bg-card rounded-xl shadow-lg border border-border p-8 transition-smooth hover:shadow-xl hover:scale-105 flex flex-col h-full">
               <div className="text-center mb-6">
                 <div className="inline-block bg-gold/10 px-4 py-2 rounded-full mb-4">
                   <span className="text-gold font-bold text-sm">FREE</span>
@@ -83,13 +83,15 @@ const Book = () => {
                 </ul>
               </div>
 
-              <Button variant="accent" size="lg" className="w-full">
-                Book Free 15-Min Call
-              </Button>
+              <div className="mt-auto">
+                <Button variant="accent" size="lg" className="w-full">
+                  Book Free 15-Min Call
+                </Button>
+              </div>
             </div>
 
             {/* Paid Consultation */}
-            <div className="bg-gradient-to-br from-danger/5 to-danger/10 rounded-xl shadow-lg border-2 border-danger/30 p-8 transition-smooth hover:shadow-xl hover:scale-105">
+            <div className="bg-gradient-to-br from-danger/5 to-danger/10 rounded-xl shadow-lg border-2 border-danger/30 p-8 transition-smooth hover:shadow-xl hover:scale-105 flex flex-col h-full">
               <div className="text-center mb-6">
                 <div className="inline-block bg-danger/10 px-4 py-2 rounded-full mb-4">
                   <span className="text-danger font-bold text-sm">URGENT</span>
@@ -157,9 +159,11 @@ const Book = () => {
                 </p>
               </div>
 
-              <Button variant="danger" size="lg" className="w-full">
-                Book Urgent Consultation
-              </Button>
+              <div className="mt-auto">
+                <Button variant="danger" size="lg" className="w-full">
+                  Book Urgent Consultation
+                </Button>
+              </div>
             </div>
           </div>
         </div>
