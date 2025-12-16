@@ -114,13 +114,6 @@ All colors MUST be HSL.
   html {
     scroll-behavior: smooth;
   }
-
-  /* Remove editor outline on form elements */
-  input[data-lov-hovered][data-lov-primary],
-  textarea[data-lov-hovered][data-lov-primary],
-  select[data-lov-hovered][data-lov-primary] {
-    outline: none !important;
-  }
 }
 
 @layer utilities {
