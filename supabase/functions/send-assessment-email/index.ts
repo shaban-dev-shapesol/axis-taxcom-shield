@@ -178,10 +178,10 @@ const handler = async (req: Request): Promise<Response> => {
       </html>
     `;
 
-    // Send email to team (using onboarding@resend.dev for testing, replace with actual team email)
+    // Send email to team
     const teamEmailResponse = await resend.emails.send({
-      from: "Investigation.tax <onboarding@resend.dev>",
-      to: ["delivered@resend.dev"], // Replace with actual team email
+      from: "Investigation.tax <noreply@investigationtax.shapesol.io>",
+      to: ["delivered@resend.dev"], // TODO: Replace with actual team email
       subject: `${urgencyLevel} New Assessment Request - ${firstName} ${lastName}`,
       html: teamEmailHtml,
     });
@@ -190,7 +190,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to client
     const clientEmailResponse = await resend.emails.send({
-      from: "Investigation.tax <onboarding@resend.dev>",
+      from: "Investigation.tax <noreply@investigationtax.shapesol.io>",
       to: [email],
       subject: "We've Received Your HMRC Assessment Request",
       html: clientEmailHtml,
