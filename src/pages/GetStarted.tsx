@@ -17,9 +17,11 @@ const GetStarted = () => {
   const { toast } = useToast();
   
   const [urgency, setUrgency] = useState(5);
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [documentSummary, setDocumentSummary] = useState<string | null>(null);
+  const [uploadedFiles, setUploadedFiles] = useState<Array<{
+    file: File;
+    isAnalyzing: boolean;
+    summary: string | null;
+  }>>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -37,43 +39,54 @@ const GetStarted = () => {
   });
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
 
-    // Validate file type
     const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     const allowedExtensions = ['.pdf', '.jpg', '.jpeg', '.png', '.docx'];
-    const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
-    
-    if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(fileExtension)) {
-      toast({
-        title: "Invalid file type",
-        description: "Please upload a PDF, JPG, PNG, or DOCX file.",
-        variant: "destructive",
-      });
-      return;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+      
+      if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(fileExtension)) {
+        toast({
+          title: "Invalid file type",
+          description: `${file.name}: Please upload PDF, JPG, PNG, or DOCX files.`,
+          variant: "destructive",
+        });
+        continue;
+      }
+
+      if (file.size > 10 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: `${file.name}: Please upload files smaller than 10MB.`,
+          variant: "destructive",
+        });
+        continue;
+      }
+
+      // Check if file already exists
+      if (uploadedFiles.some(f => f.file.name === file.name && f.file.size === file.size)) {
+        continue;
+      }
+
+      // Add file to state with analyzing status
+      const fileIndex = uploadedFiles.length;
+      setUploadedFiles(prev => [...prev, { file, isAnalyzing: true, summary: null }]);
+      
+      // Analyze document in background
+      analyzeDocument(file, fileIndex);
     }
 
-    // Validate file size (max 10MB)
-    if (file.size > 10 * 1024 * 1024) {
-      toast({
-        title: "File too large",
-        description: "Please upload a file smaller than 10MB.",
-        variant: "destructive",
-      });
-      return;
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
-
-    setUploadedFile(file);
-    setDocumentSummary(null);
-    
-    // Automatically analyze the document
-    await analyzeDocument(file);
   };
 
-  const analyzeDocument = async (file: File) => {
-    setIsAnalyzing(true);
-    
+  const analyzeDocument = async (file: File, fileIndex: number) => {
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -83,44 +96,39 @@ const GetStarted = () => {
         body: formData,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to analyze document');
+      let summary = null;
+      if (response.ok) {
+        const data = await response.json();
+        summary = data.summary;
       }
 
-      const data = await response.json();
-      setDocumentSummary(data.summary);
-      
-      toast({
-        title: "Document analysed",
-        description: "We've generated a summary of your HMRC letter.",
-      });
+      setUploadedFiles(prev => prev.map((f, i) => 
+        f.file.name === file.name && f.file.size === file.size
+          ? { ...f, isAnalyzing: false, summary }
+          : f
+      ));
     } catch (error) {
       console.error('Error analyzing document:', error);
-      toast({
-        title: "Analysis failed",
-        description: error instanceof Error ? error.message : "Failed to analyze document. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsAnalyzing(false);
+      setUploadedFiles(prev => prev.map((f, i) => 
+        f.file.name === file.name && f.file.size === file.size
+          ? { ...f, isAnalyzing: false, summary: null }
+          : f
+      ));
     }
   };
 
-  const removeFile = () => {
-    setUploadedFile(null);
-    setDocumentSummary(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+  const removeFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const file = event.dataTransfer.files?.[0];
-    if (file && fileInputRef.current) {
+    const files = event.dataTransfer.files;
+    if (files && files.length > 0 && fileInputRef.current) {
       const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(file);
+      for (let i = 0; i < files.length; i++) {
+        dataTransfer.items.add(files[i]);
+      }
       fileInputRef.current.files = dataTransfer.files;
       await handleFileUpload({ target: { files: dataTransfer.files } } as React.ChangeEvent<HTMLInputElement>);
     }
@@ -129,6 +137,9 @@ const GetStarted = () => {
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
   };
+
+  // Check if any files are still being analyzed
+  const isAnyFileAnalyzing = uploadedFiles.some(f => f.isAnalyzing);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -170,9 +181,25 @@ const GetStarted = () => {
       return;
     }
 
+    // Check if any files are still being analyzed
+    if (isAnyFileAnalyzing) {
+      toast({
+        title: "Please wait",
+        description: "Your documents are still being processed. Please wait a moment.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
+      // Combine all document summaries into one string
+      const documentSummaries = uploadedFiles
+        .filter(f => f.summary)
+        .map((f, i) => `--- Document ${i + 1}: ${f.file.name} ---\n${f.summary}`)
+        .join('\n\n');
+
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-assessment-email`, {
         method: 'POST',
         headers: {
@@ -181,7 +208,8 @@ const GetStarted = () => {
         body: JSON.stringify({
           ...formData,
           urgency,
-          documentSummary,
+          documentSummary: documentSummaries || null,
+          documentCount: uploadedFiles.length,
         }),
       });
 
@@ -208,8 +236,7 @@ const GetStarted = () => {
         description: '',
       });
       setUrgency(5);
-      setUploadedFile(null);
-      setDocumentSummary(null);
+      setUploadedFiles([]);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -469,9 +496,9 @@ const GetStarted = () => {
 
                 {/* Document Upload */}
                 <div className="pt-6 border-t border-border">
-                  <h2 className="text-2xl font-bold mb-4">Upload HMRC Letter or Documents</h2>
+                  <h2 className="text-2xl font-bold mb-4">Upload HMRC Letters or Documents</h2>
                   <p className="text-sm text-muted-foreground mb-6">
-                   If you’ve received a letter, notice, or email from HMRC, please upload it here so we can review it right away.
+                   If you've received letters, notices, or emails from HMRC, please upload them here so we can review them right away. You can upload multiple documents.
                   </p>
 
                   {/* Hidden file input - always in DOM */}
@@ -481,9 +508,11 @@ const GetStarted = () => {
                     className="hidden" 
                     accept=".pdf,.jpg,.jpeg,.png,.docx"
                     onChange={handleFileUpload}
+                    multiple
                   />
 
-                  {!uploadedFile ? (
+                  <div className="space-y-4">
+                    {/* Upload area */}
                     <div 
                       className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-gold/50 transition-colors cursor-pointer"
                       onClick={() => fileInputRef.current?.click()}
@@ -492,75 +521,57 @@ const GetStarted = () => {
                     >
                       <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                       <p className="font-medium mb-2">Click to upload or drag and drop</p>
-                      <p className="text-sm text-muted-foreground">PDF, JPG, PNG, DOCX (Max 10MB)</p>
+                      <p className="text-sm text-muted-foreground">PDF, JPG, PNG, DOCX (Max 10MB per file)</p>
                     </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {/* Uploaded File Card */}
-                      <div className="bg-muted/50 rounded-lg p-4 flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                          <FileText className="h-8 w-8 text-gold" />
-                          <div>
-                            <p className="font-medium">{uploadedFile.name}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          {isAnalyzing ? (
-                            <div className="flex items-center text-gold">
-                              <Loader2 className="h-5 w-5 animate-spin mr-2" />
-                              <span className="text-sm">Analysing...</span>
+
+                    {/* Uploaded Files List */}
+                    {uploadedFiles.length > 0 && (
+                      <div className="space-y-3">
+                        <p className="text-sm font-medium text-muted-foreground">
+                          {uploadedFiles.length} document{uploadedFiles.length > 1 ? 's' : ''} uploaded
+                        </p>
+                        {uploadedFiles.map((fileData, index) => (
+                          <div key={`${fileData.file.name}-${index}`} className="bg-muted/50 rounded-lg p-4 flex items-center justify-between">
+                            <div className="flex items-center space-x-3">
+                              <FileText className="h-6 w-6 text-gold flex-shrink-0" />
+                              <div className="min-w-0">
+                                <p className="font-medium truncate">{fileData.file.name}</p>
+                                <p className="text-sm text-muted-foreground">
+                                  {(fileData.file.size / 1024 / 1024).toFixed(2)} MB
+                                </p>
+                              </div>
                             </div>
-                          ) : documentSummary ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
-                          ) : null}
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            onClick={removeFile}
-                            className="text-muted-foreground hover:text-foreground"
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-
-                      {/* Analysis Status */}
-                      {isAnalyzing && (
-                        <div className="bg-gold/5 border border-gold/20 rounded-lg p-6">
-                          <div className="flex items-center justify-center space-x-3">
-                            <Loader2 className="h-6 w-6 animate-spin text-gold" />
-                            <p className="text-sm font-medium">Analysing your HMRC document...</p>
+                            <div className="flex items-center space-x-2">
+                              {fileData.isAnalyzing ? (
+                                <Loader2 className="h-5 w-5 animate-spin text-gold" />
+                              ) : (
+                                <CheckCircle className="h-5 w-5 text-green-500" />
+                              )}
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeFile(index)}
+                                className="text-muted-foreground hover:text-foreground"
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
                           </div>
-                          <p className="text-xs text-muted-foreground text-center mt-2">
-                            This usually takes 10-20 seconds
-                          </p>
-                        </div>
-                      )}
+                        ))}
 
-                      {documentSummary && !isAnalyzing && (
-                        <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 flex items-center space-x-3">
-                          <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
-                          <p className="text-sm font-medium">Document analysed successfully. The analysis will be included in your submission.</p>
-                        </div>
-                      )}
-
-                      {/* Upload another file */}
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => fileInputRef.current?.click()}
-                        className="w-full"
-                      >
-                        <Upload className="h-4 w-4 mr-2" />
-                        Upload a different document
-                      </Button>
-                    </div>
-                  )}
+                        {/* Processing indicator */}
+                        {isAnyFileAnalyzing && (
+                          <div className="bg-gold/5 border border-gold/20 rounded-lg p-4">
+                            <div className="flex items-center justify-center space-x-3">
+                              <Loader2 className="h-5 w-5 animate-spin text-gold" />
+                              <p className="text-sm font-medium">Processing your documents...</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Urgency Warning */}
