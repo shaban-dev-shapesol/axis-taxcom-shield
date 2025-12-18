@@ -217,7 +217,8 @@ const GetStarted = () => {
         .map(f => f.summary as string);
 
       // Generate comprehensive assessment combining form + documents
-      let comprehensiveAssessment: string | null = null;
+      let clientAssessment: string | null = null;
+      let teamAssessment: string | null = null;
       
       const assessmentResponse = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-assessment`, {
         method: 'POST',
@@ -233,12 +234,13 @@ const GetStarted = () => {
 
       if (assessmentResponse.ok) {
         const assessmentData = await assessmentResponse.json();
-        comprehensiveAssessment = assessmentData.assessment;
+        clientAssessment = assessmentData.clientAssessment;
+        teamAssessment = assessmentData.teamAssessment;
       } else {
         console.error('Failed to generate comprehensive assessment, continuing with email...');
       }
 
-      // Send email with comprehensive assessment
+      // Send email with both assessments
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-assessment-email`, {
         method: 'POST',
         headers: {
@@ -247,7 +249,8 @@ const GetStarted = () => {
         body: JSON.stringify({
           ...formData,
           urgency,
-          documentSummary: comprehensiveAssessment,
+          clientAssessment,
+          teamAssessment,
           documentCount: uploadedFiles.length,
         }),
       });

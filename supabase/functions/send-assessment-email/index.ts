@@ -19,7 +19,9 @@ interface AssessmentEmailRequest {
   situation: string;
   description: string;
   urgency: number;
-  documentSummary?: string;
+  clientAssessment?: string;
+  teamAssessment?: string;
+  documentCount?: number;
 }
 
 // Convert markdown bold syntax to HTML
@@ -50,7 +52,9 @@ const handler = async (req: Request): Promise<Response> => {
       situation,
       description,
       urgency,
-      documentSummary,
+      clientAssessment,
+      teamAssessment,
+      documentCount,
     } = data;
 
     // Validate required fields
@@ -108,11 +112,12 @@ const handler = async (req: Request): Promise<Response> => {
             <p style="color: #555; margin: 10px 0 0 0; white-space: pre-wrap;">${description}</p>
           </div>
 
-          ${documentSummary ? `
-          <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 25px;">AI Document Analysis</h2>
+          ${teamAssessment ? `
+          <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 25px;">AI Case Assessment (Internal)</h2>
           <div style="background-color: #fef7ed; border: 1px solid #f57e20; padding: 15px; border-radius: 8px;">
-            <p style="color: #555; margin: 0;">${formatMarkdownToHtml(documentSummary)}</p>
+            <p style="color: #555; margin: 0;">${formatMarkdownToHtml(teamAssessment)}</p>
           </div>
+          ${documentCount ? `<p style="color: #666; font-size: 12px; margin-top: 10px;">📎 ${documentCount} document(s) uploaded and analyzed</p>` : ''}
           ` : ''}
 
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
@@ -158,10 +163,10 @@ const handler = async (req: Request): Promise<Response> => {
             <tr><td style="padding: 8px 0; color: #666;">Urgency Level:</td><td style="padding: 8px 0;"><span style="color: ${urgencyColor};">${urgency}/10</span></td></tr>
           </table>
 
-          ${documentSummary ? `
-          <h3 style="color: #333; margin-top: 25px;">Document Analysis Summary</h3>
+          ${clientAssessment ? `
+          <h3 style="color: #333; margin-top: 25px;">Your Initial Assessment</h3>
           <div style="background-color: #fef7ed; border: 1px solid #f57e20; padding: 15px; border-radius: 8px;">
-            <p style="color: #555; margin: 0; font-size: 14px;">${formatMarkdownToHtml(documentSummary)}</p>
+            <p style="color: #555; margin: 0; font-size: 14px;">${formatMarkdownToHtml(clientAssessment)}</p>
           </div>
           ` : ''}
 
