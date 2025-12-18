@@ -186,7 +186,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send email to team
     const teamEmailResponse = await resend.emails.send({
       from: "Investigation.tax <noreply@investigationtax.shapesol.io>",
-      to: ["team@investigation.tax"],
+      to: ["team@investigationtax.shapesol.io"],
       subject: `${urgencyLevel} New Assessment Request - ${firstName} ${lastName}`,
       html: teamEmailHtml,
     });
