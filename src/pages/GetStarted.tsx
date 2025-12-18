@@ -211,12 +211,34 @@ const GetStarted = () => {
     setIsSubmitting(true);
 
     try {
-      // Combine all document summaries into one string
+      // Collect document summaries
       const documentSummaries = uploadedFiles
         .filter(f => f.summary)
-        .map((f, i) => `--- Document ${i + 1}: ${f.file.name} ---\n${f.summary}`)
-        .join('\n\n');
+        .map(f => f.summary as string);
 
+      // Generate comprehensive assessment combining form + documents
+      let comprehensiveAssessment: string | null = null;
+      
+      const assessmentResponse = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-assessment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formData,
+          urgency,
+          documentSummaries,
+        }),
+      });
+
+      if (assessmentResponse.ok) {
+        const assessmentData = await assessmentResponse.json();
+        comprehensiveAssessment = assessmentData.assessment;
+      } else {
+        console.error('Failed to generate comprehensive assessment, continuing with email...');
+      }
+
+      // Send email with comprehensive assessment
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-assessment-email`, {
         method: 'POST',
         headers: {
@@ -225,7 +247,7 @@ const GetStarted = () => {
         body: JSON.stringify({
           ...formData,
           urgency,
-          documentSummary: documentSummaries || null,
+          documentSummary: comprehensiveAssessment,
           documentCount: uploadedFiles.length,
         }),
       });
