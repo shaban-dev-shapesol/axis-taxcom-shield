@@ -21,6 +21,7 @@ const GetStarted = () => {
     file: File;
     isAnalyzing: boolean;
     summary: string | null;
+    failed: boolean;
   }>>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -73,11 +74,11 @@ const GetStarted = () => {
       }
 
       // Add file to state with analyzing status
-      const fileIndex = uploadedFiles.length;
-      setUploadedFiles(prev => [...prev, { file, isAnalyzing: true, summary: null }]);
+      const newFile = { file, isAnalyzing: true, summary: null, failed: false };
+      setUploadedFiles(prev => [...prev, newFile]);
       
       // Analyze document in background
-      analyzeDocument(file, fileIndex);
+      analyzeDocument(file);
     }
 
     // Reset input
@@ -86,32 +87,36 @@ const GetStarted = () => {
     }
   };
 
-  const analyzeDocument = async (file: File, fileIndex: number) => {
+  const analyzeDocument = async (file: File) => {
     try {
-      const formData = new FormData();
-      formData.append('file', file);
+      const formDataObj = new FormData();
+      formDataObj.append('file', file);
 
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-document`, {
         method: 'POST',
-        body: formData,
+        body: formDataObj,
       });
 
-      let summary = null;
       if (response.ok) {
         const data = await response.json();
-        summary = data.summary;
+        setUploadedFiles(prev => prev.map(f => 
+          f.file.name === file.name && f.file.size === file.size
+            ? { ...f, isAnalyzing: false, summary: data.summary, failed: false }
+            : f
+        ));
+      } else {
+        // Mark as failed if response not ok
+        setUploadedFiles(prev => prev.map(f => 
+          f.file.name === file.name && f.file.size === file.size
+            ? { ...f, isAnalyzing: false, summary: null, failed: true }
+            : f
+        ));
       }
-
-      setUploadedFiles(prev => prev.map((f, i) => 
-        f.file.name === file.name && f.file.size === file.size
-          ? { ...f, isAnalyzing: false, summary }
-          : f
-      ));
     } catch (error) {
       console.error('Error analyzing document:', error);
-      setUploadedFiles(prev => prev.map((f, i) => 
+      setUploadedFiles(prev => prev.map(f => 
         f.file.name === file.name && f.file.size === file.size
-          ? { ...f, isAnalyzing: false, summary: null }
+          ? { ...f, isAnalyzing: false, summary: null, failed: true }
           : f
       ));
     }
@@ -138,8 +143,10 @@ const GetStarted = () => {
     event.preventDefault();
   };
 
-  // Check if any files are still being analyzed
+  // Check if any files are still being analyzed or have failed
   const isAnyFileAnalyzing = uploadedFiles.some(f => f.isAnalyzing);
+  const hasAnyFailedFile = uploadedFiles.some(f => f.failed);
+  const canSubmitDocuments = uploadedFiles.length === 0 || (!isAnyFileAnalyzing && !hasAnyFailedFile);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -181,14 +188,24 @@ const GetStarted = () => {
       return;
     }
 
-    // Check if any files are still being analyzed
-    if (isAnyFileAnalyzing) {
-      toast({
-        title: "Please wait",
-        description: "Your documents are still being processed. Please wait a moment.",
-        variant: "destructive",
-      });
-      return;
+    // Check document analysis status
+    if (uploadedFiles.length > 0) {
+      if (isAnyFileAnalyzing) {
+        toast({
+          title: "Please wait",
+          description: "Your documents are still being processed. Please wait a moment.",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (hasAnyFailedFile) {
+        toast({
+          title: "Document analysis failed",
+          description: "Some documents failed to process. Please remove them and try again.",
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     setIsSubmitting(true);
@@ -544,6 +561,8 @@ const GetStarted = () => {
                             <div className="flex items-center gap-2 flex-shrink-0">
                               {fileData.isAnalyzing ? (
                                 <Loader2 className="h-5 w-5 animate-spin text-gold" />
+                              ) : fileData.failed ? (
+                                <AlertCircle className="h-5 w-5 text-destructive" />
                               ) : (
                                 <CheckCircle className="h-5 w-5 text-green-500" />
                               )}
@@ -569,6 +588,16 @@ const GetStarted = () => {
                             </div>
                           </div>
                         )}
+                        
+                        {/* Failed documents warning */}
+                        {hasAnyFailedFile && !isAnyFileAnalyzing && (
+                          <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
+                            <div className="flex items-center justify-center space-x-3">
+                              <AlertCircle className="h-5 w-5 text-destructive" />
+                              <p className="text-sm font-medium text-destructive">Some documents failed to process. Please remove them to continue.</p>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -590,7 +619,7 @@ const GetStarted = () => {
 
                 {/* Submit */}
                 <div className="pt-6">
-                  <Button type="submit" variant="danger" size="lg" className="w-full" disabled={isSubmitting}>
+                  <Button type="submit" variant="danger" size="lg" className="w-full" disabled={isSubmitting || !canSubmitDocuments}>
                     {isSubmitting ? (
                       <>
                         <Loader2 className="h-5 w-5 animate-spin mr-2" />
