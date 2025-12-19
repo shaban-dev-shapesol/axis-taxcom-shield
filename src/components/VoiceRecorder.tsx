@@ -1,12 +1,12 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Mic, Square, Loader2, Play, Pause, RotateCcw, Check } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { Mic, Square, Play, Pause, RotateCcw, Check, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface VoiceRecorderProps {
-  onTranscription: (text: string) => void;
+  onVoiceNote: (audioBlob: Blob | null) => void;
   disabled?: boolean;
+  hasVoiceNote?: boolean;
 }
 
 const AudioWaveform = ({ analyser }: { analyser: AnalyserNode | null }) => {
@@ -74,9 +74,8 @@ const formatDuration = (seconds: number): string => {
   return `${mins}:${secs.toString().padStart(2, '0')}`;
 };
 
-export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps) => {
+export const VoiceRecorder = ({ onVoiceNote, disabled, hasVoiceNote }: VoiceRecorderProps) => {
   const [isRecording, setIsRecording] = useState(false);
-  const [isTranscribing, setIsTranscribing] = useState(false);
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
@@ -88,7 +87,6 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
   const audioContextRef = useRef<AudioContext | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const chunksRef = useRef<Blob[]>([]);
-  const streamRef = useRef<MediaStream | null>(null);
   const { toast } = useToast();
 
   // Clean up audio URL on unmount
@@ -117,7 +115,6 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
           noiseSuppression: true,
         }
       });
-      streamRef.current = stream;
 
       // Set up audio analyser for waveform
       const audioContext = new AudioContext();
@@ -219,60 +216,50 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
     setIsPlaying(false);
     setCurrentTime(0);
     setDuration(0);
-  }, [audioUrl]);
+    onVoiceNote(null);
+  }, [audioUrl, onVoiceNote]);
 
-  const confirmRecording = useCallback(async () => {
+  const confirmRecording = useCallback(() => {
     if (!recordedBlob) return;
     
     // Stop playback if playing
     if (audioRef.current) {
       audioRef.current.pause();
-      audioRef.current = null;
     }
     setIsPlaying(false);
 
-    await transcribeAudio(recordedBlob);
-  }, [recordedBlob]);
+    onVoiceNote(recordedBlob);
+    toast({
+      title: 'Voice note added',
+      description: 'Your voice note will be sent with your enquiry.',
+    });
+  }, [recordedBlob, onVoiceNote, toast]);
 
-  const transcribeAudio = async (audioBlob: Blob) => {
-    setIsTranscribing(true);
+  // Show confirmed voice note state
+  if (hasVoiceNote && !audioUrl) {
+    return (
+      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 rounded-md border border-green-500/20 text-green-700 dark:text-green-400">
+          <Check className="h-4 w-4" />
+          <span className="text-sm">Voice note attached</span>
+        </div>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => onVoiceNote(null)}
+          disabled={disabled}
+          className="gap-1.5 text-muted-foreground hover:text-destructive"
+        >
+          <X className="h-3.5 w-3.5" />
+          Remove
+        </Button>
+      </div>
+    );
+  }
 
-    try {
-      // Convert blob to base64
-      const arrayBuffer = await audioBlob.arrayBuffer();
-      const base64Audio = btoa(
-        String.fromCharCode(...new Uint8Array(arrayBuffer))
-      );
-
-      const { data, error } = await supabase.functions.invoke('transcribe-audio', {
-        body: { audio: base64Audio }
-      });
-
-      if (error) throw error;
-
-      if (data?.text) {
-        onTranscription(data.text);
-        toast({
-          title: 'Voice note transcribed',
-          description: 'Your voice note has been added to the description.',
-        });
-        // Clean up after successful transcription
-        discardRecording();
-      }
-    } catch (error) {
-      console.error('Transcription error:', error);
-      toast({
-        title: 'Transcription failed',
-        description: 'Could not transcribe voice note. Please try again or type your message.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsTranscribing(false);
-    }
-  };
-
-  // Preview state - show after recording, before transcription
-  if (audioUrl && !isTranscribing) {
+  // Preview state - show after recording, before confirming
+  if (audioUrl) {
     return (
       <div className="flex items-center gap-2 flex-wrap">
         <div className="flex items-center gap-2 px-3 py-1.5 bg-muted rounded-md border">
@@ -314,7 +301,7 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
           className="gap-1.5"
         >
           <Check className="h-3.5 w-3.5" />
-          Add to Description
+          Use This Recording
         </Button>
       </div>
     );
@@ -340,17 +327,6 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
         >
           <Square className="h-4 w-4" />
           Stop
-        </Button>
-      ) : isTranscribing ? (
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          disabled
-          className="gap-2"
-        >
-          <Loader2 className="h-4 w-4 animate-spin" />
-          Transcribing...
         </Button>
       ) : (
         <Button
