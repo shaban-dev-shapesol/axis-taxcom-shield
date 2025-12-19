@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Mic, Square, Loader2 } from 'lucide-react';
+import { Mic, Square, Loader2, Play, Pause, RotateCcw, Check } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -68,16 +68,48 @@ const AudioWaveform = ({ analyser }: { analyser: AnalyserNode | null }) => {
   );
 };
 
+const formatDuration = (seconds: number): string => {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+};
+
 export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
+  const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const streamRef = useRef<MediaStream | null>(null);
   const { toast } = useToast();
 
+  // Clean up audio URL on unmount
+  useEffect(() => {
+    return () => {
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+      }
+    };
+  }, [audioUrl]);
+
   const startRecording = useCallback(async () => {
+    // Clear any previous recording
+    if (audioUrl) {
+      URL.revokeObjectURL(audioUrl);
+      setAudioUrl(null);
+    }
+    setRecordedBlob(null);
+    setCurrentTime(0);
+    setDuration(0);
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
         audio: {
@@ -85,6 +117,7 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
           noiseSuppression: true,
         }
       });
+      streamRef.current = stream;
 
       // Set up audio analyser for waveform
       const audioContext = new AudioContext();
@@ -107,7 +140,7 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
         }
       };
 
-      mediaRecorder.onstop = async () => {
+      mediaRecorder.onstop = () => {
         const audioBlob = new Blob(chunksRef.current, { type: mediaRecorder.mimeType });
         stream.getTracks().forEach(track => track.stop());
         
@@ -118,7 +151,16 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
         }
         setAnalyser(null);
         
-        await transcribeAudio(audioBlob);
+        // Create preview URL
+        const url = URL.createObjectURL(audioBlob);
+        setAudioUrl(url);
+        setRecordedBlob(audioBlob);
+        
+        // Get duration
+        const audio = new Audio(url);
+        audio.addEventListener('loadedmetadata', () => {
+          setDuration(audio.duration);
+        });
       };
 
       mediaRecorderRef.current = mediaRecorder;
@@ -132,7 +174,7 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
         variant: 'destructive',
       });
     }
-  }, [toast]);
+  }, [toast, audioUrl]);
 
   const stopRecording = useCallback(() => {
     if (mediaRecorderRef.current && isRecording) {
@@ -140,6 +182,57 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
       setIsRecording(false);
     }
   }, [isRecording]);
+
+  const togglePlayback = useCallback(() => {
+    if (!audioUrl) return;
+
+    if (!audioRef.current) {
+      audioRef.current = new Audio(audioUrl);
+      audioRef.current.addEventListener('ended', () => {
+        setIsPlaying(false);
+        setCurrentTime(0);
+      });
+      audioRef.current.addEventListener('timeupdate', () => {
+        setCurrentTime(audioRef.current?.currentTime || 0);
+      });
+    }
+
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [audioUrl, isPlaying]);
+
+  const discardRecording = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    if (audioUrl) {
+      URL.revokeObjectURL(audioUrl);
+    }
+    setAudioUrl(null);
+    setRecordedBlob(null);
+    setIsPlaying(false);
+    setCurrentTime(0);
+    setDuration(0);
+  }, [audioUrl]);
+
+  const confirmRecording = useCallback(async () => {
+    if (!recordedBlob) return;
+    
+    // Stop playback if playing
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    setIsPlaying(false);
+
+    await transcribeAudio(recordedBlob);
+  }, [recordedBlob]);
 
   const transcribeAudio = async (audioBlob: Blob) => {
     setIsTranscribing(true);
@@ -163,6 +256,8 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
           title: 'Voice note transcribed',
           description: 'Your voice note has been added to the description.',
         });
+        // Clean up after successful transcription
+        discardRecording();
       }
     } catch (error) {
       console.error('Transcription error:', error);
@@ -175,6 +270,55 @@ export const VoiceRecorder = ({ onTranscription, disabled }: VoiceRecorderProps)
       setIsTranscribing(false);
     }
   };
+
+  // Preview state - show after recording, before transcription
+  if (audioUrl && !isTranscribing) {
+    return (
+      <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-muted rounded-md border">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7"
+            onClick={togglePlayback}
+          >
+            {isPlaying ? (
+              <Pause className="h-4 w-4" />
+            ) : (
+              <Play className="h-4 w-4" />
+            )}
+          </Button>
+          <span className="text-sm font-mono min-w-[70px]">
+            {formatDuration(currentTime)} / {formatDuration(duration)}
+          </span>
+        </div>
+        
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={discardRecording}
+          className="gap-1.5"
+        >
+          <RotateCcw className="h-3.5 w-3.5" />
+          Re-record
+        </Button>
+        
+        <Button
+          type="button"
+          variant="default"
+          size="sm"
+          onClick={confirmRecording}
+          disabled={disabled}
+          className="gap-1.5"
+        >
+          <Check className="h-3.5 w-3.5" />
+          Add to Description
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center gap-3">
