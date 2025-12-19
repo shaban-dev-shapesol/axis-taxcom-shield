@@ -11,6 +11,7 @@ import { Upload, AlertTriangle, Lock, FileText, Loader2, CheckCircle, X, Check, 
 import { VoiceRecorder } from "@/components/VoiceRecorder";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const GetStarted = () => {
   const heroSection = useScrollAnimation();
@@ -233,6 +234,41 @@ const GetStarted = () => {
     setIsSubmitting(true);
 
     try {
+      // Upload voice notes to storage and get URLs
+      const voiceNoteUrls: string[] = [];
+      if (voiceNotes.length > 0) {
+        for (let i = 0; i < voiceNotes.length; i++) {
+          const blob = voiceNotes[i];
+          const timestamp = Date.now();
+          const fileName = `${formData.email.replace(/[^a-zA-Z0-9]/g, '_')}_${timestamp}_${i}.webm`;
+          
+          const { data, error } = await supabase.storage
+            .from('voice-notes')
+            .upload(fileName, blob, {
+              contentType: 'audio/webm',
+              upsert: false,
+            });
+          
+          if (error) {
+            console.error('Failed to upload voice note:', error);
+            toast({
+              title: "Voice note upload failed",
+              description: `Failed to upload voice note ${i + 1}. Please try again.`,
+              variant: "destructive",
+            });
+            setIsSubmitting(false);
+            return;
+          }
+          
+          // Get public URL
+          const { data: urlData } = supabase.storage
+            .from('voice-notes')
+            .getPublicUrl(fileName);
+          
+          voiceNoteUrls.push(urlData.publicUrl);
+        }
+      }
+
       // Collect document summaries
       const documentSummaries = uploadedFiles
         .filter(f => f.summary)
@@ -282,8 +318,7 @@ const GetStarted = () => {
           clientAssessment,
           teamAssessment,
           documentCount: uploadedFiles.length,
-          hasVoiceNotes: voiceNotes.length > 0,
-          voiceNoteCount: voiceNotes.length,
+          voiceNoteUrls,
         }),
       });
 
