@@ -72,12 +72,12 @@ const handler = async (req: Request): Promise<Response> => {
     const urgencyColor = urgency >= 8 ? "#dc2626" : urgency >= 5 ? "#f59e0b" : "#22c55e";
 
     // Generate voice notes HTML for team email
+    // Use direct audio URLs since they're publicly accessible from Supabase storage
     const voiceNotesHtml = voiceNoteUrls && voiceNoteUrls.length > 0 ? `
       <h2 style="color: #1a1a2e; border-bottom: 2px solid #f57e20; padding-bottom: 10px; margin-top: 30px;">🎤 Voice Notes (${voiceNoteUrls.length})</h2>
 
       <div style="background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%); border: 1px solid #f57e20; padding: 20px; border-radius: 12px; margin-top: 15px;">
         ${voiceNoteUrls.map((url, index) => {
-          const playerUrl = `https://investigation.tax/play-audio?url=${encodeURIComponent(url)}&note=${index + 1}`;
           return `
           <div style="background-color: white; border-radius: 10px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #fde0c2;">
             <table style="width: 100%; border-collapse: collapse;">
@@ -87,7 +87,7 @@ const handler = async (req: Request): Promise<Response> => {
                   <span style="color: #1a1a2e; font-weight: 600; font-size: 15px;">Voice Note ${index + 1}</span>
                 </td>
                 <td style="text-align: right; vertical-align: middle;">
-                  <a href="${playerUrl}" target="_blank" rel="noreferrer" style="display: inline-block; background-color: #f57e20; color: #ffffff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">▶ Play</a>
+                  <a href="${url}" target="_blank" rel="noreferrer" style="display: inline-block; background-color: #f57e20; color: #ffffff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">▶ Play / Download</a>
                 </td>
               </tr>
             </table>
