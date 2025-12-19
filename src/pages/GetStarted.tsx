@@ -457,20 +457,14 @@ const GetStarted = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="annualIncome">Approximate Annual Income / Turnover</Label>
-                      <Select value={formData.annualIncome} onValueChange={(value) => handleInputChange('annualIncome', value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select income bracket" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="under-50k">Under £50,000</SelectItem>
-                          <SelectItem value="50k-100k">£50,000 - £100,000</SelectItem>
-                          <SelectItem value="100k-250k">£100,000 - £250,000</SelectItem>
-                          <SelectItem value="250k-500k">£250,000 - £500,000</SelectItem>
-                          <SelectItem value="500k-1m">£500,000 - £1,000,000</SelectItem>
-                          <SelectItem value="over-1m">Over £1,000,000</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Label htmlFor="annualTurnover">Approximate Annual Turnover</Label>
+                      <Input 
+                        id="annualTurnover" 
+                        placeholder="e.g. £150,000" 
+                        value={formData.annualIncome}
+                        onChange={(e) => handleInputChange('annualIncome', e.target.value)}
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Enter your approximate annual business turnover or personal income</p>
                     </div>
                   </div>
                 </div>
