@@ -177,31 +177,130 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
   const [isRecording, setIsRecording] = useState(false);
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
   const [notes, setNotes] = useState<VoiceNote[]>([]);
-  
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const blobMetaRef = useRef<Map<Blob, VoiceNote>>(new Map());
   const { toast } = useToast();
 
-  // Sync internal notes with external voiceNotes prop
+  // Helpers
+  const getOrCreateMetaForBlob = useCallback((blob: Blob): VoiceNote => {
+    const existing = blobMetaRef.current.get(blob);
+    if (existing) return existing;
+
+    const url = URL.createObjectURL(blob);
+    const id = typeof crypto !== 'undefined' && 'randomUUID' in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+    const meta: VoiceNote = { id, blob, url, duration: 0 };
+    blobMetaRef.current.set(blob, meta);
+    return meta;
+  }, []);
+
+  const resolveDurationForUrl = useCallback((url: string, timeoutMs = 2000): Promise<number> => {
+    return new Promise((resolve) => {
+      const audio = new Audio();
+      let done = false;
+
+      const finish = (value: number) => {
+        if (done) return;
+        done = true;
+        cleanup();
+        resolve(value);
+      };
+
+      const cleanup = () => {
+        audio.removeEventListener('loadedmetadata', onLoadedMetadata);
+        audio.removeEventListener('timeupdate', onTimeUpdate);
+        audio.removeEventListener('durationchange', onDurationChange);
+        audio.removeEventListener('error', onError);
+      };
+
+      const tryGet = () => {
+        const d = audio.duration;
+        if (isFinite(d) && d > 0) {
+          finish(d);
+          return true;
+        }
+        return false;
+      };
+
+      const onLoadedMetadata = () => {
+        if (!tryGet()) {
+          try {
+            audio.currentTime = 1e101;
+          } catch {
+            // ignore
+          }
+        }
+      };
+      const onTimeUpdate = () => {
+        if (tryGet()) {
+          try {
+            audio.currentTime = 0;
+          } catch {
+            // ignore
+          }
+        }
+      };
+      const onDurationChange = () => {
+        tryGet();
+      };
+      const onError = () => finish(0);
+
+      audio.addEventListener('loadedmetadata', onLoadedMetadata);
+      audio.addEventListener('timeupdate', onTimeUpdate);
+      audio.addEventListener('durationchange', onDurationChange);
+      audio.addEventListener('error', onError);
+
+      audio.preload = 'metadata';
+      audio.src = url;
+
+      window.setTimeout(() => finish(0), timeoutMs);
+    });
+  }, []);
+
+  // Keep internal preview list in sync with parent-controlled blobs.
   useEffect(() => {
-    if (voiceNotes.length === 0 && notes.length > 0) {
-      // Clean up URLs when form is reset
-      notes.forEach(note => URL.revokeObjectURL(note.url));
-      setNotes([]);
+    // Revoke URLs for blobs that were removed upstream
+    const current = new Set(voiceNotes);
+    for (const [blob, meta] of blobMetaRef.current.entries()) {
+      if (!current.has(blob)) {
+        URL.revokeObjectURL(meta.url);
+        blobMetaRef.current.delete(blob);
+      }
     }
-  }, [voiceNotes, notes]);
+
+    const metas = voiceNotes.map(getOrCreateMetaForBlob);
+    setNotes(metas);
+
+    // Resolve durations for any notes that still have 0 duration
+    metas.forEach((m) => {
+      if (m.duration > 0) return;
+      resolveDurationForUrl(m.url).then((d) => {
+        if (!blobMetaRef.current.has(m.blob)) return; // removed
+        const updatedMeta = { ...m, duration: d };
+        blobMetaRef.current.set(m.blob, updatedMeta);
+        setNotes((prev) => prev.map((n) => (n.blob === m.blob ? updatedMeta : n)));
+      });
+    });
+  }, [voiceNotes, getOrCreateMetaForBlob, resolveDurationForUrl]);
 
   // Clean up all audio URLs on unmount
   useEffect(() => {
     return () => {
-      notes.forEach(note => URL.revokeObjectURL(note.url));
+      for (const meta of blobMetaRef.current.values()) {
+        URL.revokeObjectURL(meta.url);
+      }
+      blobMetaRef.current.clear();
     };
   }, []);
 
   const startRecording = useCallback(async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
+      const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
@@ -242,95 +341,30 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
           });
           return;
         }
+
         // Clean up audio context
         if (audioContextRef.current) {
           audioContextRef.current.close();
           audioContextRef.current = null;
         }
         setAnalyser(null);
-        
-        // Create preview URL and add to notes
-        const url = URL.createObjectURL(audioBlob);
-        const id = typeof crypto !== 'undefined' && 'randomUUID' in crypto
-          ? crypto.randomUUID()
-          : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-        
-        console.log('[VoiceRecorder] recorded blob', { size: audioBlob.size, type: audioBlob.type, id });
-        
-        // Track whether we've already added this note
-        let noteAdded = false;
-        
-        const addNote = (duration: number) => {
-          if (noteAdded) return;
-          noteAdded = true;
-          
-          console.log('[VoiceRecorder] adding note with duration:', duration);
-          
-          const newNote: VoiceNote = {
-            id,
-            blob: audioBlob,
-            url,
-            duration,
-          };
-          
-          setNotes(prev => {
-            const updated = [...prev, newNote];
-            onVoiceNotes(updated.map(n => n.blob));
-            return updated;
-          });
-        };
-        
-        // For webm audio, duration is often Infinity until we seek through it
-        // Use a workaround: seek to very large value, then read duration
-        const audio = new Audio();
-        
-        const tryGetDuration = () => {
-          const duration = audio.duration;
-          console.log('[VoiceRecorder] checking duration:', duration);
-          
-          if (isFinite(duration) && duration > 0) {
-            addNote(duration);
-            return true;
-          }
-          return false;
-        };
-        
-        audio.addEventListener('loadedmetadata', () => {
-          console.log('[VoiceRecorder] loadedmetadata fired, duration:', audio.duration);
-          if (!tryGetDuration()) {
-            // Duration is Infinity - seek to force calculation
-            audio.currentTime = 1e101; // Seek to a very large time
-          }
+
+        // Immediately create local meta so the item can render even if the parent rerenders/remounts.
+        const meta = getOrCreateMetaForBlob(audioBlob);
+        setNotes((prev) => {
+          if (prev.some((n) => n.blob === audioBlob)) return prev;
+          return [...prev, meta];
         });
-        
-        audio.addEventListener('timeupdate', () => {
-          // After seeking to Infinity, timeupdate fires with correct duration
-          console.log('[VoiceRecorder] timeupdate, duration now:', audio.duration);
-          if (tryGetDuration()) {
-            audio.currentTime = 0; // Reset to start
-          }
+
+        // Notify parent (source of truth)
+        onVoiceNotes([...voiceNotes, audioBlob]);
+
+        // Resolve duration asynchronously
+        resolveDurationForUrl(meta.url).then((d) => {
+          const updated = { ...meta, duration: d };
+          blobMetaRef.current.set(audioBlob, updated);
+          setNotes((prev) => prev.map((n) => (n.blob === audioBlob ? updated : n)));
         });
-        
-        audio.addEventListener('durationchange', () => {
-          console.log('[VoiceRecorder] durationchange, duration:', audio.duration);
-          tryGetDuration();
-        });
-        
-        audio.addEventListener('error', (e) => {
-          console.warn('[VoiceRecorder] audio error:', e);
-          addNote(0);
-        });
-        
-        audio.preload = 'metadata';
-        audio.src = url;
-        
-        // Fallback: if nothing fires in 2 seconds, add the note anyway
-        setTimeout(() => {
-          if (!noteAdded) {
-            console.warn('[VoiceRecorder] Duration detection timed out, adding note with 0 duration');
-            addNote(0);
-          }
-        }, 2000);
       };
 
       mediaRecorderRef.current = mediaRecorder;
@@ -345,7 +379,7 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
         variant: 'destructive',
       });
     }
-  }, [toast, onVoiceNotes]);
+  }, [toast, onVoiceNotes, voiceNotes, getOrCreateMetaForBlob, resolveDurationForUrl]);
 
   const stopRecording = useCallback(() => {
     const recorder = mediaRecorderRef.current;
@@ -375,17 +409,16 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
   }, [isRecording]);
 
   const deleteNote = useCallback((id: string) => {
-    setNotes(prev => {
-      const noteToDelete = prev.find(n => n.id === id);
-      if (noteToDelete) {
-        URL.revokeObjectURL(noteToDelete.url);
-      }
-      const updated = prev.filter(n => n.id !== id);
-      // Notify parent with remaining blobs
-      onVoiceNotes(updated.map(n => n.blob));
-      return updated;
-    });
-  }, [onVoiceNotes]);
+    const noteToDelete = notes.find((n) => n.id === id);
+    if (!noteToDelete) return;
+
+    // Local cleanup
+    URL.revokeObjectURL(noteToDelete.url);
+    blobMetaRef.current.delete(noteToDelete.blob);
+
+    // Parent is source of truth
+    onVoiceNotes(voiceNotes.filter((b) => b !== noteToDelete.blob));
+  }, [notes, onVoiceNotes, voiceNotes]);
 
   return (
     <div className="space-y-4">
