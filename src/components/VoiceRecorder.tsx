@@ -348,10 +348,30 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
   }, [toast, onVoiceNotes]);
 
   const stopRecording = useCallback(() => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
+    const recorder = mediaRecorderRef.current;
+    if (!recorder || !isRecording) return;
+
+    // Ensure we flush the last chunk before stopping (fixes "first recording not saved" on some browsers)
+    try {
+      if (recorder.state === 'recording') {
+        recorder.requestData();
+      }
+    } catch (e) {
+      console.warn('[VoiceRecorder] requestData failed (continuing):', e);
     }
+
+    setIsRecording(false);
+
+    // Give the browser a moment to deliver the final `dataavailable` event
+    setTimeout(() => {
+      try {
+        if (recorder.state !== 'inactive') {
+          recorder.stop();
+        }
+      } catch (e) {
+        console.warn('[VoiceRecorder] stop failed:', e);
+      }
+    }, 150);
   }, [isRecording]);
 
   const deleteNote = useCallback((id: string) => {
