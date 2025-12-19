@@ -1,7 +1,9 @@
+import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
 const corsHeaders = {
@@ -32,7 +34,7 @@ interface VoiceTranscription {
   summary: string;
 }
 
-// Transcribe voice note using Lovable AI
+// Transcribe voice note using OpenAI Whisper API
 async function transcribeVoiceNote(audioUrl: string): Promise<{ transcript: string; summary: string }> {
   try {
     console.log("Fetching audio from:", audioUrl);
@@ -43,18 +45,47 @@ async function transcribeVoiceNote(audioUrl: string): Promise<{ transcript: stri
       throw new Error(`Failed to fetch audio: ${audioResponse.status}`);
     }
     
-    const audioBuffer = await audioResponse.arrayBuffer();
-    const base64Audio = btoa(String.fromCharCode(...new Uint8Array(audioBuffer)));
+    const audioBlob = await audioResponse.blob();
+    console.log("Audio blob size:", audioBlob.size, "type:", audioBlob.type);
     
-    // Determine mime type from URL
-    const mimeType = audioUrl.includes('.webm') ? 'audio/webm' : 
-                     audioUrl.includes('.mp3') ? 'audio/mp3' : 
-                     audioUrl.includes('.wav') ? 'audio/wav' : 'audio/webm';
+    // Determine file extension from URL or content type
+    let fileExt = 'webm';
+    if (audioUrl.includes('.mp3')) fileExt = 'mp3';
+    else if (audioUrl.includes('.wav')) fileExt = 'wav';
+    else if (audioUrl.includes('.m4a')) fileExt = 'm4a';
+    else if (audioBlob.type.includes('mp3')) fileExt = 'mp3';
+    else if (audioBlob.type.includes('wav')) fileExt = 'wav';
     
-    console.log("Transcribing audio with Lovable AI...");
+    // Create form data for Whisper API
+    const formData = new FormData();
+    formData.append('file', audioBlob, `audio.${fileExt}`);
+    formData.append('model', 'whisper-1');
+    formData.append('language', 'en');
     
-    // Use Lovable AI to transcribe and analyze
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    console.log("Transcribing with OpenAI Whisper...");
+    
+    // Send to OpenAI Whisper API
+    const whisperResponse = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: formData,
+    });
+
+    if (!whisperResponse.ok) {
+      const errorText = await whisperResponse.text();
+      console.error("Whisper API error:", whisperResponse.status, errorText);
+      throw new Error(`Transcription failed: ${whisperResponse.status}`);
+    }
+
+    const whisperResult = await whisperResponse.json();
+    const transcript = whisperResult.text || "";
+    
+    console.log("Transcription successful, generating summary...");
+    
+    // Now use Lovable AI to generate a professional summary
+    const summaryResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${LOVABLE_API_KEY}`,
@@ -65,56 +96,30 @@ async function transcribeVoiceNote(audioUrl: string): Promise<{ transcript: stri
         messages: [
           {
             role: "system",
-            content: `You are an expert transcriptionist and analyst for a tax investigation consultancy. 
-Your task is to:
-1. Accurately transcribe the audio recording
-2. Provide a brief professional summary highlighting key concerns, financial details, and urgency indicators
-
-Format your response EXACTLY as:
-TRANSCRIPT:
-[Full transcription of the audio]
-
-SUMMARY:
-[2-3 sentence professional summary highlighting key points relevant to an HMRC investigation case]`
+            content: `You are an expert analyst for a tax investigation consultancy. 
+Given a transcript of a client's voice note about their HMRC/tax situation, provide a brief 2-3 sentence professional summary highlighting:
+- Key concerns or issues mentioned
+- Any financial details or amounts
+- Urgency indicators or deadlines
+Be concise and focus on information relevant to building their case.`
           },
           {
             role: "user",
-            content: [
-              {
-                type: "input_audio",
-                input_audio: {
-                  data: base64Audio,
-                  format: mimeType.split('/')[1]
-                }
-              },
-              {
-                type: "text",
-                text: "Please transcribe this voice note from a client describing their HMRC tax situation, then provide a brief summary."
-              }
-            ]
+            content: `Please summarize this voice note transcript from a client:\n\n${transcript}`
           }
         ],
-        max_tokens: 2000
+        max_tokens: 300
       }),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Lovable AI error:", response.status, errorText);
-      throw new Error(`Transcription failed: ${response.status}`);
+    let summary = "Voice note recorded - key points extracted above.";
+    
+    if (summaryResponse.ok) {
+      const summaryData = await summaryResponse.json();
+      summary = summaryData.choices?.[0]?.message?.content?.trim() || summary;
+    } else {
+      console.warn("Summary generation failed, using default");
     }
-
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content || "";
-    
-    console.log("Transcription received, parsing...");
-    
-    // Parse the response
-    const transcriptMatch = content.match(/TRANSCRIPT:\s*([\s\S]*?)(?=SUMMARY:|$)/i);
-    const summaryMatch = content.match(/SUMMARY:\s*([\s\S]*?)$/i);
-    
-    const transcript = transcriptMatch?.[1]?.trim() || content;
-    const summary = summaryMatch?.[1]?.trim() || "Voice note recorded - manual review recommended.";
     
     return { transcript, summary };
   } catch (error) {
