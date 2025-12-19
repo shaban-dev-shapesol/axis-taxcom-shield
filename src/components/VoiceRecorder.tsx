@@ -3,10 +3,17 @@ import { Button } from '@/components/ui/button';
 import { Mic, Square, Play, Pause, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
+interface VoiceNote {
+  id: string;
+  blob: Blob;
+  url: string;
+  duration: number;
+}
+
 interface VoiceRecorderProps {
-  onVoiceNote: (audioBlob: Blob | null) => void;
+  onVoiceNotes: (voiceNotes: Blob[]) => void;
   disabled?: boolean;
-  hasVoiceNote?: boolean;
+  voiceNotes: Blob[];
 }
 
 const AudioWaveform = ({ analyser }: { analyser: AnalyserNode | null }) => {
@@ -74,47 +81,114 @@ const formatDuration = (seconds: number): string => {
   return `${mins}:${secs.toString().padStart(2, '0')}`;
 };
 
-export const VoiceRecorder = ({ onVoiceNote, disabled, hasVoiceNote }: VoiceRecorderProps) => {
+const VoiceNoteItem = ({ 
+  note, 
+  index,
+  onDelete,
+  disabled 
+}: { 
+  note: VoiceNote; 
+  index: number;
+  onDelete: () => void;
+  disabled?: boolean;
+}) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const togglePlayback = useCallback(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio(note.url);
+      audioRef.current.addEventListener('ended', () => {
+        setIsPlaying(false);
+        setCurrentTime(0);
+      });
+      audioRef.current.addEventListener('timeupdate', () => {
+        setCurrentTime(audioRef.current?.currentTime || 0);
+      });
+    }
+
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [note.url, isPlaying]);
+
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 px-3 py-1.5 bg-muted rounded-md border">
+        <span className="text-xs text-muted-foreground font-medium">#{index + 1}</span>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="h-7 w-7"
+          onClick={togglePlayback}
+        >
+          {isPlaying ? (
+            <Pause className="h-4 w-4" />
+          ) : (
+            <Play className="h-4 w-4" />
+          )}
+        </Button>
+        <span className="text-sm font-mono min-w-[70px]">
+          {formatDuration(currentTime)} / {formatDuration(note.duration)}
+        </span>
+      </div>
+      
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={onDelete}
+        disabled={disabled}
+        className="gap-1.5 text-muted-foreground hover:text-destructive"
+      >
+        <X className="h-3.5 w-3.5" />
+      </Button>
+    </div>
+  );
+};
+
+export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecorderProps) => {
   const [isRecording, setIsRecording] = useState(false);
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
-  const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [duration, setDuration] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
+  const [notes, setNotes] = useState<VoiceNote[]>([]);
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const { toast } = useToast();
 
-  // Clean up audio URL on unmount
+  // Sync internal notes with external voiceNotes prop
+  useEffect(() => {
+    if (voiceNotes.length === 0 && notes.length > 0) {
+      // Clean up URLs when form is reset
+      notes.forEach(note => URL.revokeObjectURL(note.url));
+      setNotes([]);
+    }
+  }, [voiceNotes, notes]);
+
+  // Clean up all audio URLs on unmount
   useEffect(() => {
     return () => {
-      if (audioUrl) {
-        URL.revokeObjectURL(audioUrl);
-      }
+      notes.forEach(note => URL.revokeObjectURL(note.url));
     };
-  }, [audioUrl]);
-
-  // Auto-add voice note when recording completes
-  useEffect(() => {
-    if (recordedBlob && !hasVoiceNote) {
-      onVoiceNote(recordedBlob);
-    }
-  }, [recordedBlob, hasVoiceNote, onVoiceNote]);
+  }, []);
 
   const startRecording = useCallback(async () => {
-    // Clear any previous recording
-    if (audioUrl) {
-      URL.revokeObjectURL(audioUrl);
-      setAudioUrl(null);
-    }
-    setRecordedBlob(null);
-    setCurrentTime(0);
-    setDuration(0);
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
         audio: {
@@ -155,15 +229,26 @@ export const VoiceRecorder = ({ onVoiceNote, disabled, hasVoiceNote }: VoiceReco
         }
         setAnalyser(null);
         
-        // Create preview URL
+        // Create preview URL and add to notes
         const url = URL.createObjectURL(audioBlob);
-        setAudioUrl(url);
-        setRecordedBlob(audioBlob);
+        const id = crypto.randomUUID();
         
         // Get duration
         const audio = new Audio(url);
         audio.addEventListener('loadedmetadata', () => {
-          setDuration(audio.duration);
+          const newNote: VoiceNote = {
+            id,
+            blob: audioBlob,
+            url,
+            duration: audio.duration,
+          };
+          
+          setNotes(prev => {
+            const updated = [...prev, newNote];
+            // Notify parent with all blobs
+            onVoiceNotes(updated.map(n => n.blob));
+            return updated;
+          });
         });
       };
 
@@ -178,7 +263,7 @@ export const VoiceRecorder = ({ onVoiceNote, disabled, hasVoiceNote }: VoiceReco
         variant: 'destructive',
       });
     }
-  }, [toast, audioUrl]);
+  }, [toast, onVoiceNotes]);
 
   const stopRecording = useCallback(() => {
     if (mediaRecorderRef.current && isRecording) {
@@ -187,117 +272,71 @@ export const VoiceRecorder = ({ onVoiceNote, disabled, hasVoiceNote }: VoiceReco
     }
   }, [isRecording]);
 
-  const togglePlayback = useCallback(() => {
-    if (!audioUrl) return;
-
-    if (!audioRef.current) {
-      audioRef.current = new Audio(audioUrl);
-      audioRef.current.addEventListener('ended', () => {
-        setIsPlaying(false);
-        setCurrentTime(0);
-      });
-      audioRef.current.addEventListener('timeupdate', () => {
-        setCurrentTime(audioRef.current?.currentTime || 0);
-      });
-    }
-
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  }, [audioUrl, isPlaying]);
-
-  const discardRecording = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
-    if (audioUrl) {
-      URL.revokeObjectURL(audioUrl);
-    }
-    setAudioUrl(null);
-    setRecordedBlob(null);
-    setIsPlaying(false);
-    setCurrentTime(0);
-    setDuration(0);
-    onVoiceNote(null);
-  }, [audioUrl, onVoiceNote]);
-
-  // Preview state - show recorded audio with play and delete options
-  if (audioUrl) {
-
-    return (
-      <div className="flex items-center gap-2 flex-wrap">
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-muted rounded-md border">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7"
-            onClick={togglePlayback}
-          >
-            {isPlaying ? (
-              <Pause className="h-4 w-4" />
-            ) : (
-              <Play className="h-4 w-4" />
-            )}
-          </Button>
-          <span className="text-sm font-mono min-w-[70px]">
-            {formatDuration(currentTime)} / {formatDuration(duration)}
-          </span>
-        </div>
-        
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={discardRecording}
-          className="gap-1.5 text-muted-foreground hover:text-destructive"
-        >
-          <X className="h-3.5 w-3.5" />
-          Delete
-        </Button>
-      </div>
-    );
-  }
+  const deleteNote = useCallback((id: string) => {
+    setNotes(prev => {
+      const noteToDelete = prev.find(n => n.id === id);
+      if (noteToDelete) {
+        URL.revokeObjectURL(noteToDelete.url);
+      }
+      const updated = prev.filter(n => n.id !== id);
+      // Notify parent with remaining blobs
+      onVoiceNotes(updated.map(n => n.blob));
+      return updated;
+    });
+  }, [onVoiceNotes]);
 
   return (
-    <div className="flex items-center gap-3">
-      {isRecording && (
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-destructive/10 rounded-md border border-destructive/20">
-          <span className="h-2 w-2 rounded-full bg-destructive animate-pulse" />
-          <AudioWaveform analyser={analyser} />
+    <div className="space-y-3">
+      {/* List of recorded voice notes */}
+      {notes.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {notes.map((note, index) => (
+            <VoiceNoteItem
+              key={note.id}
+              note={note}
+              index={index}
+              onDelete={() => deleteNote(note.id)}
+              disabled={disabled}
+            />
+          ))}
         </div>
       )}
-      
-      {isRecording ? (
-        <Button
-          type="button"
-          variant="destructive"
-          size="sm"
-          onClick={stopRecording}
-          disabled={disabled}
-          className="gap-2"
-        >
-          <Square className="h-4 w-4" />
-          Stop
-        </Button>
-      ) : (
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={startRecording}
-          disabled={disabled}
-          className="gap-2"
-        >
-          <Mic className="h-4 w-4" />
-          Record Voice Note
-        </Button>
-      )}
+
+      {/* Recording controls */}
+      <div className="flex items-center gap-3">
+        {isRecording && (
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-destructive/10 rounded-md border border-destructive/20">
+            <span className="h-2 w-2 rounded-full bg-destructive animate-pulse" />
+            <AudioWaveform analyser={analyser} />
+          </div>
+        )}
+        
+        {isRecording ? (
+          <Button
+            type="button"
+            variant="destructive"
+            size="sm"
+            onClick={stopRecording}
+            disabled={disabled}
+            className="gap-2"
+          >
+            <Square className="h-4 w-4" />
+            Stop
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={startRecording}
+            disabled={disabled}
+            className="gap-2"
+          >
+            <Mic className="h-4 w-4" />
+            {notes.length > 0 ? 'Add Another Voice Note' : 'Record Voice Note'}
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
