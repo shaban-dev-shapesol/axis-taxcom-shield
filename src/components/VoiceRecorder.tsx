@@ -256,15 +256,15 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
           : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
         
         console.log('[VoiceRecorder] recorded blob', { size: audioBlob.size, type: audioBlob.type, id });
-        const audio = new Audio();
-        audio.preload = 'metadata';
         
-        const handleDuration = () => {
-          let duration = audio.duration;
-          // Handle Infinity or NaN duration (common with webm)
-          if (!isFinite(duration) || isNaN(duration)) {
-            duration = 0;
-          }
+        // Track whether we've already added this note
+        let noteAdded = false;
+        
+        const addNote = (duration: number) => {
+          if (noteAdded) return;
+          noteAdded = true;
+          
+          console.log('[VoiceRecorder] adding note with duration:', duration);
           
           const newNote: VoiceNote = {
             id,
@@ -275,67 +275,61 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
           
           setNotes(prev => {
             const updated = [...prev, newNote];
-            // Notify parent with all blobs
             onVoiceNotes(updated.map(n => n.blob));
             return updated;
           });
-          
-          // Clean up event listeners
-          audio.removeEventListener('loadedmetadata', handleDuration);
-          audio.removeEventListener('durationchange', handleDurationChange);
-          audio.removeEventListener('error', handleError);
         };
         
-        const handleDurationChange = () => {
-          // Some browsers fire durationchange when duration becomes available
-          if (isFinite(audio.duration) && audio.duration > 0) {
-            handleDuration();
+        // For webm audio, duration is often Infinity until we seek through it
+        // Use a workaround: seek to very large value, then read duration
+        const audio = new Audio();
+        
+        const tryGetDuration = () => {
+          const duration = audio.duration;
+          console.log('[VoiceRecorder] checking duration:', duration);
+          
+          if (isFinite(duration) && duration > 0) {
+            addNote(duration);
+            return true;
           }
+          return false;
         };
         
-        const handleError = () => {
-          // If there's an error, still add the note with 0 duration
-          console.warn('Could not load audio metadata, using 0 duration');
-          const newNote: VoiceNote = {
-            id,
-            blob: audioBlob,
-            url,
-            duration: 0,
-          };
-          
-          setNotes(prev => {
-            const updated = [...prev, newNote];
-            onVoiceNotes(updated.map(n => n.blob));
-            return updated;
-          });
-        };
+        audio.addEventListener('loadedmetadata', () => {
+          console.log('[VoiceRecorder] loadedmetadata fired, duration:', audio.duration);
+          if (!tryGetDuration()) {
+            // Duration is Infinity - seek to force calculation
+            audio.currentTime = 1e101; // Seek to a very large time
+          }
+        });
         
-        audio.addEventListener('loadedmetadata', handleDuration);
-        audio.addEventListener('durationchange', handleDurationChange);
-        audio.addEventListener('error', handleError);
+        audio.addEventListener('timeupdate', () => {
+          // After seeking to Infinity, timeupdate fires with correct duration
+          console.log('[VoiceRecorder] timeupdate, duration now:', audio.duration);
+          if (tryGetDuration()) {
+            audio.currentTime = 0; // Reset to start
+          }
+        });
         
-        // Set src after adding listeners
+        audio.addEventListener('durationchange', () => {
+          console.log('[VoiceRecorder] durationchange, duration:', audio.duration);
+          tryGetDuration();
+        });
+        
+        audio.addEventListener('error', (e) => {
+          console.warn('[VoiceRecorder] audio error:', e);
+          addNote(0);
+        });
+        
+        audio.preload = 'metadata';
         audio.src = url;
         
         // Fallback: if nothing fires in 2 seconds, add the note anyway
         setTimeout(() => {
-          // Check if note was already added
-          setNotes(prev => {
-            const exists = prev.some(n => n.id === id);
-            if (!exists) {
-              console.warn('Duration detection timed out, adding note with 0 duration');
-              const newNote: VoiceNote = {
-                id,
-                blob: audioBlob,
-                url,
-                duration: 0,
-              };
-              const updated = [...prev, newNote];
-              onVoiceNotes(updated.map(n => n.blob));
-              return updated;
-            }
-            return prev;
-          });
+          if (!noteAdded) {
+            console.warn('[VoiceRecorder] Duration detection timed out, adding note with 0 duration');
+            addNote(0);
+          }
         }, 2000);
       };
 
