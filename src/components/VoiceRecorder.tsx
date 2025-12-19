@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Mic, Square, Play, Pause, RotateCcw, Check, X } from 'lucide-react';
+import { Mic, Square, Play, Pause, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface VoiceRecorderProps {
@@ -97,6 +97,13 @@ export const VoiceRecorder = ({ onVoiceNote, disabled, hasVoiceNote }: VoiceReco
       }
     };
   }, [audioUrl]);
+
+  // Auto-add voice note when recording completes
+  useEffect(() => {
+    if (recordedBlob && !hasVoiceNote) {
+      onVoiceNote(recordedBlob);
+    }
+  }, [recordedBlob, hasVoiceNote, onVoiceNote]);
 
   const startRecording = useCallback(async () => {
     // Clear any previous recording
@@ -219,47 +226,9 @@ export const VoiceRecorder = ({ onVoiceNote, disabled, hasVoiceNote }: VoiceReco
     onVoiceNote(null);
   }, [audioUrl, onVoiceNote]);
 
-  const confirmRecording = useCallback(() => {
-    if (!recordedBlob) return;
-    
-    // Stop playback if playing
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
-    setIsPlaying(false);
-
-    onVoiceNote(recordedBlob);
-    toast({
-      title: 'Voice note added',
-      description: 'Your voice note will be sent with your enquiry.',
-    });
-  }, [recordedBlob, onVoiceNote, toast]);
-
-  // Show confirmed voice note state
-  if (hasVoiceNote && !audioUrl) {
-    return (
-      <div className="flex items-center gap-2">
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 rounded-md border border-green-500/20 text-green-700 dark:text-green-400">
-          <Check className="h-4 w-4" />
-          <span className="text-sm">Voice note attached</span>
-        </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => onVoiceNote(null)}
-          disabled={disabled}
-          className="gap-1.5 text-muted-foreground hover:text-destructive"
-        >
-          <X className="h-3.5 w-3.5" />
-          Remove
-        </Button>
-      </div>
-    );
-  }
-
-  // Preview state - show after recording, before confirming
+  // Preview state - show recorded audio with play and delete options
   if (audioUrl) {
+
     return (
       <div className="flex items-center gap-2 flex-wrap">
         <div className="flex items-center gap-2 px-3 py-1.5 bg-muted rounded-md border">
@@ -283,25 +252,13 @@ export const VoiceRecorder = ({ onVoiceNote, disabled, hasVoiceNote }: VoiceReco
         
         <Button
           type="button"
-          variant="outline"
+          variant="ghost"
           size="sm"
           onClick={discardRecording}
-          className="gap-1.5"
+          className="gap-1.5 text-muted-foreground hover:text-destructive"
         >
-          <RotateCcw className="h-3.5 w-3.5" />
-          Re-record
-        </Button>
-        
-        <Button
-          type="button"
-          variant="default"
-          size="sm"
-          onClick={confirmRecording}
-          disabled={disabled}
-          className="gap-1.5"
-        >
-          <Check className="h-3.5 w-3.5" />
-          Use This Recording
+          <X className="h-3.5 w-3.5" />
+          Delete
         </Button>
       </div>
     );
