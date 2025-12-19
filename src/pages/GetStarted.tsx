@@ -188,7 +188,7 @@ const GetStarted = () => {
     event.preventDefault();
     
     // Validate required fields
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.industry || !formData.situation || !formData.description) {
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.industry || !formData.annualIncome || !formData.situation || !formData.description) {
       toast({
         title: "Missing required fields",
         description: "Please fill in all required fields.",
@@ -476,12 +476,13 @@ const GetStarted = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="annualTurnover">Approximate Annual Turnover</Label>
+                      <Label htmlFor="annualTurnover">Approximate Annual Turnover *</Label>
                       <Input 
                         id="annualTurnover" 
                         placeholder="e.g. £150,000" 
                         value={formData.annualIncome}
                         onChange={(e) => handleTurnoverChange(e.target.value)}
+                        required
                       />
                       <p className="text-xs text-muted-foreground mt-1">Enter your approximate annual business turnover or personal income</p>
                     </div>
