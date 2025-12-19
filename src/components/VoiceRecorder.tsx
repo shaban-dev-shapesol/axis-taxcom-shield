@@ -126,37 +126,48 @@ const VoiceNoteItem = ({
     }
   }, [note.url, isPlaying]);
 
+  const progress = note.duration > 0 ? (currentTime / note.duration) * 100 : 0;
+
   return (
-    <div className="flex items-center gap-2">
-      <div className="flex items-center gap-2 px-3 py-1.5 bg-muted rounded-md border">
-        <span className="text-xs text-muted-foreground font-medium">#{index + 1}</span>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="h-7 w-7"
-          onClick={togglePlayback}
-        >
-          {isPlaying ? (
-            <Pause className="h-4 w-4" />
-          ) : (
-            <Play className="h-4 w-4" />
-          )}
-        </Button>
-        <span className="text-sm font-mono min-w-[70px]">
-          {formatDuration(currentTime)} / {formatDuration(note.duration)}
-        </span>
+    <div className="group flex items-center gap-3 p-3 bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-shadow">
+      <Button
+        type="button"
+        variant="secondary"
+        size="icon"
+        className="h-10 w-10 rounded-full shrink-0"
+        onClick={togglePlayback}
+      >
+        {isPlaying ? (
+          <Pause className="h-4 w-4" />
+        ) : (
+          <Play className="h-4 w-4 ml-0.5" />
+        )}
+      </Button>
+      
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-sm font-medium text-foreground">Voice Note {index + 1}</span>
+          <span className="text-xs text-muted-foreground font-mono">
+            {formatDuration(currentTime)} / {formatDuration(note.duration)}
+          </span>
+        </div>
+        <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-primary rounded-full transition-all duration-150"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
       
       <Button
         type="button"
         variant="ghost"
-        size="sm"
+        size="icon"
         onClick={onDelete}
         disabled={disabled}
-        className="gap-1.5 text-muted-foreground hover:text-destructive"
+        className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
       >
-        <X className="h-3.5 w-3.5" />
+        <X className="h-4 w-4" />
       </Button>
     </div>
   );
@@ -286,10 +297,46 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
   }, [onVoiceNotes]);
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
+      {/* Recording controls */}
+      <div className="flex items-center gap-4">
+        {isRecording ? (
+          <>
+            <div className="flex items-center gap-3 px-4 py-2.5 bg-destructive/5 border border-destructive/20 rounded-xl flex-1">
+              <span className="h-3 w-3 rounded-full bg-destructive animate-pulse shrink-0" />
+              <span className="text-sm font-medium text-destructive">Recording...</span>
+              <AudioWaveform analyser={analyser} />
+            </div>
+            <Button
+              type="button"
+              variant="destructive"
+              size="lg"
+              onClick={stopRecording}
+              disabled={disabled}
+              className="gap-2 rounded-xl px-6"
+            >
+              <Square className="h-4 w-4" />
+              Stop
+            </Button>
+          </>
+        ) : (
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            onClick={startRecording}
+            disabled={disabled}
+            className="gap-2.5 rounded-xl border-dashed border-2 hover:border-primary hover:bg-primary/5 transition-colors"
+          >
+            <Mic className="h-5 w-5" />
+            {notes.length > 0 ? 'Add Another Voice Note' : 'Record Voice Note'}
+          </Button>
+        )}
+      </div>
+
       {/* List of recorded voice notes */}
       {notes.length > 0 && (
-        <div className="flex flex-wrap gap-2">
+        <div className="space-y-2">
           {notes.map((note, index) => (
             <VoiceNoteItem
               key={note.id}
@@ -301,42 +348,6 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
           ))}
         </div>
       )}
-
-      {/* Recording controls */}
-      <div className="flex items-center gap-3">
-        {isRecording && (
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-destructive/10 rounded-md border border-destructive/20">
-            <span className="h-2 w-2 rounded-full bg-destructive animate-pulse" />
-            <AudioWaveform analyser={analyser} />
-          </div>
-        )}
-        
-        {isRecording ? (
-          <Button
-            type="button"
-            variant="destructive"
-            size="sm"
-            onClick={stopRecording}
-            disabled={disabled}
-            className="gap-2"
-          >
-            <Square className="h-4 w-4" />
-            Stop
-          </Button>
-        ) : (
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={startRecording}
-            disabled={disabled}
-            className="gap-2"
-          >
-            <Mic className="h-4 w-4" />
-            {notes.length > 0 ? 'Add Another Voice Note' : 'Record Voice Note'}
-          </Button>
-        )}
-      </div>
     </div>
   );
 };
