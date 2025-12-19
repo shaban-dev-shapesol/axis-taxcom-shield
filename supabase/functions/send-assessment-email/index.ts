@@ -158,55 +158,159 @@ const handler = async (req: Request): Promise<Response> => {
       </html>
     `;
 
-    // Send confirmation email to the client
+    // Generate situation-specific guidance for the client
+    const getSituationGuidance = (sit: string): { title: string; message: string; urgentAction: string } => {
+      const situationMap: Record<string, { title: string; message: string; urgentAction: string }> = {
+        'cop9': {
+          title: '🔴 Code of Practice 9 (COP9) Investigation',
+          message: 'A COP9 letter is one of the most serious communications HMRC issues—it means they suspect deliberate tax fraud. However, this also presents a critical opportunity: the Contractual Disclosure Facility (CDF) allows you to make a full disclosure and avoid criminal prosecution. Time is of the essence, and having expert representation from day one can make a substantial difference to the outcome.',
+          urgentAction: 'Do NOT respond to HMRC until you have spoken with our specialists. Any communication without proper guidance could significantly impact your case.'
+        },
+        'hmrc-investigation': {
+          title: '⚠️ HMRC Investigation',
+          message: 'An HMRC investigation can feel overwhelming, but with the right expertise, many cases are resolved favourably. Our team has successfully defended hundreds of investigations, often reducing proposed penalties significantly or having enquiries closed with minimal adjustments.',
+          urgentAction: 'Gather all correspondence from HMRC and avoid making any statements or providing documents until we review your case together.'
+        },
+        'tax-tribunal': {
+          title: '⚖️ Tax Tribunal Appeal',
+          message: 'Taking your case to the Tax Tribunal is a significant step, but it can be the right one. Many taxpayers who challenge HMRC decisions with proper representation achieve successful outcomes. Our solicitors and accountants work together to build robust cases.',
+          urgentAction: 'Keep track of all deadlines—tribunal timelines are strict. We will help you prepare a compelling case.'
+        },
+        'unpaid-taxes': {
+          title: '💷 Unpaid Tax Liabilities',
+          message: 'Unpaid tax debts can escalate quickly with interest and penalties, but proactive disclosure often leads to significantly better outcomes than waiting for HMRC to discover discrepancies. Our team specialises in negotiating Time to Pay arrangements and minimising penalties.',
+          urgentAction: 'Coming forward voluntarily can reduce penalties by up to 30-40%. Let us help you take control of this situation.'
+        },
+        'vat-dispute': {
+          title: '📋 VAT Dispute',
+          message: 'VAT disputes can be complex, with significant sums at stake. Whether it\'s an assessment you disagree with or a penalty you wish to challenge, our experts understand VAT legislation inside out and have successfully resolved numerous disputes.',
+          urgentAction: 'Review your VAT records and any correspondence from HMRC. We will assess the strength of your position.'
+        },
+        'criminal-prosecution': {
+          title: '🚨 Criminal Tax Prosecution',
+          message: 'Facing criminal prosecution for tax matters is extremely serious, but it\'s not the end. Having experienced Business Crime Solicitors alongside Chartered Accountants provides the strongest possible defence. Early intervention is critical.',
+          urgentAction: 'Exercise your right to remain silent. Do not speak to HMRC or investigators without legal representation present.'
+        },
+        'other': {
+          title: '📌 Your Tax Matter',
+          message: 'Every tax situation is unique, and ours is a team that understands this. Whether you\'re facing an enquiry, planning to make a disclosure, or need guidance on a complex matter, we provide tailored advice backed by decades of experience.',
+          urgentAction: 'Our team will review your specific circumstances and provide personalised guidance.'
+        }
+      };
+      return situationMap[sit] || situationMap['other'];
+    };
+
+    const guidance = getSituationGuidance(situation);
+
+    // Send confirmation email to the client with compelling case summary
     const clientEmailHtml = `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="utf-8">
-        <title>We've Received Your Request</title>
+        <title>Your Case Assessment - Investigation.tax</title>
       </head>
       <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;">
         <div style="background-color: #1a1a2e; padding: 30px; border-radius: 10px 10px 0 0;">
-          <h1 style="color: #f57e20; margin: 0; font-size: 24px;">Assessment Request Received</h1>
-          <p style="color: #ffffff; margin: 10px 0 0 0;">Investigation.tax</p>
+          <h1 style="color: #f57e20; margin: 0; font-size: 24px;">Your Case Is Now With Our Experts</h1>
+          <p style="color: #ffffff; margin: 10px 0 0 0;">Investigation.tax | Chartered Accountants & Business Crime Solicitors</p>
         </div>
         
         <div style="background-color: #ffffff; padding: 30px; border-radius: 0 0 10px 10px;">
-          <p style="color: #333; font-size: 16px;">Dear ${firstName},</p>
+          <p style="color: #333; font-size: 18px; font-weight: 600;">Dear ${firstName},</p>
           
-          <p style="color: #555; line-height: 1.6;">Thank you for contacting Investigation.tax. We have received your assessment request and our team of Chartered Accountants and Business Crime Solicitors will review your case.</p>
+          <p style="color: #555; line-height: 1.7; font-size: 15px;">Thank you for reaching out to us. <strong>You've taken the right first step</strong>—speaking to specialists who understand exactly what you're facing. We want you to know that you're not alone, and situations like yours can often be resolved more favourably than you might expect.</p>
 
-          <div style="background-color: #f57e2015; border-left: 4px solid #f57e20; padding: 15px; margin: 20px 0;">
-            <strong style="color: #f57e20;">What happens next?</strong>
-            <ul style="color: #555; margin: 10px 0 0 0; padding-left: 20px;">
-              <li>Our experts will review your submission</li>
-              <li>We will contact you within 4 business hours</li>
-              ${urgency >= 8 ? '<li style="color: #dc2626;"><strong>High urgency cases are prioritised for immediate response</strong></li>' : ''}
-              <li>Initial assessment and recommended next steps</li>
-            </ul>
+          <!-- Situation-Specific Case Summary Box -->
+          <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); border-radius: 12px; padding: 25px; margin: 25px 0;">
+            <h2 style="color: #f57e20; margin: 0 0 15px 0; font-size: 18px;">${guidance.title}</h2>
+            <p style="color: #ffffff; line-height: 1.7; margin: 0; font-size: 14px;">${guidance.message}</p>
           </div>
 
-          <h3 style="color: #333; margin-top: 25px;">Your Submission Summary</h3>
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr><td style="padding: 8px 0; color: #666;">Situation:</td><td style="padding: 8px 0;"><strong>${situation}</strong></td></tr>
-            <tr><td style="padding: 8px 0; color: #666;">Urgency Level:</td><td style="padding: 8px 0;"><span style="color: ${urgencyColor};">${urgency}/10</span></td></tr>
-          </table>
-
-          ${clientAssessment ? `
-          <h3 style="color: #333; margin-top: 25px;">Your Initial Assessment</h3>
-          <div style="background-color: #fef7ed; border: 1px solid #f57e20; padding: 15px; border-radius: 8px;">
-            <p style="color: #555; margin: 0; font-size: 14px;">${formatMarkdownToHtml(clientAssessment)}</p>
+          <!-- Urgent Action Box -->
+          ${urgency >= 5 ? `
+          <div style="background-color: #fef2f2; border: 2px solid #dc2626; border-radius: 10px; padding: 20px; margin: 20px 0;">
+            <div style="display: flex; align-items: flex-start;">
+              <span style="font-size: 24px; margin-right: 12px;">⚡</span>
+              <div>
+                <strong style="color: #dc2626; font-size: 15px;">Important: What to Do Right Now</strong>
+                <p style="color: #7f1d1d; margin: 8px 0 0 0; font-size: 14px; line-height: 1.6;">${guidance.urgentAction}</p>
+              </div>
+            </div>
           </div>
           ` : ''}
 
-          <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-top: 25px; text-align: center;">
-            <p style="color: #555; margin: 0 0 10px 0;">Need immediate assistance?</p>
-            <a href="tel:+442012345678" style="display: inline-block; background-color: #f57e20; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Call Us Now</a>
+          <!-- Why Investigation.tax -->
+          <div style="background-color: #f8fafc; border-radius: 10px; padding: 20px; margin: 25px 0;">
+            <h3 style="color: #1a1a2e; margin: 0 0 15px 0; font-size: 16px;">Why Clients Trust Us</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; vertical-align: top; width: 30px;"><span style="color: #22c55e;">✓</span></td>
+                <td style="padding: 8px 0; color: #555; font-size: 14px;"><strong>Dual Expertise:</strong> Chartered Accountants and Business Crime Solicitors working together on your case</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; vertical-align: top;"><span style="color: #22c55e;">✓</span></td>
+                <td style="padding: 8px 0; color: #555; font-size: 14px;"><strong>Proven Track Record:</strong> Successfully resolved hundreds of HMRC investigations and disputes</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; vertical-align: top;"><span style="color: #22c55e;">✓</span></td>
+                <td style="padding: 8px 0; color: #555; font-size: 14px;"><strong>Confidential & Protected:</strong> All communications covered by legal privilege where applicable</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; vertical-align: top;"><span style="color: #22c55e;">✓</span></td>
+                <td style="padding: 8px 0; color: #555; font-size: 14px;"><strong>Fast Response:</strong> Priority cases reviewed within hours, not days</td>
+              </tr>
+            </table>
           </div>
 
-          <p style="color: #888; font-size: 12px; margin-top: 30px; text-align: center;">
-            This email was sent from Investigation.tax. Your information is secure and protected under GDPR.
+          <!-- What Happens Next -->
+          <div style="background-color: #f57e2010; border-left: 4px solid #f57e20; padding: 20px; margin: 20px 0; border-radius: 0 10px 10px 0;">
+            <strong style="color: #f57e20; font-size: 16px;">What Happens Next?</strong>
+            <ol style="color: #555; margin: 15px 0 0 0; padding-left: 20px; line-height: 1.8;">
+              <li><strong>Expert Review</strong> — Our specialists are analysing your case right now</li>
+              <li><strong>Personal Contact</strong> — ${urgency >= 8 ? 'Given the urgency, expect a call within 2 hours' : 'We will contact you within 4 business hours'}</li>
+              <li><strong>Tailored Strategy</strong> — We will outline your options and recommend the best approach</li>
+              <li><strong>Clear Path Forward</strong> — No jargon, just straightforward guidance</li>
+            </ol>
+          </div>
+
+          ${clientAssessment ? `
+          <!-- AI Case Assessment -->
+          <div style="background: linear-gradient(135deg, #fef7ed 0%, #fff7ed 100%); border: 1px solid #f57e20; padding: 20px; border-radius: 12px; margin: 25px 0;">
+            <h3 style="color: #1a1a2e; margin: 0 0 15px 0; font-size: 16px;">📋 Your Preliminary Case Assessment</h3>
+            <div style="color: #555; font-size: 14px; line-height: 1.7;">${formatMarkdownToHtml(clientAssessment)}</div>
+          </div>
+          ` : ''}
+
+          <!-- Your Submission Reference -->
+          <div style="background-color: #f1f5f9; border-radius: 8px; padding: 15px; margin: 20px 0;">
+            <p style="color: #64748b; margin: 0 0 8px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Your Submission Reference</p>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 4px 0; color: #666; font-size: 14px;">Case Type:</td><td style="padding: 4px 0; font-size: 14px;"><strong>${situation}</strong></td></tr>
+              <tr><td style="padding: 4px 0; color: #666; font-size: 14px;">Priority Level:</td><td style="padding: 4px 0;"><span style="background-color: ${urgencyColor}20; color: ${urgencyColor}; padding: 2px 8px; border-radius: 4px; font-size: 13px; font-weight: 600;">${urgency}/10</span></td></tr>
+              ${documentCount ? `<tr><td style="padding: 4px 0; color: #666; font-size: 14px;">Documents:</td><td style="padding: 4px 0; font-size: 14px;">${documentCount} file(s) uploaded</td></tr>` : ''}
+              ${voiceNoteUrls && voiceNoteUrls.length > 0 ? `<tr><td style="padding: 4px 0; color: #666; font-size: 14px;">Voice Notes:</td><td style="padding: 4px 0; font-size: 14px;">${voiceNoteUrls.length} recording(s) attached</td></tr>` : ''}
+            </table>
+          </div>
+
+          <!-- Call to Action -->
+          <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); padding: 25px; border-radius: 12px; margin-top: 25px; text-align: center;">
+            <p style="color: #ffffff; margin: 0 0 15px 0; font-size: 16px;">Need to speak with someone urgently?</p>
+            <a href="tel:+442012345678" style="display: inline-block; background-color: #f57e20; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">📞 Call Us Now</a>
+            <p style="color: #94a3b8; margin: 15px 0 0 0; font-size: 13px;">Available Monday–Friday, 9am–6pm</p>
+          </div>
+
+          <!-- Reassurance Footer -->
+          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center;">
+            <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 0;">
+              <strong>Remember:</strong> Early action leads to better outcomes.<br />
+              We're here to guide you through this—one step at a time.
+            </p>
+          </div>
+
+          <p style="color: #94a3b8; font-size: 11px; margin-top: 25px; text-align: center; line-height: 1.5;">
+            This email was sent from Investigation.tax. Your information is secure and protected under GDPR.<br />
+            © Investigation.tax | Chartered Accountants & Business Crime Solicitors
           </p>
         </div>
       </body>
