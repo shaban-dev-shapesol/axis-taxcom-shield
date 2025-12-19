@@ -17,6 +17,18 @@ const PlayAudio = () => {
   useEffect(() => {
     if (audioRef.current && audioUrl) {
       audioRef.current.load();
+      // Auto-play when page loads
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((e) => {
+            // Auto-play was prevented (browser policy), user needs to click play
+            console.log("Auto-play prevented:", e);
+          });
+      }
     }
   }, [audioUrl]);
 
