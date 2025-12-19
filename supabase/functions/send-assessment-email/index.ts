@@ -123,22 +123,29 @@ const handler = async (req: Request): Promise<Response> => {
           ` : ''}
 
           ${voiceNoteUrls && voiceNoteUrls.length > 0 ? `
-          <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 25px;">🎤 Voice Notes (${voiceNoteUrls.length})</h2>
-          <div style="background-color: #f0f9ff; border: 1px solid #0ea5e9; padding: 15px; border-radius: 8px;">
-            <p style="color: #555; margin: 0 0 12px 0; font-size: 14px;">Click the links below to listen to the client's voice recordings:</p>
-            ${voiceNoteUrls.map((url, index) => {
-              const playerUrl = `https://investigation.tax/play-audio?url=${encodeURIComponent(url)}&note=${index + 1}`;
-              return `
-              <div style="margin-bottom: 10px;">
-                <a href="${playerUrl}" target="_blank" style="display: inline-block; background-color: #0ea5e9; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">
-                  🎧 Play Voice Note ${index + 1}
-                </a>
-                <a href="${url}" download style="display: inline-block; margin-left: 8px; color: #0ea5e9; text-decoration: underline; font-size: 12px;">
-                  (download)
-                </a>
+          <h2 style="color: #1a1a2e; border-bottom: 2px solid #f57e20; padding-bottom: 10px; margin-top: 30px; display: flex; align-items: center;">
+            <span style="background-color: #f57e20; color: white; width: 32px; height: 32px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 10px; font-size: 16px;">🎤</span>
+            Voice Notes (${voiceNoteUrls.length})
+          </h2>
+          <div style="background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%); border: 1px solid #f57e20; padding: 20px; border-radius: 12px; margin-top: 15px;">
+            <p style="color: #555; margin: 0 0 16px 0; font-size: 14px; font-weight: 500;">Listen to the client's voice recordings directly:</p>
+            ${voiceNoteUrls.map((url, index) => `
+              <div style="background-color: white; border-radius: 10px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #fde0c2;">
+                <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                  <div style="background-color: #f57e20; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; margin-right: 10px;">${index + 1}</div>
+                  <span style="color: #1a1a2e; font-weight: 600; font-size: 15px;">Voice Note ${index + 1}</span>
+                </div>
+                <audio controls style="width: 100%; height: 40px; border-radius: 8px;" preload="metadata">
+                  <source src="${url}" type="audio/webm">
+                  <source src="${url}" type="audio/mp4">
+                  Your email client doesn't support audio playback.
+                </audio>
+                <div style="margin-top: 10px; text-align: right;">
+                  <a href="${url}" download style="color: #f57e20; text-decoration: none; font-size: 12px; font-weight: 500;">⬇️ Download audio file</a>
+                </div>
               </div>
-            `}).join('')}
-            <p style="color: #888; margin: 12px 0 0 0; font-size: 12px;">Click "Play" to open the audio player, or "download" to save the file.</p>
+            `).join('')}
+            <p style="color: #888; margin: 12px 0 0 0; font-size: 11px; text-align: center;">💡 If audio doesn't play, click download to save and listen locally</p>
           </div>
           ` : ''}
 
