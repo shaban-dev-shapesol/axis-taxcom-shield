@@ -71,6 +71,32 @@ const handler = async (req: Request): Promise<Response> => {
     const urgencyLevel = urgency >= 8 ? "🔴 HIGH URGENCY" : urgency >= 5 ? "🟡 Medium Urgency" : "🟢 Low Urgency";
     const urgencyColor = urgency >= 8 ? "#dc2626" : urgency >= 5 ? "#f59e0b" : "#22c55e";
 
+    // Generate voice notes HTML for team email
+    const voiceNotesHtml = voiceNoteUrls && voiceNoteUrls.length > 0 ? `
+      <h2 style="color: #1a1a2e; border-bottom: 2px solid #f57e20; padding-bottom: 10px; margin-top: 30px;">🎤 Voice Notes (${voiceNoteUrls.length})</h2>
+
+      <div style="background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%); border: 1px solid #f57e20; padding: 20px; border-radius: 12px; margin-top: 15px;">
+        ${voiceNoteUrls.map((url, index) => {
+          const playerUrl = `https://investigation.tax/play-audio?url=${encodeURIComponent(url)}&note=${index + 1}`;
+          return `
+          <div style="background-color: white; border-radius: 10px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #fde0c2;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="vertical-align: middle;">
+                  <div style="display: inline-block; background-color: #f57e20; color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 12px; font-weight: bold; margin-right: 12px;">${index + 1}</div>
+                  <span style="color: #1a1a2e; font-weight: 600; font-size: 15px;">Voice Note ${index + 1}</span>
+                </td>
+                <td style="text-align: right; vertical-align: middle;">
+                  <a href="${playerUrl}" target="_blank" rel="noreferrer" style="display: inline-block; background-color: #f57e20; color: #ffffff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">▶ Play</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+          `;
+        }).join('')}
+      </div>
+    ` : '';
+
     // Send notification email to the team
     const teamEmailHtml = `
       <!DOCTYPE html>
@@ -122,34 +148,7 @@ const handler = async (req: Request): Promise<Response> => {
           ${documentCount ? `<p style="color: #666; font-size: 12px; margin-top: 10px;">📎 ${documentCount} document(s) uploaded and analyzed</p>` : ''}
           ` : ''}
 
-          ${voiceNoteUrls && voiceNoteUrls.length > 0 ? `
-          <h2 style="color: #333; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px; margin-top: 25px;">🎤 Voice Notes (${voiceNoteUrls.length})</h2>
-
-          <div style="background-color: #eff6ff; border: 1px solid #3b82f6; padding: 16px; border-radius: 10px;">
-            <p style="color: #374151; margin: 0 0 12px 0; font-size: 13px;">If your email app supports it, you can play the audio right here. Otherwise, use “Open player”.</p>
-
-            ${voiceNoteUrls.map((url, index) => {
-              const playerUrl = `https://investigation.tax/play-audio?url=${encodeURIComponent(url)}&note=${index + 1}`;
-              return `
-              <div style="background-color: #ffffff; border-radius: 10px; padding: 14px; margin-bottom: 12px; border: 1px solid #dbeafe;">
-                <div style="color: #111827; font-weight: 700; font-size: 16px; margin-bottom: 10px;">Voice Note ${index + 1}</div>
-
-                <!-- Note: Many email clients (e.g. Gmail) don’t allow inline audio and will ignore this player. -->
-                <audio controls style="width: 100%;" preload="metadata">
-                  <source src="${url}" type="audio/webm" />
-                  <source src="${url}" type="audio/mp4" />
-                  Your email client doesn’t support audio playback.
-                </audio>
-
-                <div style="margin-top: 10px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                  <a href="${playerUrl}" target="_blank" rel="noreferrer" style="display: inline-block; background-color: #2563eb; color: #ffffff; padding: 8px 12px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px;">Open player</a>
-                  <a href="${url}" download style="display: inline-block; color: #2563eb; text-decoration: underline; font-size: 13px; font-weight: 500;">Download audio file</a>
-                </div>
-              </div>
-              `;
-            }).join('')}
-          </div>
-          ` : ''}
+          ${voiceNotesHtml}
 
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
             <a href="mailto:${email}?subject=Re: Your HMRC Assessment Request" style="display: inline-block; background-color: #f57e20; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Reply to Client</a>
