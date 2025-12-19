@@ -232,7 +232,16 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
       mediaRecorder.onstop = () => {
         const audioBlob = new Blob(chunksRef.current, { type: mediaRecorder.mimeType });
         stream.getTracks().forEach(track => track.stop());
-        
+
+        if (!audioBlob || audioBlob.size === 0) {
+          console.warn('[VoiceRecorder] recorded empty audio blob');
+          toast({
+            title: 'Recording failed',
+            description: 'No audio was captured. Please try again and ensure your microphone is working.',
+            variant: 'destructive',
+          });
+          return;
+        }
         // Clean up audio context
         if (audioContextRef.current) {
           audioContextRef.current.close();
@@ -242,9 +251,11 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
         
         // Create preview URL and add to notes
         const url = URL.createObjectURL(audioBlob);
-        const id = crypto.randomUUID();
+        const id = typeof crypto !== 'undefined' && 'randomUUID' in crypto
+          ? crypto.randomUUID()
+          : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
         
-        // Get duration using a more reliable method
+        console.log('[VoiceRecorder] recorded blob', { size: audioBlob.size, type: audioBlob.type, id });
         const audio = new Audio();
         audio.preload = 'metadata';
         
@@ -329,7 +340,8 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
       };
 
       mediaRecorderRef.current = mediaRecorder;
-      mediaRecorder.start();
+      // Timeslice improves reliability across browsers (ensures dataavailable fires)
+      mediaRecorder.start(250);
       setIsRecording(true);
     } catch (error) {
       console.error('Error starting recording:', error);
