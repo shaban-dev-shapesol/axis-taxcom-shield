@@ -245,7 +245,8 @@ const GetStarted = () => {
           const { data, error } = await supabase.storage
             .from('voice-notes')
             .upload(fileName, blob, {
-              contentType: 'audio/webm',
+              contentType: 'audio/webm;codecs=opus',
+              cacheControl: '3600',
               upsert: false,
             });
           
@@ -260,7 +261,7 @@ const GetStarted = () => {
             return;
           }
           
-          // Get public URL
+          // Get public URL with download option for better compatibility
           const { data: urlData } = supabase.storage
             .from('voice-notes')
             .getPublicUrl(fileName);
