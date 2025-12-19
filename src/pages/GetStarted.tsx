@@ -39,6 +39,7 @@ const GetStarted = () => {
     situation: '',
     description: '',
   });
+  const [voiceNote, setVoiceNote] = useState<Blob | null>(null);
 
   // Format currency with £ symbol and comma separators
   const formatCurrency = (value: string): string => {
@@ -188,8 +189,9 @@ const GetStarted = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     
-    // Validate required fields
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.industry || !formData.annualIncome || !formData.situation || !formData.description) {
+    // Validate required fields (description is optional if voice note is attached)
+    const hasDescription = formData.description || voiceNote;
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.industry || !formData.annualIncome || !formData.situation || !hasDescription) {
       toast({
         title: "Missing required fields",
         description: "Please fill in all required fields.",
@@ -240,15 +242,21 @@ const GetStarted = () => {
       let clientAssessment: string | null = null;
       let teamAssessment: string | null = null;
       
+      // Prepare description (indicate if voice note is attached)
+      const descriptionForAssessment = voiceNote && !formData.description 
+        ? "[Voice note attached - audio message from client]"
+        : formData.description;
+      
       const assessmentResponse = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-assessment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          formData,
+          formData: { ...formData, description: descriptionForAssessment },
           urgency,
           documentSummaries,
+          hasVoiceNote: !!voiceNote,
         }),
       });
 
@@ -268,10 +276,12 @@ const GetStarted = () => {
         },
         body: JSON.stringify({
           ...formData,
+          description: descriptionForAssessment,
           urgency,
           clientAssessment,
           teamAssessment,
           documentCount: uploadedFiles.length,
+          hasVoiceNote: !!voiceNote,
         }),
       });
 
@@ -299,6 +309,7 @@ const GetStarted = () => {
       });
       setUrgency(5);
       setUploadedFiles([]);
+      setVoiceNote(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -514,22 +525,17 @@ const GetStarted = () => {
                     </div>
 
                     <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <Label htmlFor="description">Brief Description of Your Situation *</Label>
+                      <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                        <Label htmlFor="description">Brief Description of Your Situation {!voiceNote && '*'}</Label>
                         <VoiceRecorder 
-                          onTranscription={(text) => {
-                            const currentValue = formData.description;
-                            const newValue = currentValue 
-                              ? `${currentValue}\n\n${text}` 
-                              : text;
-                            handleInputChange('description', newValue);
-                          }}
+                          onVoiceNote={setVoiceNote}
                           disabled={isSubmitting}
+                          hasVoiceNote={!!voiceNote}
                         />
                       </div>
                       <Textarea 
                         id="description" 
-                        required 
+                        required={!voiceNote}
                         rows={6}
                         placeholder="Please describe your situation in detail. Include:
 - What HMRC has contacted you about
@@ -538,10 +544,15 @@ const GetStarted = () => {
 - Any amounts mentioned
 - Any deadlines you're facing
 
-Or click 'Record Voice Note' above to speak your description."
+Or use the 'Record Voice Note' button above to speak your message instead."
                         value={formData.description}
                         onChange={(e) => handleInputChange('description', e.target.value)}
                       />
+                      {voiceNote && !formData.description && (
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Voice note attached. You can also add written details above if needed.
+                        </p>
+                      )}
                     </div>
 
                     <div>
