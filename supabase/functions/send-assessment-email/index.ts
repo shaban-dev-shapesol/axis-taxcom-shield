@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -23,6 +24,106 @@ interface AssessmentEmailRequest {
   teamAssessment?: string;
   documentCount?: number;
   voiceNoteUrls?: string[];
+}
+
+interface VoiceTranscription {
+  url: string;
+  transcript: string;
+  summary: string;
+}
+
+// Transcribe voice note using Lovable AI
+async function transcribeVoiceNote(audioUrl: string): Promise<{ transcript: string; summary: string }> {
+  try {
+    console.log("Fetching audio from:", audioUrl);
+    
+    // Fetch the audio file
+    const audioResponse = await fetch(audioUrl);
+    if (!audioResponse.ok) {
+      throw new Error(`Failed to fetch audio: ${audioResponse.status}`);
+    }
+    
+    const audioBuffer = await audioResponse.arrayBuffer();
+    const base64Audio = btoa(String.fromCharCode(...new Uint8Array(audioBuffer)));
+    
+    // Determine mime type from URL
+    const mimeType = audioUrl.includes('.webm') ? 'audio/webm' : 
+                     audioUrl.includes('.mp3') ? 'audio/mp3' : 
+                     audioUrl.includes('.wav') ? 'audio/wav' : 'audio/webm';
+    
+    console.log("Transcribing audio with Lovable AI...");
+    
+    // Use Lovable AI to transcribe and analyze
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages: [
+          {
+            role: "system",
+            content: `You are an expert transcriptionist and analyst for a tax investigation consultancy. 
+Your task is to:
+1. Accurately transcribe the audio recording
+2. Provide a brief professional summary highlighting key concerns, financial details, and urgency indicators
+
+Format your response EXACTLY as:
+TRANSCRIPT:
+[Full transcription of the audio]
+
+SUMMARY:
+[2-3 sentence professional summary highlighting key points relevant to an HMRC investigation case]`
+          },
+          {
+            role: "user",
+            content: [
+              {
+                type: "input_audio",
+                input_audio: {
+                  data: base64Audio,
+                  format: mimeType.split('/')[1]
+                }
+              },
+              {
+                type: "text",
+                text: "Please transcribe this voice note from a client describing their HMRC tax situation, then provide a brief summary."
+              }
+            ]
+          }
+        ],
+        max_tokens: 2000
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Lovable AI error:", response.status, errorText);
+      throw new Error(`Transcription failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content || "";
+    
+    console.log("Transcription received, parsing...");
+    
+    // Parse the response
+    const transcriptMatch = content.match(/TRANSCRIPT:\s*([\s\S]*?)(?=SUMMARY:|$)/i);
+    const summaryMatch = content.match(/SUMMARY:\s*([\s\S]*?)$/i);
+    
+    const transcript = transcriptMatch?.[1]?.trim() || content;
+    const summary = summaryMatch?.[1]?.trim() || "Voice note recorded - manual review recommended.";
+    
+    return { transcript, summary };
+  } catch (error) {
+    console.error("Error transcribing voice note:", error);
+    return { 
+      transcript: "Unable to transcribe audio - manual review required.", 
+      summary: "Voice note attached - please listen to the recording for details."
+    };
+  }
 }
 
 // Convert markdown bold syntax to HTML
@@ -71,26 +172,47 @@ const handler = async (req: Request): Promise<Response> => {
     const urgencyLevel = urgency >= 8 ? "🔴 HIGH URGENCY" : urgency >= 5 ? "🟡 Medium Urgency" : "🟢 Low Urgency";
     const urgencyColor = urgency >= 8 ? "#dc2626" : urgency >= 5 ? "#f59e0b" : "#22c55e";
 
-    // Generate voice notes HTML for team email
-    // Use direct audio URLs since they're publicly accessible from Supabase storage
-    const voiceNotesHtml = voiceNoteUrls && voiceNoteUrls.length > 0 ? `
-      <h2 style="color: #1a1a2e; border-bottom: 2px solid #f57e20; padding-bottom: 10px; margin-top: 30px;">🎤 Voice Notes (${voiceNoteUrls.length})</h2>
+    // Transcribe all voice notes
+    let voiceTranscriptions: VoiceTranscription[] = [];
+    if (voiceNoteUrls && voiceNoteUrls.length > 0) {
+      console.log(`Transcribing ${voiceNoteUrls.length} voice note(s)...`);
+      
+      const transcriptionPromises = voiceNoteUrls.map(async (url) => {
+        const { transcript, summary } = await transcribeVoiceNote(url);
+        return { url, transcript, summary };
+      });
+      
+      voiceTranscriptions = await Promise.all(transcriptionPromises);
+      console.log("Voice transcriptions completed");
+    }
+
+    // Generate voice notes HTML for team email with transcriptions
+    const voiceNotesHtml = voiceTranscriptions.length > 0 ? `
+      <h2 style="color: #1a1a2e; border-bottom: 2px solid #f57e20; padding-bottom: 10px; margin-top: 30px;">🎤 Voice Notes & Transcriptions (${voiceTranscriptions.length})</h2>
 
       <div style="background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%); border: 1px solid #f57e20; padding: 20px; border-radius: 12px; margin-top: 15px;">
-        ${voiceNoteUrls.map((url, index) => {
+        ${voiceTranscriptions.map((vt, index) => {
           return `
-          <div style="background-color: white; border-radius: 10px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #fde0c2;">
-            <table style="width: 100%; border-collapse: collapse;">
-              <tr>
-                <td style="vertical-align: middle;">
-                  <div style="display: inline-block; background-color: #f57e20; color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 12px; font-weight: bold; margin-right: 12px;">${index + 1}</div>
-                  <span style="color: #1a1a2e; font-weight: 600; font-size: 15px;">Voice Note ${index + 1}</span>
-                </td>
-                <td style="text-align: right; vertical-align: middle;">
-                  <a href="${url}" target="_blank" rel="noreferrer" style="display: inline-block; background-color: #f57e20; color: #ffffff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">▶ Play / Download</a>
-                </td>
-              </tr>
-            </table>
+          <div style="background-color: white; border-radius: 10px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #fde0c2;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+              <div>
+                <div style="display: inline-block; background-color: #f57e20; color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 12px; font-weight: bold; margin-right: 12px;">${index + 1}</div>
+                <span style="color: #1a1a2e; font-weight: 600; font-size: 15px;">Voice Note ${index + 1}</span>
+              </div>
+              <a href="${vt.url}" target="_blank" rel="noreferrer" style="display: inline-block; background-color: #f57e20; color: #ffffff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">▶ Play Audio</a>
+            </div>
+            
+            <!-- Summary Box -->
+            <div style="background-color: #fef7ed; border-left: 4px solid #f57e20; padding: 12px 16px; margin-bottom: 15px; border-radius: 0 8px 8px 0;">
+              <strong style="color: #f57e20; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">📋 Key Points:</strong>
+              <p style="color: #1a1a2e; margin: 8px 0 0 0; font-size: 14px; line-height: 1.6;">${vt.summary}</p>
+            </div>
+            
+            <!-- Full Transcript -->
+            <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px;">
+              <strong style="color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">📝 Full Transcript:</strong>
+              <p style="color: #374151; margin: 10px 0 0 0; font-size: 14px; line-height: 1.7; white-space: pre-wrap;">${vt.transcript}</p>
+            </div>
           </div>
           `;
         }).join('')}
