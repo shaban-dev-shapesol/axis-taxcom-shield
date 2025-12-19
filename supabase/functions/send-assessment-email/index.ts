@@ -126,14 +126,19 @@ const handler = async (req: Request): Promise<Response> => {
           <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 25px;">🎤 Voice Notes (${voiceNoteUrls.length})</h2>
           <div style="background-color: #f0f9ff; border: 1px solid #0ea5e9; padding: 15px; border-radius: 8px;">
             <p style="color: #555; margin: 0 0 12px 0; font-size: 14px;">Click the links below to listen to the client's voice recordings:</p>
-            ${voiceNoteUrls.map((url, index) => `
+            ${voiceNoteUrls.map((url, index) => {
+              const playerUrl = `https://investigation.tax/play-audio?url=${encodeURIComponent(url)}&note=${index + 1}`;
+              return `
               <div style="margin-bottom: 10px;">
-                <a href="${url}" target="_blank" style="display: inline-block; background-color: #0ea5e9; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">
+                <a href="${playerUrl}" target="_blank" style="display: inline-block; background-color: #0ea5e9; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">
                   🎧 Play Voice Note ${index + 1}
                 </a>
+                <a href="${url}" download style="display: inline-block; margin-left: 8px; color: #0ea5e9; text-decoration: underline; font-size: 12px;">
+                  (download)
+                </a>
               </div>
-            `).join('')}
-            <p style="color: #888; margin: 12px 0 0 0; font-size: 12px;">Note: Links will open in your browser where audio can be played directly.</p>
+            `}).join('')}
+            <p style="color: #888; margin: 12px 0 0 0; font-size: 12px;">Click "Play" to open the audio player, or "download" to save the file.</p>
           </div>
           ` : ''}
 
