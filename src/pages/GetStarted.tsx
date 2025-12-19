@@ -8,6 +8,7 @@ import { SEO } from "@/components/SEO";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState, useRef } from "react";
 import { Upload, AlertTriangle, Lock, FileText, Loader2, CheckCircle, X, Check, AlertCircle } from "lucide-react";
+import { VoiceRecorder } from "@/components/VoiceRecorder";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { useToast } from "@/hooks/use-toast";
 
@@ -513,7 +514,19 @@ const GetStarted = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="description">Brief Description of Your Situation *</Label>
+                      <div className="flex items-center justify-between mb-2">
+                        <Label htmlFor="description">Brief Description of Your Situation *</Label>
+                        <VoiceRecorder 
+                          onTranscription={(text) => {
+                            const currentValue = formData.description;
+                            const newValue = currentValue 
+                              ? `${currentValue}\n\n${text}` 
+                              : text;
+                            handleInputChange('description', newValue);
+                          }}
+                          disabled={isSubmitting}
+                        />
+                      </div>
                       <Textarea 
                         id="description" 
                         required 
@@ -523,7 +536,9 @@ const GetStarted = () => {
 - When you received the letter/notice
 - What they are claiming or investigating
 - Any amounts mentioned
-- Any deadlines you're facing"
+- Any deadlines you're facing
+
+Or click 'Record Voice Note' above to speak your description."
                         value={formData.description}
                         onChange={(e) => handleInputChange('description', e.target.value)}
                       />
