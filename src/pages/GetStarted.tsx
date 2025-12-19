@@ -39,6 +39,25 @@ const GetStarted = () => {
     description: '',
   });
 
+  // Format currency with £ symbol and comma separators
+  const formatCurrency = (value: string): string => {
+    // Remove all non-digit characters
+    const digitsOnly = value.replace(/[^\d]/g, '');
+    
+    if (!digitsOnly) return '';
+    
+    // Convert to number and format with commas
+    const number = parseInt(digitsOnly, 10);
+    const formatted = number.toLocaleString('en-GB');
+    
+    return `£${formatted}`;
+  };
+
+  const handleTurnoverChange = (value: string) => {
+    const formatted = formatCurrency(value);
+    handleInputChange('annualIncome', formatted);
+  };
+
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files || files.length === 0) return;
@@ -462,7 +481,7 @@ const GetStarted = () => {
                         id="annualTurnover" 
                         placeholder="e.g. £150,000" 
                         value={formData.annualIncome}
-                        onChange={(e) => handleInputChange('annualIncome', e.target.value)}
+                        onChange={(e) => handleTurnoverChange(e.target.value)}
                       />
                       <p className="text-xs text-muted-foreground mt-1">Enter your approximate annual business turnover or personal income</p>
                     </div>
