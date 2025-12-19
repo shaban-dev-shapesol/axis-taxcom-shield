@@ -1,10 +1,7 @@
-import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -26,109 +23,6 @@ interface AssessmentEmailRequest {
   teamAssessment?: string;
   documentCount?: number;
   voiceNoteUrls?: string[];
-}
-
-interface VoiceTranscription {
-  url: string;
-  transcript: string;
-  summary: string;
-}
-
-// Transcribe voice note using OpenAI Whisper API
-async function transcribeVoiceNote(audioUrl: string): Promise<{ transcript: string; summary: string }> {
-  try {
-    console.log("Fetching audio from:", audioUrl);
-    
-    // Fetch the audio file
-    const audioResponse = await fetch(audioUrl);
-    if (!audioResponse.ok) {
-      throw new Error(`Failed to fetch audio: ${audioResponse.status}`);
-    }
-    
-    const audioBlob = await audioResponse.blob();
-    console.log("Audio blob size:", audioBlob.size, "type:", audioBlob.type);
-    
-    // Determine file extension from URL or content type
-    let fileExt = 'webm';
-    if (audioUrl.includes('.mp3')) fileExt = 'mp3';
-    else if (audioUrl.includes('.wav')) fileExt = 'wav';
-    else if (audioUrl.includes('.m4a')) fileExt = 'm4a';
-    else if (audioBlob.type.includes('mp3')) fileExt = 'mp3';
-    else if (audioBlob.type.includes('wav')) fileExt = 'wav';
-    
-    // Create form data for Whisper API
-    const formData = new FormData();
-    formData.append('file', audioBlob, `audio.${fileExt}`);
-    formData.append('model', 'whisper-1');
-    formData.append('language', 'en');
-    
-    console.log("Transcribing with OpenAI Whisper...");
-    
-    // Send to OpenAI Whisper API
-    const whisperResponse = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-      },
-      body: formData,
-    });
-
-    if (!whisperResponse.ok) {
-      const errorText = await whisperResponse.text();
-      console.error("Whisper API error:", whisperResponse.status, errorText);
-      throw new Error(`Transcription failed: ${whisperResponse.status}`);
-    }
-
-    const whisperResult = await whisperResponse.json();
-    const transcript = whisperResult.text || "";
-    
-    console.log("Transcription successful, generating summary...");
-    
-    // Now use Lovable AI to generate a professional summary
-    const summaryResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        messages: [
-          {
-            role: "system",
-            content: `You are an expert analyst for a tax investigation consultancy. 
-Given a transcript of a client's voice note about their HMRC/tax situation, provide a brief 2-3 sentence professional summary highlighting:
-- Key concerns or issues mentioned
-- Any financial details or amounts
-- Urgency indicators or deadlines
-Be concise and focus on information relevant to building their case.`
-          },
-          {
-            role: "user",
-            content: `Please summarize this voice note transcript from a client:\n\n${transcript}`
-          }
-        ],
-        max_tokens: 300
-      }),
-    });
-
-    let summary = "Voice note recorded - key points extracted above.";
-    
-    if (summaryResponse.ok) {
-      const summaryData = await summaryResponse.json();
-      summary = summaryData.choices?.[0]?.message?.content?.trim() || summary;
-    } else {
-      console.warn("Summary generation failed, using default");
-    }
-    
-    return { transcript, summary };
-  } catch (error) {
-    console.error("Error transcribing voice note:", error);
-    return { 
-      transcript: "Unable to transcribe audio - manual review required.", 
-      summary: "Voice note attached - please listen to the recording for details."
-    };
-  }
 }
 
 // Convert markdown bold syntax to HTML
@@ -177,47 +71,26 @@ const handler = async (req: Request): Promise<Response> => {
     const urgencyLevel = urgency >= 8 ? "🔴 HIGH URGENCY" : urgency >= 5 ? "🟡 Medium Urgency" : "🟢 Low Urgency";
     const urgencyColor = urgency >= 8 ? "#dc2626" : urgency >= 5 ? "#f59e0b" : "#22c55e";
 
-    // Transcribe all voice notes
-    let voiceTranscriptions: VoiceTranscription[] = [];
-    if (voiceNoteUrls && voiceNoteUrls.length > 0) {
-      console.log(`Transcribing ${voiceNoteUrls.length} voice note(s)...`);
-      
-      const transcriptionPromises = voiceNoteUrls.map(async (url) => {
-        const { transcript, summary } = await transcribeVoiceNote(url);
-        return { url, transcript, summary };
-      });
-      
-      voiceTranscriptions = await Promise.all(transcriptionPromises);
-      console.log("Voice transcriptions completed");
-    }
-
-    // Generate voice notes HTML for team email with transcriptions
-    const voiceNotesHtml = voiceTranscriptions.length > 0 ? `
-      <h2 style="color: #1a1a2e; border-bottom: 2px solid #f57e20; padding-bottom: 10px; margin-top: 30px;">🎤 Voice Notes & Transcriptions (${voiceTranscriptions.length})</h2>
+    // Generate voice notes HTML for team email
+    // Use direct audio URLs since they're publicly accessible from Supabase storage
+    const voiceNotesHtml = voiceNoteUrls && voiceNoteUrls.length > 0 ? `
+      <h2 style="color: #1a1a2e; border-bottom: 2px solid #f57e20; padding-bottom: 10px; margin-top: 30px;">🎤 Voice Notes (${voiceNoteUrls.length})</h2>
 
       <div style="background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%); border: 1px solid #f57e20; padding: 20px; border-radius: 12px; margin-top: 15px;">
-        ${voiceTranscriptions.map((vt, index) => {
+        ${voiceNoteUrls.map((url, index) => {
           return `
-          <div style="background-color: white; border-radius: 10px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #fde0c2;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-              <div>
-                <div style="display: inline-block; background-color: #f57e20; color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 12px; font-weight: bold; margin-right: 12px;">${index + 1}</div>
-                <span style="color: #1a1a2e; font-weight: 600; font-size: 15px;">Voice Note ${index + 1}</span>
-              </div>
-              <a href="${vt.url}" target="_blank" rel="noreferrer" style="display: inline-block; background-color: #f57e20; color: #ffffff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">▶ Play Audio</a>
-            </div>
-            
-            <!-- Summary Box -->
-            <div style="background-color: #fef7ed; border-left: 4px solid #f57e20; padding: 12px 16px; margin-bottom: 15px; border-radius: 0 8px 8px 0;">
-              <strong style="color: #f57e20; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">📋 Key Points:</strong>
-              <p style="color: #1a1a2e; margin: 8px 0 0 0; font-size: 14px; line-height: 1.6;">${vt.summary}</p>
-            </div>
-            
-            <!-- Full Transcript -->
-            <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px;">
-              <strong style="color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">📝 Full Transcript:</strong>
-              <p style="color: #374151; margin: 10px 0 0 0; font-size: 14px; line-height: 1.7; white-space: pre-wrap;">${vt.transcript}</p>
-            </div>
+          <div style="background-color: white; border-radius: 10px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #fde0c2;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="vertical-align: middle;">
+                  <div style="display: inline-block; background-color: #f57e20; color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 12px; font-weight: bold; margin-right: 12px;">${index + 1}</div>
+                  <span style="color: #1a1a2e; font-weight: 600; font-size: 15px;">Voice Note ${index + 1}</span>
+                </td>
+                <td style="text-align: right; vertical-align: middle;">
+                  <a href="${url}" target="_blank" rel="noreferrer" style="display: inline-block; background-color: #f57e20; color: #ffffff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">▶ Play / Download</a>
+                </td>
+              </tr>
+            </table>
           </div>
           `;
         }).join('')}
