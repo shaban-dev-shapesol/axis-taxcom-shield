@@ -22,6 +22,7 @@ interface AssessmentEmailRequest {
   clientAssessment?: string;
   teamAssessment?: string;
   documentCount?: number;
+  voiceNoteUrls?: string[];
 }
 
 // Convert markdown bold syntax to HTML
@@ -55,6 +56,7 @@ const handler = async (req: Request): Promise<Response> => {
       clientAssessment,
       teamAssessment,
       documentCount,
+      voiceNoteUrls,
     } = data;
 
     // Validate required fields
@@ -118,6 +120,24 @@ const handler = async (req: Request): Promise<Response> => {
             <p style="color: #555; margin: 0;">${formatMarkdownToHtml(teamAssessment)}</p>
           </div>
           ${documentCount ? `<p style="color: #666; font-size: 12px; margin-top: 10px;">📎 ${documentCount} document(s) uploaded and analyzed</p>` : ''}
+          ` : ''}
+
+          ${voiceNoteUrls && voiceNoteUrls.length > 0 ? `
+          <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 25px;">🎤 Voice Notes (${voiceNoteUrls.length})</h2>
+          <div style="background-color: #f0f9ff; border: 1px solid #0ea5e9; padding: 15px; border-radius: 8px;">
+            ${voiceNoteUrls.map((url, index) => `
+              <div style="margin-bottom: 12px; padding: 10px; background-color: white; border-radius: 6px;">
+                <p style="margin: 0 0 8px 0; color: #333; font-weight: 500;">Voice Note ${index + 1}</p>
+                <audio controls style="width: 100%; height: 40px;">
+                  <source src="${url}" type="audio/webm">
+                  Your email client does not support audio playback.
+                </audio>
+                <p style="margin: 8px 0 0 0; font-size: 12px;">
+                  <a href="${url}" style="color: #0ea5e9; text-decoration: underline;">Download audio file</a>
+                </p>
+              </div>
+            `).join('')}
+          </div>
           ` : ''}
 
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
