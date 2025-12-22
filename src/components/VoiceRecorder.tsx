@@ -13,8 +13,14 @@ interface VoiceNote {
   isTranscribing?: boolean;
 }
 
+export interface VoiceNoteWithTranscription {
+  blob: Blob;
+  transcription?: string;
+}
+
 interface VoiceRecorderProps {
   onVoiceNotes: (voiceNotes: Blob[]) => void;
+  onVoiceNotesWithTranscriptions?: (notes: VoiceNoteWithTranscription[]) => void;
   disabled?: boolean;
   voiceNotes: Blob[];
 }
@@ -203,7 +209,7 @@ const VoiceNoteItem = ({
   );
 };
 
-export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecorderProps) => {
+export const VoiceRecorder = ({ onVoiceNotes, onVoiceNotesWithTranscriptions, disabled, voiceNotes }: VoiceRecorderProps) => {
   const [isRecording, setIsRecording] = useState(false);
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
   const [notes, setNotes] = useState<VoiceNote[]>([]);
@@ -480,9 +486,16 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
       // Update the note with transcription
       const updatedMeta = { ...note, transcription, isTranscribing: false };
       blobMetaRef.current.set(note.blob, updatedMeta);
-      setNotes((prev) => prev.map((n) => 
-        n.id === id ? updatedMeta : n
-      ));
+      setNotes((prev) => {
+        const newNotes = prev.map((n) => n.id === id ? updatedMeta : n);
+        // Notify parent of updated transcriptions
+        if (onVoiceNotesWithTranscriptions) {
+          onVoiceNotesWithTranscriptions(
+            newNotes.map((n) => ({ blob: n.blob, transcription: n.transcription }))
+          );
+        }
+        return newNotes;
+      });
 
       toast({
         title: 'Transcription Complete',
