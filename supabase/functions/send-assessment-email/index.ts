@@ -94,12 +94,10 @@ const handler = async (req: Request): Promise<Response> => {
                 </td>
               </tr>
             </table>
-            ${transcription ? `
             <div style="margin-top: 12px; padding: 12px; background-color: #f8fafc; border-radius: 8px; border-left: 3px solid #f57e20;">
-              <p style="margin: 0 0 6px 0; font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">📝 Transcription</p>
-              <p style="margin: 0; color: #334155; font-size: 14px; line-height: 1.6; white-space: pre-wrap;">${transcription}</p>
+              <p style="margin: 0 0 6px 0; font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">📄 FULL TRANSCRIPT:</p>
+              <p style="margin: 0; color: #334155; font-size: 14px; line-height: 1.6; white-space: pre-wrap;">${transcription || 'Unable to transcribe audio - manual review required.'}</p>
             </div>
-            ` : ''}
           </div>
           `;
         }).join('')}
