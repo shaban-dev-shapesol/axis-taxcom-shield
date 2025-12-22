@@ -1,13 +1,16 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Mic, Square, Play, Pause, X } from 'lucide-react';
+import { Mic, Square, Play, Pause, X, Loader2, FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface VoiceNote {
   id: string;
   blob: Blob;
   url: string;
   duration: number;
+  transcription?: string;
+  isTranscribing?: boolean;
 }
 
 interface VoiceRecorderProps {
@@ -85,11 +88,13 @@ const VoiceNoteItem = ({
   note, 
   index,
   onDelete,
+  onTranscribe,
   disabled 
 }: { 
   note: VoiceNote; 
   index: number;
   onDelete: () => void;
+  onTranscribe: () => void;
   disabled?: boolean;
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -129,46 +134,71 @@ const VoiceNoteItem = ({
   const progress = note.duration > 0 ? (currentTime / note.duration) * 100 : 0;
 
   return (
-    <div className="group flex items-center gap-3 p-3 bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-shadow">
-      <Button
-        type="button"
-        variant="secondary"
-        size="icon"
-        className="h-10 w-10 rounded-full shrink-0"
-        onClick={togglePlayback}
-      >
-        {isPlaying ? (
-          <Pause className="h-4 w-4" />
-        ) : (
-          <Play className="h-4 w-4 ml-0.5" />
-        )}
-      </Button>
-      
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-sm font-medium text-foreground">Voice Note {index + 1}</span>
-          <span className="text-xs text-muted-foreground font-mono">
-            {formatDuration(currentTime)} / {formatDuration(note.duration)}
-          </span>
+    <div className="group flex flex-col gap-2 p-3 bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center gap-3">
+        <Button
+          type="button"
+          variant="secondary"
+          size="icon"
+          className="h-10 w-10 rounded-full shrink-0"
+          onClick={togglePlayback}
+        >
+          {isPlaying ? (
+            <Pause className="h-4 w-4" />
+          ) : (
+            <Play className="h-4 w-4 ml-0.5" />
+          )}
+        </Button>
+        
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-sm font-medium text-foreground">Voice Note {index + 1}</span>
+            <span className="text-xs text-muted-foreground font-mono">
+              {formatDuration(currentTime)} / {formatDuration(note.duration)}
+            </span>
+          </div>
+          <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-primary rounded-full transition-all duration-150"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
-        <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-primary rounded-full transition-all duration-150"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={onTranscribe}
+          disabled={disabled || note.isTranscribing || !!note.transcription}
+          className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10 shrink-0"
+          title={note.transcription ? "Already transcribed" : "Transcribe audio"}
+        >
+          {note.isTranscribing ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <FileText className="h-4 w-4" />
+          )}
+        </Button>
+        
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={onDelete}
+          disabled={disabled}
+          className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+        >
+          <X className="h-4 w-4" />
+        </Button>
       </div>
-      
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        onClick={onDelete}
-        disabled={disabled}
-        className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
-      >
-        <X className="h-4 w-4" />
-      </Button>
+
+      {/* Transcription display */}
+      {note.transcription && (
+        <div className="mt-1 px-3 py-2 bg-muted/50 rounded-lg">
+          <p className="text-sm text-foreground/80 italic">"{note.transcription}"</p>
+        </div>
+      )}
     </div>
   );
 };
@@ -420,6 +450,57 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
     onVoiceNotes(voiceNotes.filter((b) => b !== noteToDelete.blob));
   }, [notes, onVoiceNotes, voiceNotes]);
 
+  const transcribeNote = useCallback(async (id: string) => {
+    const note = notes.find((n) => n.id === id);
+    if (!note || note.isTranscribing || note.transcription) return;
+
+    // Mark as transcribing
+    setNotes((prev) => prev.map((n) => 
+      n.id === id ? { ...n, isTranscribing: true } : n
+    ));
+
+    try {
+      // Convert blob to base64
+      const arrayBuffer = await note.blob.arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
+      let binary = '';
+      for (let i = 0; i < uint8Array.length; i++) {
+        binary += String.fromCharCode(uint8Array[i]);
+      }
+      const base64Audio = btoa(binary);
+
+      const { data, error } = await supabase.functions.invoke('transcribe-audio', {
+        body: { audio: base64Audio }
+      });
+
+      if (error) throw error;
+
+      const transcription = data?.text || '';
+      
+      // Update the note with transcription
+      const updatedMeta = { ...note, transcription, isTranscribing: false };
+      blobMetaRef.current.set(note.blob, updatedMeta);
+      setNotes((prev) => prev.map((n) => 
+        n.id === id ? updatedMeta : n
+      ));
+
+      toast({
+        title: 'Transcription Complete',
+        description: 'Your voice note has been transcribed.',
+      });
+    } catch (error) {
+      console.error('Transcription error:', error);
+      setNotes((prev) => prev.map((n) => 
+        n.id === id ? { ...n, isTranscribing: false } : n
+      ));
+      toast({
+        title: 'Transcription Failed',
+        description: 'Unable to transcribe audio. Please try again.',
+        variant: 'destructive',
+      });
+    }
+  }, [notes, toast]);
+
   return (
     <div className="space-y-4">
       {/* Recording controls */}
@@ -467,6 +548,7 @@ export const VoiceRecorder = ({ onVoiceNotes, disabled, voiceNotes }: VoiceRecor
               note={note}
               index={index}
               onDelete={() => deleteNote(note.id)}
+              onTranscribe={() => transcribeNote(note.id)}
               disabled={disabled}
             />
           ))}
