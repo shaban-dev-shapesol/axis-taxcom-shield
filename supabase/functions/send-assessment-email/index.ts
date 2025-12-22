@@ -23,6 +23,7 @@ interface AssessmentEmailRequest {
   teamAssessment?: string;
   documentCount?: number;
   voiceNoteUrls?: string[];
+  voiceNoteTranscriptions?: string[];
 }
 
 // Convert markdown bold syntax to HTML
@@ -57,6 +58,7 @@ const handler = async (req: Request): Promise<Response> => {
       teamAssessment,
       documentCount,
       voiceNoteUrls,
+      voiceNoteTranscriptions,
     } = data;
 
     // Validate required fields
@@ -71,13 +73,14 @@ const handler = async (req: Request): Promise<Response> => {
     const urgencyLevel = urgency >= 8 ? "🔴 HIGH URGENCY" : urgency >= 5 ? "🟡 Medium Urgency" : "🟢 Low Urgency";
     const urgencyColor = urgency >= 8 ? "#dc2626" : urgency >= 5 ? "#f59e0b" : "#22c55e";
 
-    // Generate voice notes HTML for team email
+    // Generate voice notes HTML for team email with transcriptions
     // Use direct audio URLs since they're publicly accessible from Supabase storage
     const voiceNotesHtml = voiceNoteUrls && voiceNoteUrls.length > 0 ? `
       <h2 style="color: #1a1a2e; border-bottom: 2px solid #f57e20; padding-bottom: 10px; margin-top: 30px;">🎤 Voice Notes (${voiceNoteUrls.length})</h2>
 
       <div style="background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%); border: 1px solid #f57e20; padding: 20px; border-radius: 12px; margin-top: 15px;">
         ${voiceNoteUrls.map((url, index) => {
+          const transcription = voiceNoteTranscriptions && voiceNoteTranscriptions[index];
           return `
           <div style="background-color: white; border-radius: 10px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #fde0c2;">
             <table style="width: 100%; border-collapse: collapse;">
@@ -91,6 +94,12 @@ const handler = async (req: Request): Promise<Response> => {
                 </td>
               </tr>
             </table>
+            ${transcription ? `
+            <div style="margin-top: 12px; padding: 12px; background-color: #f8fafc; border-radius: 8px; border-left: 3px solid #f57e20;">
+              <p style="margin: 0 0 6px 0; font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">📝 Transcription</p>
+              <p style="margin: 0; color: #334155; font-size: 14px; line-height: 1.6; white-space: pre-wrap;">${transcription}</p>
+            </div>
+            ` : ''}
           </div>
           `;
         }).join('')}

@@ -8,7 +8,7 @@ import { SEO } from "@/components/SEO";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState, useRef } from "react";
 import { Upload, AlertTriangle, Lock, FileText, Loader2, CheckCircle, X, Check, AlertCircle } from "lucide-react";
-import { VoiceRecorder } from "@/components/VoiceRecorder";
+import { VoiceRecorder, VoiceNoteWithTranscription } from "@/components/VoiceRecorder";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -41,6 +41,7 @@ const GetStarted = () => {
     description: '',
   });
   const [voiceNotes, setVoiceNotes] = useState<Blob[]>([]);
+  const [voiceNotesWithTranscriptions, setVoiceNotesWithTranscriptions] = useState<VoiceNoteWithTranscription[]>([]);
 
   // Format currency with £ symbol and comma separators
   const formatCurrency = (value: string): string => {
@@ -320,6 +321,7 @@ const GetStarted = () => {
           teamAssessment,
           documentCount: uploadedFiles.length,
           voiceNoteUrls,
+          voiceNoteTranscriptions: voiceNotesWithTranscriptions.map(n => n.transcription).filter(Boolean),
         }),
       });
 
@@ -348,6 +350,7 @@ const GetStarted = () => {
       setUrgency(5);
       setUploadedFiles([]);
       setVoiceNotes([]);
+      setVoiceNotesWithTranscriptions([]);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -567,6 +570,7 @@ const GetStarted = () => {
                         <Label htmlFor="description">Brief Description of Your Situation {voiceNotes.length === 0 && '*'}</Label>
                         <VoiceRecorder 
                           onVoiceNotes={setVoiceNotes}
+                          onVoiceNotesWithTranscriptions={setVoiceNotesWithTranscriptions}
                           disabled={isSubmitting}
                           voiceNotes={voiceNotes}
                         />
