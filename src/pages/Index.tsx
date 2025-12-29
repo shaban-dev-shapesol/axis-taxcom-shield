@@ -80,8 +80,9 @@ const Index = () => {
         ref={heroSection.ref}
         className={`relative bg-primary text-primary-foreground overflow-hidden min-h-screen flex items-center ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
       >
-        <div className="absolute inset-0 opacity-20">
-          <img src={heroImage} alt="HMRC Investigation Defence" className="w-full h-full object-cover" />
+        <div className="absolute inset-0">
+          <img src={heroImage} alt="HMRC Investigation Defence" className="w-full h-full object-cover opacity-20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50" />
         </div>
         <div className="relative container mx-auto px-4 py-24 md:py-32">
           <div className="max-w-4xl">
