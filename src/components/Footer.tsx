@@ -12,15 +12,11 @@ export const Footer = () => {
               Investigation<span className="text-gold">.tax</span>
             </div>
             <p className="text-sm text-primary-foreground/70">
-              A partnership of <span className="text-gold font-semibold">Business Crime Solicitors</span> &{" "}
-              <span className="text-gold font-semibold">Chartered Accountants</span>
+              Chartered Accountants, Tax Specialists & Business Crime Solicitors
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex space-x-2">
               <div className="px-3 py-1 bg-gold/10 text-gold text-xs font-semibold rounded">
-                SRA Regulated
-              </div>
-              <div className="px-3 py-1 bg-gold/10 text-gold text-xs font-semibold rounded">
-                ICAEW Qualified
+                FCA Regulated
               </div>
               <div className="px-3 py-1 bg-gold/10 text-gold text-xs font-semibold rounded">
                 GDPR Secure

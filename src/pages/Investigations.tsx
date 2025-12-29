@@ -3,7 +3,6 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
 import { CTASection } from "@/components/CTASection";
-import { PartnershipBanner } from "@/components/PartnershipBanner";
 import { Link } from "react-router-dom";
 import { AlertTriangle, Shield, FileText, Scale, CheckCircle } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
@@ -38,8 +37,7 @@ const Investigations = () => {
               HMRC Tax Investigation <span className="text-gold">Defence & Resolution</span>
             </h1>
             <p className="text-xl text-primary-foreground/80 mb-8">
-              Our partnership of <span className="text-gold font-semibold">Business Crime Solicitors</span> and{" "}
-              <span className="text-gold font-semibold">Chartered Accountants</span> working together to defend you 
+              Chartered accountants and business crime solicitors working together to defend you 
               against all types of HMRC investigations.
             </p>
             <Button asChild variant="danger" size="lg">
@@ -49,8 +47,7 @@ const Investigations = () => {
         </div>
       </section>
 
-      {/* Partnership Banner */}
-      <PartnershipBanner />
+      {/* Types of Investigations */}
       <section ref={typesSection.ref as any} className={`py-20 ${typesSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Types of HMRC Investigations We Handle</h2>

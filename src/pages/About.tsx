@@ -1,7 +1,6 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
-import { PartnershipBanner } from "@/components/PartnershipBanner";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Shield, Scale, Users, Award, Target, CheckCircle2 } from "lucide-react";
 
@@ -31,15 +30,13 @@ const About = () => {
               About Investigation.tax
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              The UK's premier partnership of <span className="font-semibold text-foreground">Chartered Accountants</span> and{" "}
-              <span className="font-semibold text-foreground">Business Crime Solicitors</span>,
+              The UK's premier alliance of Chartered Accountants and Business Crime Solicitors,
               delivering unmatched expertise in HMRC investigations and tax compliance.
             </p>
           </div>
         </section>
 
-        {/* Partnership Banner */}
-        <PartnershipBanner />
+        {/* Mission Section */}
         <section
           ref={mission.ref as React.RefObject<HTMLElement>}
           className={`py-16 px-4 bg-muted/30 ${mission.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}

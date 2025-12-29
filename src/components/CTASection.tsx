@@ -30,9 +30,6 @@ export const CTASection = ({
     >
       <div className="container mx-auto px-4">
         <div className="bg-primary text-primary-foreground rounded-2xl p-10 md:p-16 text-center max-w-5xl mx-auto shadow-elegant">
-          <div className="inline-flex items-center gap-2 bg-gold/20 px-4 py-2 rounded-full mb-6">
-            <span className="text-gold text-sm font-semibold">Solicitors & Accountants Partnership</span>
-          </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-6">{title}</h2>
           <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
             {description}
