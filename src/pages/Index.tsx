@@ -77,28 +77,47 @@ const Index = () => {
       {/* Hero Section */}
       <section
         ref={heroSection.ref}
-        className={`relative min-h-screen bg-primary text-primary-foreground overflow-hidden ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
+        className={`relative bg-primary text-primary-foreground overflow-hidden ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
       >
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 opacity-20">
           <img src={heroImage} alt="HMRC Investigation Defence" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/40"></div>
         </div>
-        
-        {/* Content */}
-        <div className="relative container mx-auto px-4 pt-40 pb-24 md:pt-48 md:pb-32 min-h-screen flex items-center">
-          <div className="max-w-2xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+        <div className="relative container mx-auto px-4 py-24 md:py-32">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center space-x-2 bg-danger/10 text-danger px-4 py-2 rounded-full mb-6">
+              <Clock className="h-4 w-4" />
+              <span className="text-sm font-semibold">24-Hour HMRC Crisis Response Available</span>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
               Stop HMRC Investigations
               <br />
               <span className="text-gold">Before They Destroy Your Business</span>
             </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/70 mb-8 max-w-xl">
+            <p className="text-xl md:text-2xl text-primary-foreground/80 mb-8 max-w-2xl">
               Chartered Accountants & Business Crime Solicitors. The most aggressive HMRC defence team in the UK.
             </p>
-            <Button asChild variant="outline" size="lg" className="border-gold text-gold hover:bg-gold hover:text-primary">
-              <Link to="/get-started">Get In Touch</Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button asChild variant="danger" size="lg">
+                <Link to="/get-started">Fix Your HMRC Problem Now</Link>
+              </Button>
+              <Button asChild variant="hero" size="lg">
+                <Link to="/book">Book Free 15-Min Assessment</Link>
+              </Button>
+            </div>
+            <div className="mt-8 flex flex-wrap gap-6">
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="h-5 w-5 text-gold" />
+                <span className="text-sm">Chartered Accountants</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="h-5 w-5 text-gold" />
+                <span className="text-sm">Business Crime Solicitors</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="h-5 w-5 text-gold" />
+                <span className="text-sm">GDPR-Secure Systems</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
