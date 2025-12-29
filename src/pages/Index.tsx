@@ -83,64 +83,120 @@ const Index = () => {
       {/* Hero Section - Split Layout */}
       <section
         ref={heroSection.ref}
-        className={`relative bg-primary min-h-[90vh] ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
+        className={`relative bg-primary min-h-[90vh] overflow-hidden ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
       >
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'radial-gradient(circle at 25% 25%, hsl(var(--gold)) 2px, transparent 2px)',
+            backgroundSize: '60px 60px'
+          }} />
+        </div>
+
         <div className="grid lg:grid-cols-2 min-h-[90vh]">
           {/* Left - Content */}
-          <div className="relative z-10 flex flex-col justify-center px-6 md:px-12 lg:px-16 py-16 lg:py-24">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6">
+          <div className="relative z-10 flex flex-col justify-center px-6 md:px-12 lg:px-20 py-20 lg:py-28">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-gold/10 border border-gold/30 rounded-full px-4 py-2 mb-8 w-fit">
+              <Award className="h-4 w-4 text-gold" />
+              <span className="text-gold text-sm font-medium tracking-wide">UK's Leading HMRC Defence Firm</span>
+            </div>
+
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary-foreground leading-[1.1] mb-8">
               Trusted Choice for
               <br />
-              <span className="text-gold">HMRC Defence</span> for
+              <span className="text-gold relative">
+                HMRC Defence
+                <svg className="absolute -bottom-2 left-0 w-full h-3 text-gold/30" viewBox="0 0 200 10" preserveAspectRatio="none">
+                  <path d="M0,8 Q50,0 100,8 T200,8" stroke="currentColor" strokeWidth="3" fill="none" />
+                </svg>
+              </span>
               <br />
-              over 15 Years
+              <span className="text-primary-foreground/90">for over 15 Years</span>
             </h1>
             
-            {/* Integrated Testimonial */}
-            <div className="mb-8">
-              <div className="flex gap-1 mb-3">
+            {/* Integrated Testimonial - Enhanced */}
+            <div className="mb-10 bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 rounded-2xl p-6">
+              <div className="flex gap-1 mb-4">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="h-5 w-5 fill-gold text-gold" />
                 ))}
               </div>
-              <blockquote className="text-primary-foreground/80 italic mb-3">
+              <blockquote className="text-primary-foreground/90 text-lg italic mb-4 leading-relaxed">
                 "Their expertise and personalized approach made navigating the complex world of HMRC investigations a breeze."
               </blockquote>
-              <p className="text-primary-foreground/60 text-sm">
-                ~ Mirana V. | Businesswoman
-              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center">
+                  <span className="text-gold font-bold">MV</span>
+                </div>
+                <div>
+                  <p className="text-primary-foreground font-medium text-sm">Mirana V.</p>
+                  <p className="text-primary-foreground/60 text-xs">Businesswoman</p>
+                </div>
+              </div>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <Button asChild variant="danger" size="lg">
-                <Link to="/contact">Contact Us</Link>
+            <div className="flex flex-col sm:flex-row gap-4 mb-10">
+              <Button asChild variant="danger" size="lg" className="text-base px-8 py-6 shadow-lg shadow-destructive/20">
+                <Link to="/contact">
+                  Contact Us
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
-              <Button asChild variant="hero" size="lg">
+              <Button asChild variant="hero" size="lg" className="text-base px-8 py-6">
                 <Link to="/how-it-works">Know More</Link>
               </Button>
             </div>
             
-            {/* Partnership Highlight */}
-            <div className="flex flex-wrap items-center gap-6 pt-6 border-t border-primary-foreground/20">
-              <div className="flex items-center gap-2">
-                <Scale className="h-5 w-5 text-gold" />
-                <span className="text-primary-foreground text-sm font-medium">Business Crime Solicitors</span>
+            {/* Partnership Highlight - Enhanced */}
+            <div className="flex flex-wrap items-center gap-8 pt-8 border-t border-primary-foreground/10">
+              <div className="flex items-center gap-3 group">
+                <div className="w-10 h-10 bg-gold/20 rounded-lg flex items-center justify-center group-hover:bg-gold/30 transition-colors">
+                  <Scale className="h-5 w-5 text-gold" />
+                </div>
+                <div>
+                  <span className="text-primary-foreground font-semibold text-sm block">Business Crime Solicitors</span>
+                  <span className="text-primary-foreground/50 text-xs">Legal Protection</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <FileCheck className="h-5 w-5 text-gold" />
-                <span className="text-primary-foreground text-sm font-medium">Chartered Accountants</span>
+              <div className="flex items-center gap-3 group">
+                <div className="w-10 h-10 bg-gold/20 rounded-lg flex items-center justify-center group-hover:bg-gold/30 transition-colors">
+                  <FileCheck className="h-5 w-5 text-gold" />
+                </div>
+                <div>
+                  <span className="text-primary-foreground font-semibold text-sm block">Chartered Accountants</span>
+                  <span className="text-primary-foreground/50 text-xs">Financial Expertise</span>
+                </div>
               </div>
             </div>
           </div>
           
-          {/* Right - Image */}
+          {/* Right - Image with enhanced overlay */}
           <div className="relative hidden lg:block">
             <img 
               src={heroImage} 
               alt="HMRC Investigation Defence Team" 
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
+            
+            {/* Floating Stats Card */}
+            <div className="absolute bottom-12 right-12 bg-background/95 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-border/50 max-w-xs">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
+                  <Shield className="h-6 w-6 text-primary-foreground" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-foreground">£950M+</p>
+                  <p className="text-sm text-muted-foreground">Saved for Clients</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span>95% Criminal Prosecutions Avoided</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
