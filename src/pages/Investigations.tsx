@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
 import { CTASection } from "@/components/CTASection";
+import { PartnershipBanner } from "@/components/PartnershipBanner";
 import { Link } from "react-router-dom";
 import { AlertTriangle, Shield, FileText, Scale, CheckCircle } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
@@ -46,6 +47,9 @@ const Investigations = () => {
           </div>
         </div>
       </section>
+
+      {/* Partnership Banner */}
+      <PartnershipBanner variant="accent" size="sm" />
 
       {/* Types of Investigations */}
       <section ref={typesSection.ref as any} className={`py-20 ${typesSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>

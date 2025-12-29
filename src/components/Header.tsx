@@ -21,6 +21,16 @@ export const Header = () => {
 
   return (
     <header className="bg-primary border-b border-primary/20 sticky top-0 z-50">
+      {/* Partnership Strip */}
+      <div className="bg-navy-light/30 border-b border-gold/20 py-1.5">
+        <div className="container mx-auto px-4">
+          <p className="text-center text-xs md:text-sm text-primary-foreground/90">
+            <span className="text-gold font-semibold">Solicitors & Accountants</span>
+            <span className="mx-2">—</span>
+            <span>Working as Partners for Your Defence</span>
+          </p>
+        </div>
+      </div>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center space-x-3">

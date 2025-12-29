@@ -11,8 +11,11 @@ export const Footer = () => {
             <div className="text-2xl font-bold">
               Investigation<span className="text-gold">.tax</span>
             </div>
-            <p className="text-sm text-primary-foreground/70">
-              Chartered Accountants, Tax Specialists & Business Crime Solicitors
+            <p className="text-sm text-primary-foreground/70 mb-2">
+              Solicitors & Accountants — Working as Partners
+            </p>
+            <p className="text-xs text-primary-foreground/50">
+              Business Crime Solicitors & Chartered Accountants
             </p>
             <div className="flex space-x-2">
               <div className="px-3 py-1 bg-gold/10 text-gold text-xs font-semibold rounded">
