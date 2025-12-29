@@ -23,9 +23,12 @@ export const Header = () => {
     <header className="bg-primary border-b border-primary/20 sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          <Link to="/" className="flex items-center space-x-3">
+          <Link to="/" className="flex flex-col">
             <div className="text-2xl font-bold text-primary-foreground">
               Investigation<span className="text-gold">.tax</span>
+            </div>
+            <div className="text-[10px] text-primary-foreground/60 tracking-wide">
+              Solicitors & Accountants Partnership
             </div>
           </Link>
 
