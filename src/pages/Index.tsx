@@ -78,7 +78,7 @@ const Index = () => {
       {/* Hero Section */}
       <section
         ref={heroSection.ref}
-        className={`relative bg-primary text-primary-foreground overflow-hidden ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
+        className={`relative bg-primary text-primary-foreground overflow-hidden min-h-screen flex items-center ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
       >
         <div className="absolute inset-0 opacity-20">
           <img src={heroImage} alt="HMRC Investigation Defence" className="w-full h-full object-cover" />
