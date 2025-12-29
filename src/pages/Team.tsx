@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
 import { CTASection } from "@/components/CTASection";
+import { PartnershipBanner } from "@/components/PartnershipBanner";
 import { Link } from "react-router-dom";
 import { Scale, Shield, Award, Users } from "lucide-react";
 import teamImage from "@/assets/team-collaboration.jpg";
@@ -42,6 +43,9 @@ const Team = () => {
           </div>
         </div>
       </section>
+
+      {/* Partnership Banner */}
+      <PartnershipBanner variant="accent" size="lg" />
 
       {/* Why Hybrid Team */}
       <section ref={whyHybridSection.ref as any} className={`py-20 ${whyHybridSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>

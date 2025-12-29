@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Testimonials } from "@/components/Testimonials";
 import { SEO } from "@/components/SEO";
 import { CTASection } from "@/components/CTASection";
+import { PartnershipBanner } from "@/components/PartnershipBanner";
 import { Link } from "react-router-dom";
 import {
   Shield,
@@ -121,6 +122,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Partnership Banner */}
+      <PartnershipBanner variant="accent" size="lg" />
 
       {/* Urgency Section */}
       <section

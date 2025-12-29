@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
 import { CTASection } from "@/components/CTASection";
+import { PartnershipBanner } from "@/components/PartnershipBanner";
 import { Link } from "react-router-dom";
 import { Shield, CheckCircle, AlertTriangle, Scan } from "lucide-react";
 import preComplianceImage from "@/assets/pre-compliance.jpg";
@@ -43,6 +44,9 @@ const PreCompliance = () => {
           </div>
         </div>
       </section>
+
+      {/* Partnership Banner */}
+      <PartnershipBanner variant="accent" size="sm" />
 
       {/* The Problem */}
       <section ref={problemSection.ref as any} className={`py-20 bg-muted/30 ${problemSection.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>

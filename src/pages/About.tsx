@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
+import { PartnershipBanner } from "@/components/PartnershipBanner";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Shield, Scale, Users, Award, Target, CheckCircle2 } from "lucide-react";
 
@@ -35,6 +36,9 @@ const About = () => {
             </p>
           </div>
         </section>
+
+        {/* Partnership Banner */}
+        <PartnershipBanner variant="dark" size="lg" />
 
         {/* Mission Section */}
         <section
@@ -85,7 +89,7 @@ const About = () => {
                   <Users className="w-12 h-12 text-accent mb-4" />
                   <h3 className="font-bold mb-2 text-foreground">Expert Team</h3>
                   <p className="text-sm text-muted-foreground">
-                    Accountants + Solicitors working as one
+                    Accountants & Solicitors working as one
                   </p>
                 </div>
               </div>
