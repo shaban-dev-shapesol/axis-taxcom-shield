@@ -211,41 +211,76 @@ const Index = () => {
               From prevention to full criminal defence
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl flex flex-col h-full">
-              <Award className="h-10 w-10 text-gold mb-4" />
-              <h3 className="text-2xl font-bold mb-4">HMRC Investigation Defence</h3>
-              <p className="text-primary-foreground/80 mb-4 flex-grow">
+          
+          {/* Featured + Grid Layout */}
+          <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            {/* Featured Large Card */}
+            <div className="bg-gradient-to-br from-gold/20 to-gold/5 backdrop-blur-sm p-10 rounded-2xl shadow-xl border border-gold/30 transition-smooth hover:shadow-2xl hover:border-gold/50 flex flex-col h-full row-span-2">
+              <div className="w-16 h-16 bg-gold/20 rounded-xl flex items-center justify-center mb-6">
+                <Award className="h-8 w-8 text-gold" />
+              </div>
+              <span className="text-gold text-sm font-semibold tracking-wider uppercase mb-3">Featured Service</span>
+              <h3 className="text-3xl font-bold mb-4">HMRC Investigation Defence</h3>
+              <p className="text-primary-foreground/80 mb-6 flex-grow text-lg leading-relaxed">
                 Full-spectrum defence for all HMRC investigation types: Aspect Enquiries, Full Enquiries, Code of
                 Practice 8 & 9, VAT/PAYE/CIS checks, and criminal prosecutions.
               </p>
-              <Button asChild variant="accent" className="mt-auto">
-                <Link to="/investigations">Learn More →</Link>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center gap-3 text-primary-foreground/80">
+                  <CheckCircle className="h-5 w-5 text-gold flex-shrink-0" />
+                  <span>24-hour crisis response</span>
+                </li>
+                <li className="flex items-center gap-3 text-primary-foreground/80">
+                  <CheckCircle className="h-5 w-5 text-gold flex-shrink-0" />
+                  <span>Legal privilege protection</span>
+                </li>
+                <li className="flex items-center gap-3 text-primary-foreground/80">
+                  <CheckCircle className="h-5 w-5 text-gold flex-shrink-0" />
+                  <span>Criminal prosecution defence</span>
+                </li>
+              </ul>
+              <Button asChild variant="accent" size="lg" className="w-full">
+                <Link to="/investigations">Get Protected Now <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
             </div>
 
-            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl flex flex-col h-full">
-              <Shield className="h-10 w-10 text-gold mb-4" />
-              <h3 className="text-2xl font-bold mb-4">Pre-Compliance Protection</h3>
-              <p className="text-primary-foreground/80 mb-4 flex-grow">
-                Avoid investigation entirely. Risk scanning of your VAT, PAYE, CIS, and bookkeeping to detect red flags
-                before HMRC does.
-              </p>
-              <Button asChild variant="accent" className="mt-auto">
-                <Link to="/pre-compliance">Learn More →</Link>
-              </Button>
-            </div>
+            {/* Right Column - Stacked Cards */}
+            <div className="flex flex-col gap-8">
+              {/* Pre-Compliance Card */}
+              <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-[1.02] hover:shadow-xl hover:bg-card/15 flex-1">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Shield className="h-6 w-6 text-gold" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold mb-2">Pre-Compliance Protection</h3>
+                    <p className="text-primary-foreground/70 mb-4">
+                      Avoid investigation entirely. Risk scanning of your VAT, PAYE, CIS, and bookkeeping to detect red flags before HMRC does.
+                    </p>
+                    <Link to="/pre-compliance" className="inline-flex items-center text-gold font-semibold hover:underline">
+                      Learn More <ArrowRight className="ml-1 h-4 w-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
 
-            <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-105 hover:shadow-xl flex flex-col h-full">
-              <Scale className="h-10 w-10 text-gold mb-4" />
-              <h3 className="text-2xl font-bold mb-4">Case Studies & Wins</h3>
-              <p className="text-primary-foreground/80 mb-4 flex-grow">
-                Real results from real clients: restaurants, consultants, landlords, and contractors. See how we saved
-                businesses from HMRC penalties and criminal prosecution.
-              </p>
-              <Button asChild variant="accent" className="mt-auto">
-                <Link to="/case-studies">View Cases →</Link>
-              </Button>
+              {/* Case Studies Card */}
+              <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-[1.02] hover:shadow-xl hover:bg-card/15 flex-1">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Scale className="h-6 w-6 text-gold" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold mb-2">Case Studies & Wins</h3>
+                    <p className="text-primary-foreground/70 mb-4">
+                      Real results from real clients. See how we saved businesses from HMRC penalties and criminal prosecution.
+                    </p>
+                    <Link to="/case-studies" className="inline-flex items-center text-gold font-semibold hover:underline">
+                      View Cases <ArrowRight className="ml-1 h-4 w-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
