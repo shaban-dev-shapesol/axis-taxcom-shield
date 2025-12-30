@@ -5,6 +5,7 @@ import { Testimonials } from "@/components/Testimonials";
 import { SEO } from "@/components/SEO";
 import { CTASection } from "@/components/CTASection";
 import { PartnershipBanner } from "@/components/PartnershipBanner";
+import { AnimatedStatCard } from "@/components/AnimatedStatCard";
 import { Link } from "react-router-dom";
 import {
   Shield,
@@ -588,53 +589,35 @@ const Index = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {/* Stat Card 1 */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-gold/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="relative bg-primary-foreground/10 backdrop-blur-sm p-8 rounded-2xl border border-primary-foreground/20 hover:border-gold/50 transition-all hover:-translate-y-2">
-                <div className="w-14 h-14 bg-gold/20 rounded-xl flex items-center justify-center mb-6">
-                  <Shield className="h-7 w-7 text-gold" />
-                </div>
-                <div className="text-4xl md:text-5xl font-bold text-gold mb-2">£950M+</div>
-                <p className="text-primary-foreground/70 font-medium">Total Saved for Clients</p>
-              </div>
-            </div>
-            
-            {/* Stat Card 2 */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-crimson/20 to-crimson/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="relative bg-primary-foreground/10 backdrop-blur-sm p-8 rounded-2xl border border-primary-foreground/20 hover:border-crimson/50 transition-all hover:-translate-y-2">
-                <div className="w-14 h-14 bg-crimson/20 rounded-xl flex items-center justify-center mb-6">
-                  <Award className="h-7 w-7 text-crimson" />
-                </div>
-                <div className="text-4xl md:text-5xl font-bold text-crimson mb-2">400+</div>
-                <p className="text-primary-foreground/70 font-medium">Cases Successfully Defended</p>
-              </div>
-            </div>
-            
-            {/* Stat Card 3 */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-gold/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="relative bg-primary-foreground/10 backdrop-blur-sm p-8 rounded-2xl border border-primary-foreground/20 hover:border-gold/50 transition-all hover:-translate-y-2">
-                <div className="w-14 h-14 bg-gold/20 rounded-xl flex items-center justify-center mb-6">
-                  <Scale className="h-7 w-7 text-gold" />
-                </div>
-                <div className="text-4xl md:text-5xl font-bold text-gold mb-2">95%</div>
-                <p className="text-primary-foreground/70 font-medium">Criminal Prosecutions Avoided</p>
-              </div>
-            </div>
-            
-            {/* Stat Card 4 */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-crimson/20 to-crimson/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="relative bg-primary-foreground/10 backdrop-blur-sm p-8 rounded-2xl border border-primary-foreground/20 hover:border-crimson/50 transition-all hover:-translate-y-2">
-                <div className="w-14 h-14 bg-crimson/20 rounded-xl flex items-center justify-center mb-6">
-                  <Clock className="h-7 w-7 text-crimson" />
-                </div>
-                <div className="text-4xl md:text-5xl font-bold text-crimson mb-2">24hrs</div>
-                <p className="text-primary-foreground/70 font-medium">Average Crisis Response Time</p>
-              </div>
-            </div>
+            <AnimatedStatCard
+              icon={Shield}
+              value={950}
+              prefix="£"
+              suffix="M+"
+              label="Total Saved for Clients"
+              colorScheme="gold"
+            />
+            <AnimatedStatCard
+              icon={Award}
+              value={400}
+              suffix="+"
+              label="Cases Successfully Defended"
+              colorScheme="crimson"
+            />
+            <AnimatedStatCard
+              icon={Scale}
+              value={95}
+              suffix="%"
+              label="Criminal Prosecutions Avoided"
+              colorScheme="gold"
+            />
+            <AnimatedStatCard
+              icon={Clock}
+              value={24}
+              suffix="hrs"
+              label="Average Crisis Response Time"
+              colorScheme="crimson"
+            />
           </div>
           
           <div className="mt-12 text-center">
