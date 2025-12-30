@@ -88,7 +88,7 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Side - Headline */}
             <div className="relative z-10">
-              <div className="inline-flex items-center space-x-2 bg-danger/10 text-danger px-4 py-2 rounded-full mb-6">
+              <div className="inline-flex items-center space-x-2 bg-gold/20 text-gold px-4 py-2 rounded-full mb-6 border border-gold/30">
                 <Clock className="h-4 w-4" />
                 <span className="text-sm font-semibold">24-Hour HMRC Crisis Response</span>
               </div>
