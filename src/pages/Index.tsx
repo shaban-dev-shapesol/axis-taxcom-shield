@@ -22,6 +22,7 @@ import {
   Calendar,
   ArrowRight,
   Tag,
+  Calculator,
 } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
 import blogHmrcImage from "@/assets/blog-hmrc-investigation.jpg";
@@ -117,8 +118,14 @@ const Index = () => {
                   className="w-full h-[500px] object-cover"
                 />
               </div>
-              {/* Decorative gold accent */}
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gold rounded-full opacity-80" />
+              {/* Decorative gold accent with partnership icons */}
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gold rounded-full flex items-center justify-center gap-1">
+                <div className="flex items-center gap-1">
+                  <Scale className="h-6 w-6 text-primary" />
+                  <span className="text-primary text-lg font-bold">+</span>
+                  <Calculator className="h-6 w-6 text-primary" />
+                </div>
+              </div>
             </div>
           </div>
 
