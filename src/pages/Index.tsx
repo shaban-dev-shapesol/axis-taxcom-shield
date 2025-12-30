@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Testimonials } from "@/components/Testimonials";
 import { SEO } from "@/components/SEO";
 import { CTASection } from "@/components/CTASection";
-import { PartnershipBanner } from "@/components/PartnershipBanner";
+import { StrategicPartnership } from "@/components/StrategicPartnership";
 import { AnimatedStatCard } from "@/components/AnimatedStatCard";
 import { Link } from "react-router-dom";
 import {
@@ -119,12 +119,10 @@ const Index = () => {
                 />
               </div>
               {/* Decorative gold accent with partnership icons */}
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gold rounded-full flex items-center justify-center gap-1">
-                <div className="flex items-center gap-1">
-                  <Scale className="h-6 w-6 text-primary" />
-                  <span className="text-primary text-lg font-bold">+</span>
-                  <Calculator className="h-6 w-6 text-primary" />
-                </div>
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gold rounded-full flex items-center justify-center gap-2">
+                <Scale className="h-6 w-6 text-primary" />
+                <span className="text-primary text-lg font-bold">&</span>
+                <Calculator className="h-6 w-6 text-primary" />
               </div>
             </div>
           </div>
@@ -163,8 +161,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Partnership Banner */}
-      <PartnershipBanner variant="accent" size="lg" />
+      {/* Strategic Partnership Section */}
+      <StrategicPartnership />
 
       {/* Urgency Section */}
       <section
