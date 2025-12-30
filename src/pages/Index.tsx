@@ -222,55 +222,96 @@ const Index = () => {
       {/* Why Investigation.tax Section */}
       <section
         ref={whySection.ref}
-        className={`py-20 bg-background ${whySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+        className={`py-20 bg-background overflow-hidden ${whySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Investigation.tax?</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              The only firm in the UK combining Chartered Accountants and Business Crime Solicitors under one roof
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
-                <Shield className="h-6 w-6 text-gold" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Dual Expertise</h3>
-              <p className="text-sm text-muted-foreground">
-                Accountants handle the numbers, solicitors handle the law. You get both without coordination delays or
-                conflicting advice.
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Side - Image with curved corner */}
+            <div className="relative">
+              <p className="text-muted-foreground mb-6 max-w-md">
+                The only firm in the UK combining Chartered Accountants and Business Crime Solicitors under one roof.
               </p>
+              <Button asChild variant="accent" size="lg" className="mb-8">
+                <Link to="/about">Explore Our Team</Link>
+              </Button>
+              <div className="relative">
+                <div className="overflow-hidden rounded-tr-[100px] rounded-bl-lg rounded-tl-lg rounded-br-lg">
+                  <img 
+                    src={heroImage} 
+                    alt="Professional HMRC Investigation Defence Team" 
+                    className="w-full h-[400px] object-cover"
+                  />
+                </div>
+                {/* Decorative curved element */}
+                <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-accent/20 rounded-full -z-10" />
+              </div>
             </div>
-            <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
-                <Clock className="h-6 w-6 text-gold" />
+
+            {/* Right Side - Title and Numbered Points */}
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-10">
+                Why Choose Us for
+                <br />
+                <span className="text-accent">Expert HMRC Defence</span>
+              </h2>
+
+              <div className="space-y-8">
+                {/* Point 01 */}
+                <div className="flex items-start gap-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-12 bg-accent rounded-full" />
+                    <span className="text-3xl font-bold text-accent">01</span>
+                  </div>
+                  <div className="pt-1">
+                    <h3 className="font-bold text-lg mb-1">Dual Expertise Under One Roof</h3>
+                    <p className="text-muted-foreground">
+                      Accountants handle the numbers, solicitors handle the law. You get both without coordination delays or conflicting advice.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Point 02 */}
+                <div className="flex items-start gap-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-12 bg-gold rounded-full" />
+                    <span className="text-3xl font-bold text-gold">02</span>
+                  </div>
+                  <div className="pt-1">
+                    <h3 className="font-bold text-lg mb-1">24-Hour Crisis Response</h3>
+                    <p className="text-muted-foreground">
+                      When HMRC strikes, every hour counts. We mobilise immediately with accountants and solicitors working in parallel.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Point 03 */}
+                <div className="flex items-start gap-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-12 bg-accent rounded-full" />
+                    <span className="text-3xl font-bold text-accent">03</span>
+                  </div>
+                  <div className="pt-1">
+                    <h3 className="font-bold text-lg mb-1">Legal Privilege Protection</h3>
+                    <p className="text-muted-foreground">
+                      Our solicitors protect everything you share under legal privilege. HMRC cannot force disclosure of our communications.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Point 04 */}
+                <div className="flex items-start gap-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-12 bg-gold rounded-full" />
+                    <span className="text-3xl font-bold text-gold">04</span>
+                  </div>
+                  <div className="pt-1">
+                    <h3 className="font-bold text-lg mb-1">Proven Track Record</h3>
+                    <p className="text-muted-foreground">
+                      Millions saved for clients. Criminal prosecutions avoided. Settlements reduced by 40-80%.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-lg font-bold mb-2">24-Hour Crisis Response</h3>
-              <p className="text-sm text-muted-foreground">
-                When HMRC strikes, every hour counts. We mobilise immediately with accountants and solicitors working in
-                parallel.
-              </p>
-            </div>
-            <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
-                <Scale className="h-6 w-6 text-gold" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Legal Privilege</h3>
-              <p className="text-sm text-muted-foreground">
-                Our solicitors protect everything you share under legal privilege. HMRC cannot force disclosure of our
-                communications.
-              </p>
-            </div>
-            <div className="bg-card p-6 rounded-xl border border-border transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center mb-4">
-                <Award className="h-6 w-6 text-gold" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Proven Track Record</h3>
-              <p className="text-sm text-muted-foreground">
-                Millions saved for clients. Criminal prosecutions avoided. Settlements reduced by 40-80%. Results that
-                speak for themselves.
-              </p>
             </div>
           </div>
         </div>
