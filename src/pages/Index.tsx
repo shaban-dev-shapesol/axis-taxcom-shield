@@ -69,6 +69,7 @@ const Index = () => {
   const credentialsSection = useScrollAnimation();
   const servicesSection = useScrollAnimation();
   const blogSection = useScrollAnimation();
+  
   return (
     <div className="min-h-screen bg-background">
       <SEO
@@ -77,7 +78,7 @@ const Index = () => {
       />
       <Header />
 
-      {/* Hero Section */}
+      {/* 1. Hero Section - DARK */}
       <section
         ref={heroSection.ref}
         className={`relative bg-primary text-primary-foreground overflow-hidden min-h-[90vh] flex flex-col justify-center ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
@@ -161,10 +162,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Strategic Partnership Section */}
-      <StrategicPartnership />
-
-      {/* Urgency Section */}
+      {/* 2. Urgency Section - LIGHT */}
       <section
         ref={urgencySection.ref}
         className={`py-24 bg-muted/30 relative overflow-hidden ${urgencySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
@@ -295,92 +293,10 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Services Overview */}
-      <section
-        ref={servicesSection.ref}
-        className={`py-20 bg-navy text-primary-foreground ${servicesSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
-      >
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-16">
-            <div>
-              <span className="text-gold text-sm font-semibold tracking-wider uppercase mb-2 block">What We Do</span>
-              <h2 className="text-3xl md:text-4xl font-bold">Our Services</h2>
-            </div>
-            <p className="text-primary-foreground/70 max-w-md mt-4 lg:mt-0">
-              From prevention to full criminal defence — comprehensive protection at every stage.
-            </p>
-          </div>
-          
-          {/* Horizontal Cards Layout */}
-          <div className="space-y-6 max-w-6xl mx-auto">
-            {/* Card 1 - HMRC Investigation Defence */}
-            <div className="group relative bg-gradient-to-r from-gold/15 via-gold/10 to-transparent backdrop-blur-sm rounded-2xl border border-gold/30 overflow-hidden transition-smooth hover:border-gold/50">
-              <div className="flex flex-col md:flex-row items-stretch">
-                <div className="flex-1 p-8 md:p-10">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-gold/20 rounded-xl flex items-center justify-center">
-                      <Award className="h-6 w-6 text-gold" />
-                    </div>
-                    <span className="text-gold text-xs font-semibold tracking-wider uppercase px-3 py-1 bg-gold/10 rounded-full">Featured</span>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-bold mb-3">HMRC Investigation Defence</h3>
-                  <p className="text-primary-foreground/70 mb-6 max-w-xl">
-                    Full-spectrum defence for all HMRC investigation types including COP 8 & 9, VAT/PAYE checks, and criminal prosecutions.
-                  </p>
-                  <div className="flex flex-wrap gap-3 mb-6">
-                    <span className="text-xs px-3 py-1.5 bg-primary-foreground/10 rounded-full">24hr Response</span>
-                    <span className="text-xs px-3 py-1.5 bg-primary-foreground/10 rounded-full">Legal Privilege</span>
-                    <span className="text-xs px-3 py-1.5 bg-primary-foreground/10 rounded-full">Criminal Defence</span>
-                  </div>
-                  <Button asChild variant="accent" size="lg">
-                    <Link to="/investigations">Get Protected <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                  </Button>
-                </div>
-                <div className="hidden md:block w-px bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
-                <div className="hidden md:flex items-center justify-center p-10 min-w-[200px]">
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-gold mb-1">95%</div>
-                    <p className="text-sm text-primary-foreground/60">Criminal Cases<br />Avoided</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* 3. Strategic Partnership Section - DARK */}
+      <StrategicPartnership />
 
-            {/* Cards Row */}
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Card 2 - Pre-Compliance */}
-              <div className="group relative bg-card/10 backdrop-blur-sm p-8 rounded-2xl border border-primary-foreground/20 transition-smooth hover:bg-card/15 hover:border-primary-foreground/30">
-                <div className="w-12 h-12 bg-gold/20 rounded-xl flex items-center justify-center mb-5">
-                  <Shield className="h-6 w-6 text-gold" />
-                </div>
-                <h3 className="text-xl font-bold mb-3">Pre-Compliance Protection</h3>
-                <p className="text-primary-foreground/70 mb-6">
-                  Avoid investigations entirely. We scan your VAT, PAYE, CIS, and bookkeeping to detect red flags before HMRC does.
-                </p>
-                <Link to="/pre-compliance" className="inline-flex items-center text-gold font-semibold group-hover:underline">
-                  Learn More <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-
-              {/* Card 3 - Case Studies */}
-              <div className="group relative bg-card/10 backdrop-blur-sm p-8 rounded-2xl border border-primary-foreground/20 transition-smooth hover:bg-card/15 hover:border-primary-foreground/30">
-                <div className="w-12 h-12 bg-gold/20 rounded-xl flex items-center justify-center mb-5">
-                  <Scale className="h-6 w-6 text-gold" />
-                </div>
-                <h3 className="text-xl font-bold mb-3">Case Studies & Wins</h3>
-                <p className="text-primary-foreground/70 mb-6">
-                  Real results from real clients. See how we saved businesses from HMRC penalties and criminal prosecution.
-                </p>
-                <Link to="/case-studies" className="inline-flex items-center text-gold font-semibold group-hover:underline">
-                  View Cases <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Investigation.tax Section */}
+      {/* 4. Why Investigation.tax Section - LIGHT */}
       <section
         ref={whySection.ref}
         className={`py-20 bg-background overflow-hidden ${whySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
@@ -478,7 +394,92 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Three Pillars - Why We Win */}
+      {/* 5. Services Overview - DARK */}
+      <section
+        ref={servicesSection.ref}
+        className={`py-20 bg-navy text-primary-foreground ${servicesSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-16">
+            <div>
+              <span className="text-gold text-sm font-semibold tracking-wider uppercase mb-2 block">What We Do</span>
+              <h2 className="text-3xl md:text-4xl font-bold">Our Services</h2>
+            </div>
+            <p className="text-primary-foreground/70 max-w-md mt-4 lg:mt-0">
+              From prevention to full criminal defence — comprehensive protection at every stage.
+            </p>
+          </div>
+          
+          {/* Horizontal Cards Layout */}
+          <div className="space-y-6 max-w-6xl mx-auto">
+            {/* Card 1 - HMRC Investigation Defence */}
+            <div className="group relative bg-gradient-to-r from-gold/15 via-gold/10 to-transparent backdrop-blur-sm rounded-2xl border border-gold/30 overflow-hidden transition-smooth hover:border-gold/50">
+              <div className="flex flex-col md:flex-row items-stretch">
+                <div className="flex-1 p-8 md:p-10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 bg-gold/20 rounded-xl flex items-center justify-center">
+                      <Award className="h-6 w-6 text-gold" />
+                    </div>
+                    <span className="text-gold text-xs font-semibold tracking-wider uppercase px-3 py-1 bg-gold/10 rounded-full">Featured</span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold mb-3">HMRC Investigation Defence</h3>
+                  <p className="text-primary-foreground/70 mb-6 max-w-xl">
+                    Full-spectrum defence for all HMRC investigation types including COP 8 & 9, VAT/PAYE checks, and criminal prosecutions.
+                  </p>
+                  <div className="flex flex-wrap gap-3 mb-6">
+                    <span className="text-xs px-3 py-1.5 bg-primary-foreground/10 rounded-full">24hr Response</span>
+                    <span className="text-xs px-3 py-1.5 bg-primary-foreground/10 rounded-full">Legal Privilege</span>
+                    <span className="text-xs px-3 py-1.5 bg-primary-foreground/10 rounded-full">Criminal Defence</span>
+                  </div>
+                  <Button asChild variant="accent" size="lg">
+                    <Link to="/investigations">Get Protected <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  </Button>
+                </div>
+                <div className="hidden md:block w-px bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
+                <div className="hidden md:flex items-center justify-center p-10 min-w-[200px]">
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-gold mb-1">95%</div>
+                    <p className="text-sm text-primary-foreground/60">Criminal Cases<br />Avoided</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Cards Row */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Card 2 - Pre-Compliance */}
+              <div className="group relative bg-card/10 backdrop-blur-sm p-8 rounded-2xl border border-primary-foreground/20 transition-smooth hover:bg-card/15 hover:border-primary-foreground/30">
+                <div className="w-12 h-12 bg-gold/20 rounded-xl flex items-center justify-center mb-5">
+                  <Shield className="h-6 w-6 text-gold" />
+                </div>
+                <h3 className="text-xl font-bold mb-3">Pre-Compliance Protection</h3>
+                <p className="text-primary-foreground/70 mb-6">
+                  Avoid investigations entirely. We scan your VAT, PAYE, CIS, and bookkeeping to detect red flags before HMRC does.
+                </p>
+                <Link to="/pre-compliance" className="inline-flex items-center text-gold font-semibold group-hover:underline">
+                  Learn More <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+
+              {/* Card 3 - Case Studies */}
+              <div className="group relative bg-card/10 backdrop-blur-sm p-8 rounded-2xl border border-primary-foreground/20 transition-smooth hover:bg-card/15 hover:border-primary-foreground/30">
+                <div className="w-12 h-12 bg-gold/20 rounded-xl flex items-center justify-center mb-5">
+                  <Scale className="h-6 w-6 text-gold" />
+                </div>
+                <h3 className="text-xl font-bold mb-3">Case Studies & Wins</h3>
+                <p className="text-primary-foreground/70 mb-6">
+                  Real results from real clients. See how we saved businesses from HMRC penalties and criminal prosecution.
+                </p>
+                <Link to="/case-studies" className="inline-flex items-center text-gold font-semibold group-hover:underline">
+                  View Cases <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Three Pillars - Why We Win - LIGHT */}
       <section
         ref={pillarsSection.ref}
         className={`py-20 bg-muted/30 ${pillarsSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
@@ -571,7 +572,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Track Record Section */}
+      {/* 7. Track Record Section - DARK */}
       <section
         ref={trackRecordSection.ref}
         className={`py-24 bg-primary text-primary-foreground relative overflow-hidden ${trackRecordSection.isVisible ? "animate-scale-in" : "opacity-0"}`}
@@ -636,7 +637,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Credentials & Certifications Section */}
+      {/* 8. Credentials & Certifications Section - LIGHT */}
       <section
         ref={credentialsSection.ref}
         className={`py-20 bg-background ${credentialsSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
@@ -734,10 +735,10 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Client Testimonials Section */}
+      {/* 9. Client Testimonials Section - DARK */}
       <Testimonials />
 
-      {/* Blog Section */}
+      {/* 10. Blog Section - LIGHT */}
       <section
         ref={blogSection.ref}
         className={`py-20 bg-muted/30 ${blogSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
