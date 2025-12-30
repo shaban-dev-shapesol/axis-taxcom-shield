@@ -205,81 +205,79 @@ const Index = () => {
         className={`py-20 bg-navy text-primary-foreground ${servicesSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
-            <p className="text-xl text-primary-foreground/80 max-w-3xl mx-auto">
-              From prevention to full criminal defence
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-16">
+            <div>
+              <span className="text-gold text-sm font-semibold tracking-wider uppercase mb-2 block">What We Do</span>
+              <h2 className="text-3xl md:text-4xl font-bold">Our Services</h2>
+            </div>
+            <p className="text-primary-foreground/70 max-w-md mt-4 lg:mt-0">
+              From prevention to full criminal defence — comprehensive protection at every stage.
             </p>
           </div>
           
-          {/* Featured + Grid Layout */}
-          <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {/* Featured Large Card */}
-            <div className="bg-gradient-to-br from-gold/20 to-gold/5 backdrop-blur-sm p-10 rounded-2xl shadow-xl border border-gold/30 transition-smooth hover:shadow-2xl hover:border-gold/50 flex flex-col h-full row-span-2">
-              <div className="w-16 h-16 bg-gold/20 rounded-xl flex items-center justify-center mb-6">
-                <Award className="h-8 w-8 text-gold" />
+          {/* Horizontal Cards Layout */}
+          <div className="space-y-6 max-w-6xl mx-auto">
+            {/* Card 1 - HMRC Investigation Defence */}
+            <div className="group relative bg-gradient-to-r from-gold/15 via-gold/10 to-transparent backdrop-blur-sm rounded-2xl border border-gold/30 overflow-hidden transition-smooth hover:border-gold/50">
+              <div className="flex flex-col md:flex-row items-stretch">
+                <div className="flex-1 p-8 md:p-10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 bg-gold/20 rounded-xl flex items-center justify-center">
+                      <Award className="h-6 w-6 text-gold" />
+                    </div>
+                    <span className="text-gold text-xs font-semibold tracking-wider uppercase px-3 py-1 bg-gold/10 rounded-full">Featured</span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold mb-3">HMRC Investigation Defence</h3>
+                  <p className="text-primary-foreground/70 mb-6 max-w-xl">
+                    Full-spectrum defence for all HMRC investigation types including COP 8 & 9, VAT/PAYE checks, and criminal prosecutions.
+                  </p>
+                  <div className="flex flex-wrap gap-3 mb-6">
+                    <span className="text-xs px-3 py-1.5 bg-primary-foreground/10 rounded-full">24hr Response</span>
+                    <span className="text-xs px-3 py-1.5 bg-primary-foreground/10 rounded-full">Legal Privilege</span>
+                    <span className="text-xs px-3 py-1.5 bg-primary-foreground/10 rounded-full">Criminal Defence</span>
+                  </div>
+                  <Button asChild variant="accent" size="lg">
+                    <Link to="/investigations">Get Protected <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  </Button>
+                </div>
+                <div className="hidden md:block w-px bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
+                <div className="hidden md:flex items-center justify-center p-10 min-w-[200px]">
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-gold mb-1">95%</div>
+                    <p className="text-sm text-primary-foreground/60">Criminal Cases<br />Avoided</p>
+                  </div>
+                </div>
               </div>
-              <span className="text-gold text-sm font-semibold tracking-wider uppercase mb-3">Featured Service</span>
-              <h3 className="text-3xl font-bold mb-4">HMRC Investigation Defence</h3>
-              <p className="text-primary-foreground/80 mb-6 flex-grow text-lg leading-relaxed">
-                Full-spectrum defence for all HMRC investigation types: Aspect Enquiries, Full Enquiries, Code of
-                Practice 8 & 9, VAT/PAYE/CIS checks, and criminal prosecutions.
-              </p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3 text-primary-foreground/80">
-                  <CheckCircle className="h-5 w-5 text-gold flex-shrink-0" />
-                  <span>24-hour crisis response</span>
-                </li>
-                <li className="flex items-center gap-3 text-primary-foreground/80">
-                  <CheckCircle className="h-5 w-5 text-gold flex-shrink-0" />
-                  <span>Legal privilege protection</span>
-                </li>
-                <li className="flex items-center gap-3 text-primary-foreground/80">
-                  <CheckCircle className="h-5 w-5 text-gold flex-shrink-0" />
-                  <span>Criminal prosecution defence</span>
-                </li>
-              </ul>
-              <Button asChild variant="accent" size="lg" className="w-full">
-                <Link to="/investigations">Get Protected Now <ArrowRight className="ml-2 h-4 w-4" /></Link>
-              </Button>
             </div>
 
-            {/* Right Column - Stacked Cards */}
-            <div className="flex flex-col gap-8">
-              {/* Pre-Compliance Card */}
-              <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-[1.02] hover:shadow-xl hover:bg-card/15 flex-1">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Shield className="h-6 w-6 text-gold" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold mb-2">Pre-Compliance Protection</h3>
-                    <p className="text-primary-foreground/70 mb-4">
-                      Avoid investigation entirely. Risk scanning of your VAT, PAYE, CIS, and bookkeeping to detect red flags before HMRC does.
-                    </p>
-                    <Link to="/pre-compliance" className="inline-flex items-center text-gold font-semibold hover:underline">
-                      Learn More <ArrowRight className="ml-1 h-4 w-4" />
-                    </Link>
-                  </div>
+            {/* Cards Row */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Card 2 - Pre-Compliance */}
+              <div className="group relative bg-card/10 backdrop-blur-sm p-8 rounded-2xl border border-primary-foreground/20 transition-smooth hover:bg-card/15 hover:border-primary-foreground/30">
+                <div className="w-12 h-12 bg-gold/20 rounded-xl flex items-center justify-center mb-5">
+                  <Shield className="h-6 w-6 text-gold" />
                 </div>
+                <h3 className="text-xl font-bold mb-3">Pre-Compliance Protection</h3>
+                <p className="text-primary-foreground/70 mb-6">
+                  Avoid investigations entirely. We scan your VAT, PAYE, CIS, and bookkeeping to detect red flags before HMRC does.
+                </p>
+                <Link to="/pre-compliance" className="inline-flex items-center text-gold font-semibold group-hover:underline">
+                  Learn More <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
 
-              {/* Case Studies Card */}
-              <div className="bg-card/10 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-primary-foreground/20 transition-smooth hover:scale-[1.02] hover:shadow-xl hover:bg-card/15 flex-1">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Scale className="h-6 w-6 text-gold" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold mb-2">Case Studies & Wins</h3>
-                    <p className="text-primary-foreground/70 mb-4">
-                      Real results from real clients. See how we saved businesses from HMRC penalties and criminal prosecution.
-                    </p>
-                    <Link to="/case-studies" className="inline-flex items-center text-gold font-semibold hover:underline">
-                      View Cases <ArrowRight className="ml-1 h-4 w-4" />
-                    </Link>
-                  </div>
+              {/* Card 3 - Case Studies */}
+              <div className="group relative bg-card/10 backdrop-blur-sm p-8 rounded-2xl border border-primary-foreground/20 transition-smooth hover:bg-card/15 hover:border-primary-foreground/30">
+                <div className="w-12 h-12 bg-gold/20 rounded-xl flex items-center justify-center mb-5">
+                  <Scale className="h-6 w-6 text-gold" />
                 </div>
+                <h3 className="text-xl font-bold mb-3">Case Studies & Wins</h3>
+                <p className="text-primary-foreground/70 mb-6">
+                  Real results from real clients. See how we saved businesses from HMRC penalties and criminal prosecution.
+                </p>
+                <Link to="/case-studies" className="inline-flex items-center text-gold font-semibold group-hover:underline">
+                  View Cases <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
             </div>
           </div>
@@ -384,92 +382,94 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Three Pillars */}
+      {/* Three Pillars - Why We Win */}
       <section
         ref={pillarsSection.ref}
         className={`py-20 bg-muted/30 ${pillarsSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why We Win Against HMRC</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Three forces combined into one unstoppable defence strategy
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-smooth hover:scale-105">
-              <div className="w-12 h-12 bg-gradient-to-r from-navy to-navy-light rounded-lg flex items-center justify-center mb-6">
-                <Scale className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <h3 className="text-2xl font-bold mb-4">Business Crime Solicitors</h3>
-              <p className="text-muted-foreground mb-4">
-                When HMRC escalates to criminal investigation (Code of Practice 9), accountants alone cannot defend you.
-                Our solicitors provide legal privilege and courtroom-ready defence.
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left - Content */}
+            <div>
+              <span className="text-accent text-sm font-semibold tracking-wider uppercase mb-2 block">Our Advantage</span>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                Why We Win
+                <br />
+                <span className="text-accent">Against HMRC</span>
+              </h2>
+              <p className="text-muted-foreground text-lg mb-10">
+                Three forces combined into one unstoppable defence strategy that HMRC rarely sees.
               </p>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-start">
-                  <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Legal privilege protection</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Criminal defence strategy</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Court representation</span>
-                </li>
-              </ul>
+
+              {/* Accordion-style Cards */}
+              <div className="space-y-4">
+                <div className="group bg-card rounded-xl border border-border overflow-hidden transition-smooth hover:shadow-lg hover:border-accent/30">
+                  <div className="flex items-center gap-4 p-6">
+                    <div className="w-14 h-14 bg-navy rounded-xl flex items-center justify-center flex-shrink-0">
+                      <Scale className="h-7 w-7 text-gold" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold mb-1">Business Crime Solicitors</h3>
+                      <p className="text-sm text-muted-foreground">Legal privilege & courtroom-ready criminal defence</p>
+                    </div>
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
+                  </div>
+                </div>
+
+                <div className="group bg-card rounded-xl border border-border overflow-hidden transition-smooth hover:shadow-lg hover:border-accent/30">
+                  <div className="flex items-center gap-4 p-6">
+                    <div className="w-14 h-14 bg-navy rounded-xl flex items-center justify-center flex-shrink-0">
+                      <FileCheck className="h-7 w-7 text-gold" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold mb-1">Chartered Accountants</h3>
+                      <p className="text-sm text-muted-foreground">Forensic analysis & technical tax submissions</p>
+                    </div>
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
+                  </div>
+                </div>
+
+                <div className="group bg-card rounded-xl border border-border overflow-hidden transition-smooth hover:shadow-lg hover:border-accent/30">
+                  <div className="flex items-center gap-4 p-6">
+                    <div className="w-14 h-14 bg-navy rounded-xl flex items-center justify-center flex-shrink-0">
+                      <Brain className="h-7 w-7 text-gold" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold mb-1">Technology & Systems</h3>
+                      <p className="text-sm text-muted-foreground">Advanced document processing & risk assessment</p>
+                    </div>
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-smooth hover:scale-105">
-              <div className="w-12 h-12 bg-gradient-to-r from-navy to-navy-light rounded-lg flex items-center justify-center mb-6">
-                <FileCheck className="h-6 w-6 text-primary-foreground" />
+            {/* Right - Feature Highlights */}
+            <div className="relative">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-navy text-primary-foreground p-6 rounded-2xl">
+                  <CheckCircle className="h-8 w-8 text-gold mb-4" />
+                  <h4 className="font-bold mb-2">Legal Privilege</h4>
+                  <p className="text-sm text-primary-foreground/70">All communications protected from HMRC disclosure</p>
+                </div>
+                <div className="bg-card p-6 rounded-2xl border border-border mt-8">
+                  <CheckCircle className="h-8 w-8 text-accent mb-4" />
+                  <h4 className="font-bold mb-2">Criminal Defence</h4>
+                  <p className="text-sm text-muted-foreground">Courtroom-ready representation when stakes are highest</p>
+                </div>
+                <div className="bg-card p-6 rounded-2xl border border-border">
+                  <CheckCircle className="h-8 w-8 text-accent mb-4" />
+                  <h4 className="font-bold mb-2">Forensic Analysis</h4>
+                  <p className="text-sm text-muted-foreground">Deep dive into VAT, PAYE, CIS records</p>
+                </div>
+                <div className="bg-navy text-primary-foreground p-6 rounded-2xl mt-8">
+                  <CheckCircle className="h-8 w-8 text-gold mb-4" />
+                  <h4 className="font-bold mb-2">GDPR Secure</h4>
+                  <p className="text-sm text-primary-foreground/70">Encrypted systems protecting your data</p>
+                </div>
               </div>
-              <h3 className="text-2xl font-bold mb-4">Chartered Accountants</h3>
-              <p className="text-muted-foreground mb-4">
-                Expert forensic analysis of your books, VAT, PAYE, and CIS records. We speak HMRC's language and know
-                exactly what they're looking for.
-              </p>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-start">
-                  <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Forensic accounting analysis</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Technical tax submissions</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Settlement negotiations</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-card p-8 rounded-xl shadow-lg border border-border hover:shadow-xl transition-smooth hover:scale-105">
-              <div className="w-12 h-12 bg-gradient-to-r from-navy to-navy-light rounded-lg flex items-center justify-center mb-6">
-                <Brain className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <h3 className="text-2xl font-bold mb-4">Technology & Systems</h3>
-              <p className="text-muted-foreground mb-4">
-                Advanced document processing and analysis tools to quickly assess your case, identify risks, and prepare
-                defence strategies. GDPR-secure and encrypted.
-              </p>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-start">
-                  <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Document extraction & analysis</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Risk assessment tools</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-4 w-4 text-gold mt-0.5 mr-2 flex-shrink-0" />
-                  <span>Automated document processing</span>
-                </li>
-              </ul>
+              {/* Decorative element */}
+              <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
             </div>
           </div>
         </div>
@@ -516,69 +516,96 @@ const Index = () => {
       {/* Credentials & Certifications Section */}
       <section
         ref={credentialsSection.ref}
-        className={`py-20 bg-muted/30 ${credentialsSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+        className={`py-20 bg-background ${credentialsSection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Credentials & Certifications</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Qualified, regulated, and trusted to defend your business
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="h-8 w-8 text-navy" />
+          <div className="max-w-6xl mx-auto">
+            {/* Header Row */}
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
+              <div>
+                <span className="text-accent text-sm font-semibold tracking-wider uppercase mb-2 block">Trust & Authority</span>
+                <h2 className="text-3xl md:text-4xl font-bold">Credentials & Certifications</h2>
               </div>
-              <h3 className="text-xl font-bold mb-2">Chartered Accountants</h3>
-              <p className="text-sm text-muted-foreground">
-                ICAEW qualified with specialist tax investigation expertise
+              <p className="text-muted-foreground max-w-md mt-4 md:mt-0">
+                Qualified, regulated, and trusted to defend your business.
               </p>
             </div>
-            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Briefcase className="h-8 w-8 text-navy" />
+
+            {/* Two-column layout */}
+            <div className="grid lg:grid-cols-2 gap-8">
+              {/* Professional Qualifications */}
+              <div className="bg-navy text-primary-foreground p-8 rounded-2xl">
+                <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+                  <Award className="h-5 w-5 text-gold" />
+                  Professional Qualifications
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4 p-4 bg-primary-foreground/5 rounded-xl">
+                    <div className="w-10 h-10 bg-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Award className="h-5 w-5 text-gold" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold mb-1">Chartered Accountants</h4>
+                      <p className="text-sm text-primary-foreground/70">ICAEW qualified with specialist tax investigation expertise</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-primary-foreground/5 rounded-xl">
+                    <div className="w-10 h-10 bg-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Briefcase className="h-5 w-5 text-gold" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold mb-1">Solicitors Regulation Authority</h4>
+                      <p className="text-sm text-primary-foreground/70">SRA regulated business crime solicitors with litigation rights</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-primary-foreground/5 rounded-xl">
+                    <div className="w-10 h-10 bg-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <BookOpen className="h-5 w-5 text-gold" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold mb-1">Law Society Members</h4>
+                      <p className="text-sm text-primary-foreground/70">Full membership with specialist criminal defence accreditation</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">Solicitors Regulation Authority</h3>
-              <p className="text-sm text-muted-foreground">
-                SRA regulated business crime solicitors with litigation rights
-              </p>
-            </div>
-            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <BookOpen className="h-8 w-8 text-navy" />
+
+              {/* Security Certifications */}
+              <div className="bg-card border border-border p-8 rounded-2xl">
+                <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+                  <Shield className="h-5 w-5 text-accent" />
+                  Security Certifications
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4 p-4 bg-muted/50 rounded-xl">
+                    <div className="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Shield className="h-5 w-5 text-accent" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold mb-1">ISO 27001 Certified</h4>
+                      <p className="text-sm text-muted-foreground">Information security management to protect your sensitive data</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-muted/50 rounded-xl">
+                    <div className="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <ShieldCheck className="h-5 w-5 text-accent" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold mb-1">GDPR Compliant</h4>
+                      <p className="text-sm text-muted-foreground">Full compliance with UK data protection and privacy regulations</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-muted/50 rounded-xl">
+                    <div className="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Lock className="h-5 w-5 text-accent" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold mb-1">Cyber Essentials Plus</h4>
+                      <p className="text-sm text-muted-foreground">Advanced cybersecurity certification protecting client confidentiality</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">Law Society Members</h3>
-              <p className="text-sm text-muted-foreground">
-                Full membership with specialist criminal defence accreditation
-              </p>
-            </div>
-            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="h-8 w-8 text-navy" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">ISO 27001 Certified</h3>
-              <p className="text-sm text-muted-foreground">
-                Information security management to protect your sensitive data
-              </p>
-            </div>
-            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <ShieldCheck className="h-8 w-8 text-navy" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">GDPR Compliant</h3>
-              <p className="text-sm text-muted-foreground">
-                Full compliance with UK data protection and privacy regulations
-              </p>
-            </div>
-            <div className="bg-card p-8 rounded-xl border border-border text-center transition-smooth hover:scale-105 hover:shadow-lg">
-              <div className="w-16 h-16 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Lock className="h-8 w-8 text-navy" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Cyber Essentials Plus</h3>
-              <p className="text-sm text-muted-foreground">
-                Advanced cybersecurity certification protecting client confidentiality
-              </p>
             </div>
           </div>
         </div>
