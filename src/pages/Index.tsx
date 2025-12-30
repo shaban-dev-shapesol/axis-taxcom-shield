@@ -78,46 +78,83 @@ const Index = () => {
       {/* Hero Section */}
       <section
         ref={heroSection.ref}
-        className={`relative bg-primary text-primary-foreground overflow-hidden ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
+        className={`relative bg-muted/30 overflow-hidden min-h-[90vh] flex flex-col justify-center ${heroSection.isVisible ? "animate-fade-in" : "opacity-0"}`}
       >
-        <div className="absolute inset-0 opacity-20">
-          <img src={heroImage} alt="HMRC Investigation Defence" className="w-full h-full object-cover" />
-        </div>
-        <div className="relative container mx-auto px-4 py-24 md:py-32">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center space-x-2 bg-danger/10 text-danger px-4 py-2 rounded-full mb-6">
-              <Clock className="h-4 w-4" />
-              <span className="text-sm font-semibold">24-Hour HMRC Crisis Response Available</span>
+        {/* Decorative Elements */}
+        <div className="absolute top-20 right-20 w-24 h-24 bg-gold/20 rounded-full hidden lg:block" />
+        <div className="absolute bottom-40 right-1/3 w-16 h-16 bg-gold/30 rounded-full hidden lg:block" />
+        
+        <div className="container mx-auto px-4 py-16 md:py-24">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Side - Quote Headline */}
+            <div className="relative z-10">
+              <div className="inline-flex items-center space-x-2 bg-danger/10 text-danger px-4 py-2 rounded-full mb-6">
+                <Clock className="h-4 w-4" />
+                <span className="text-sm font-semibold">24-Hour HMRC Crisis Response</span>
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif italic leading-tight mb-8 text-foreground">
+                "Protecting
+                <br />
+                your rights,
+                <br />
+                securing
+                <br />
+                <span className="text-gold">your future"</span>
+              </h1>
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                <Button asChild variant="accent" size="lg" className="shadow-lg">
+                  <Link to="/get-started">Get Started Now</Link>
+                </Button>
+                <Button asChild variant="outline" size="lg">
+                  <Link to="/book">Book Free Assessment</Link>
+                </Button>
+              </div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-              Stop HMRC Investigations
-              <br />
-              <span className="text-gold">Before They Destroy Your Business</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-primary-foreground/80 mb-8 max-w-2xl">
-              Chartered Accountants & Business Crime Solicitors. The most aggressive HMRC defence team in the UK.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild variant="danger" size="lg">
-                <Link to="/get-started">Fix Your HMRC Problem Now</Link>
-              </Button>
-              <Button asChild variant="hero" size="lg">
-                <Link to="/book">Book Free 15-Min Assessment</Link>
-              </Button>
+
+            {/* Right Side - Image */}
+            <div className="relative hidden lg:block">
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-gold/20 rounded-full" />
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                  src={heroImage} 
+                  alt="Professional HMRC Defence Team" 
+                  className="w-full h-[500px] object-cover"
+                />
+              </div>
+              {/* Decorative gold accent */}
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gold rounded-full opacity-80" />
             </div>
-            <div className="mt-8 flex flex-wrap gap-6">
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-5 w-5 text-gold" />
-                <span className="text-sm">Chartered Accountants</span>
+          </div>
+
+          {/* Service Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
+            <div className="bg-card p-6 rounded-xl shadow-md border border-border hover:shadow-lg transition-smooth">
+              <div className="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center mb-4">
+                <Scale className="h-5 w-5 text-gold" />
               </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-5 w-5 text-gold" />
-                <span className="text-sm">Business Crime Solicitors</span>
+              <h3 className="font-bold text-sm mb-1">HMRC Defence</h3>
+              <p className="text-xs text-muted-foreground">Full investigation defence & criminal protection</p>
+            </div>
+            <div className="bg-card p-6 rounded-xl shadow-md border border-border hover:shadow-lg transition-smooth">
+              <div className="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center mb-4">
+                <Shield className="h-5 w-5 text-gold" />
               </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-5 w-5 text-gold" />
-                <span className="text-sm">GDPR-Secure Systems</span>
+              <h3 className="font-bold text-sm mb-1">Pre-Compliance</h3>
+              <p className="text-xs text-muted-foreground">Avoid investigations before they start</p>
+            </div>
+            <div className="bg-card p-6 rounded-xl shadow-md border border-border hover:shadow-lg transition-smooth">
+              <div className="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center mb-4">
+                <Briefcase className="h-5 w-5 text-gold" />
               </div>
+              <h3 className="font-bold text-sm mb-1">Business Crime</h3>
+              <p className="text-xs text-muted-foreground">Solicitors protecting your business</p>
+            </div>
+            <div className="bg-card p-6 rounded-xl shadow-md border border-border hover:shadow-lg transition-smooth">
+              <div className="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center mb-4">
+                <Lock className="h-5 w-5 text-gold" />
+              </div>
+              <h3 className="font-bold text-sm mb-1">Legal Privilege</h3>
+              <p className="text-xs text-muted-foreground">Protected communications with HMRC</p>
             </div>
           </div>
         </div>
