@@ -25,6 +25,7 @@ import {
   Calculator,
 } from "lucide-react";
 import heroImage from "@/assets/hero-investigation.jpg";
+import whyChooseUsImage from "@/assets/why-choose-us.jpg";
 import blogHmrcImage from "@/assets/blog-hmrc-investigation.jpg";
 import blogPreComplianceImage from "@/assets/blog-pre-compliance.jpg";
 import blogLegalPrivilegeImage from "@/assets/blog-legal-privilege.jpg";
@@ -314,7 +315,7 @@ const Index = () => {
               <div className="relative">
                 <div className="overflow-hidden rounded-tr-[100px] rounded-bl-lg rounded-tl-lg rounded-br-lg">
                   <img 
-                    src={heroImage} 
+                    src={whyChooseUsImage} 
                     alt="Professional HMRC Investigation Defence Team" 
                     className="w-full h-[400px] object-cover"
                   />
