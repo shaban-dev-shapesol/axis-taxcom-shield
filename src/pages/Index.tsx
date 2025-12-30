@@ -161,28 +161,28 @@ const Index = () => {
       {/* Urgency Section */}
       <section
         ref={urgencySection.ref}
-        className={`py-24 bg-navy text-primary-foreground relative overflow-hidden ${urgencySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+        className={`py-24 bg-muted/30 relative overflow-hidden ${urgencySection.isVisible ? "animate-fade-in-up" : "opacity-0"}`}
       >
         {/* Background decorative elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-danger/10 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-danger/5 via-transparent to-transparent" />
         <div className="absolute top-10 left-10 w-32 h-32 bg-danger/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 right-10 w-48 h-48 bg-gold/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 right-10 w-48 h-48 bg-gold/10 rounded-full blur-3xl" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-6xl mx-auto">
             {/* Header */}
             <div className="text-center mb-16">
-              <span className="inline-flex items-center gap-2 px-4 py-2 bg-danger/20 rounded-full text-danger text-sm font-semibold mb-6">
+              <span className="inline-flex items-center gap-2 px-4 py-2 bg-danger/10 rounded-full text-danger text-sm font-semibold mb-6">
                 <Clock className="h-4 w-4" />
                 Urgent Situation?
               </span>
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground">
                 Under HMRC Investigation
                 <br />
-                <span className="text-gold">Right Now?</span>
+                <span className="text-accent">Right Now?</span>
               </h2>
-              <p className="text-xl text-primary-foreground/70 max-w-2xl mx-auto">
-                Every day you wait costs you money, reputation, and control. HMRC is trained to maximise settlements. <strong className="text-primary-foreground">You need us immediately.</strong>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Every day you wait costs you money, reputation, and control. HMRC is trained to maximise settlements. <strong className="text-foreground">You need us immediately.</strong>
               </p>
             </div>
 
@@ -190,44 +190,44 @@ const Index = () => {
             <div className="grid lg:grid-cols-2 gap-8 mb-12">
               {/* Negative Card */}
               <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-danger/20 to-danger/5 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
-                <div className="relative bg-card/10 backdrop-blur-sm p-8 rounded-2xl border border-danger/30 h-full">
+                <div className="absolute inset-0 bg-gradient-to-br from-danger/10 to-danger/5 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+                <div className="relative bg-card p-8 rounded-2xl border border-danger/20 shadow-lg h-full">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-danger/20 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-danger/10 rounded-xl flex items-center justify-center">
                       <Clock className="h-6 w-6 text-danger" />
                     </div>
                     <h3 className="text-xl font-bold text-danger">What Happens If You Do Nothing</h3>
                   </div>
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-danger/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-danger/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <span className="text-danger text-xs">✕</span>
                       </div>
-                      <span className="text-primary-foreground/80">HMRC assumes guilt and maximises penalties</span>
+                      <span className="text-muted-foreground">HMRC assumes guilt and maximises penalties</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-danger/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-danger/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <span className="text-danger text-xs">✕</span>
                       </div>
-                      <span className="text-primary-foreground/80">You may incriminate yourself unknowingly</span>
+                      <span className="text-muted-foreground">You may incriminate yourself unknowingly</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-danger/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-danger/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <span className="text-danger text-xs">✕</span>
                       </div>
-                      <span className="text-primary-foreground/80">Criminal prosecution becomes more likely</span>
+                      <span className="text-muted-foreground">Criminal prosecution becomes more likely</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-danger/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-danger/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <span className="text-danger text-xs">✕</span>
                       </div>
-                      <span className="text-primary-foreground/80">Your assets could be frozen</span>
+                      <span className="text-muted-foreground">Your assets could be frozen</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-danger/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-danger/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <span className="text-danger text-xs">✕</span>
                       </div>
-                      <span className="text-primary-foreground/80">Your business reputation is destroyed</span>
+                      <span className="text-muted-foreground">Your business reputation is destroyed</span>
                     </li>
                   </ul>
                 </div>
@@ -235,44 +235,44 @@ const Index = () => {
 
               {/* Positive Card */}
               <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-gold/5 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
-                <div className="relative bg-card/10 backdrop-blur-sm p-8 rounded-2xl border border-gold/30 h-full">
+                <div className="absolute inset-0 bg-gradient-to-br from-gold/15 to-gold/5 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+                <div className="relative bg-card p-8 rounded-2xl border border-gold/30 shadow-lg h-full">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gold/20 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-gold/15 rounded-xl flex items-center justify-center">
                       <CheckCircle className="h-6 w-6 text-gold" />
                     </div>
                     <h3 className="text-xl font-bold text-gold">What Happens When You Act Now</h3>
                   </div>
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-gold/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-gold/15 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <CheckCircle className="h-3 w-3 text-gold" />
                       </div>
-                      <span className="text-primary-foreground/80">Legal privilege protects your communications</span>
+                      <span className="text-muted-foreground">Legal privilege protects your communications</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-gold/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-gold/15 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <CheckCircle className="h-3 w-3 text-gold" />
                       </div>
-                      <span className="text-primary-foreground/80">We control the narrative from day one</span>
+                      <span className="text-muted-foreground">We control the narrative from day one</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-gold/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-gold/15 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <CheckCircle className="h-3 w-3 text-gold" />
                       </div>
-                      <span className="text-primary-foreground/80">Penalties reduced by 40-80% on average</span>
+                      <span className="text-muted-foreground">Penalties reduced by 40-80% on average</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-gold/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-gold/15 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <CheckCircle className="h-3 w-3 text-gold" />
                       </div>
-                      <span className="text-primary-foreground/80">Criminal risk eliminated in most cases</span>
+                      <span className="text-muted-foreground">Criminal risk eliminated in most cases</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-gold/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-gold/15 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <CheckCircle className="h-3 w-3 text-gold" />
                       </div>
-                      <span className="text-primary-foreground/80">Your business and reputation protected</span>
+                      <span className="text-muted-foreground">Your business and reputation protected</span>
                     </li>
                   </ul>
                 </div>
