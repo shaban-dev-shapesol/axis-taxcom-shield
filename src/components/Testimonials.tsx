@@ -83,13 +83,13 @@ export const Testimonials = () => {
               ))}
             </CarouselContent>
             <div className="flex justify-center items-center gap-4 mt-8">
-              <CarouselPrevious className="static translate-x-0 translate-y-0 h-10 w-10 rounded-full border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10" />
+              <CarouselPrevious className="static translate-x-0 translate-y-0 h-10 w-10 rounded-full border-gold/50 bg-gold/10 text-gold hover:bg-gold/20 hover:text-gold [&_svg]:stroke-gold [&_svg]:stroke-2" />
               <div className="flex gap-2">
                 {testimonials.map((_, index) => (
                   <div key={index} className="w-2 h-2 rounded-full bg-gold/50" />
                 ))}
               </div>
-              <CarouselNext className="static translate-x-0 translate-y-0 h-10 w-10 rounded-full border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10" />
+              <CarouselNext className="static translate-x-0 translate-y-0 h-10 w-10 rounded-full border-gold/50 bg-gold/10 text-gold hover:bg-gold/20 hover:text-gold [&_svg]:stroke-gold [&_svg]:stroke-2" />
             </div>
           </Carousel>
         </div>
